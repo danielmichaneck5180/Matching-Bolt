@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShoot : MonoBehaviour
+public class BACKUPPlayerShoot : MonoBehaviour
 {
     private Camera playerCamera;
     private Vector3 mousePosition;
@@ -37,7 +37,7 @@ public class PlayerShoot : MonoBehaviour
     void Update()
     {
         mousePosition = Input.mousePosition;
-        
+
         // Calculate aimPoint.x
         if (mousePosition.x < centerPoint.x)
         {

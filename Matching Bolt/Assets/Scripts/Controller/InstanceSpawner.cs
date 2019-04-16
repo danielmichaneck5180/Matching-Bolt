@@ -10,7 +10,7 @@ public class InstanceSpawner : MonoBehaviour
     public GameObject instanceObject;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         instancePlane = transform.parent.Find("Game Plane").Find("Instance Plane").gameObject;
     }
@@ -26,9 +26,23 @@ public class InstanceSpawner : MonoBehaviour
         {
             spawnTimer = 1f;
 
-            GameObject instance = Instantiate(instanceObject, instancePlane.transform);
-            instance.transform.position = new Vector3(-40, instance.transform.position.y, instance.transform.position.z + Random.Range(-20, 20));
-            instance.GetComponent<Rigidbody>().velocity = new Vector3(10, 0, 0);
+            SpawnPerson(0);
         }
+    }
+
+    public GameObject SpawnPerson(int spawnPoint)
+    {
+        GameObject instance = Instantiate(instanceObject, instancePlane.transform);
+
+        if (spawnPoint == 1)
+        {
+            instance.transform.position = new Vector3(0, instance.transform.position.y, 0);
+        }
+        else
+        {
+            instance.transform.position = new Vector3(-40, instance.transform.position.y, instance.transform.position.z + Random.Range(-20, 20));
+        }
+
+        return instance;
     }
 }
