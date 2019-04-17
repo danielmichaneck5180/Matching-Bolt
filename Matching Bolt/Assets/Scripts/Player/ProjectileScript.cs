@@ -13,16 +13,15 @@ public class ProjectileScript : MonoBehaviour
         velocityVector = Vector3.Normalize(vector) * speed;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        switch (collision.transform.tag)
+        switch (other.transform.tag)
         {
             case "Person":
-                collision.gameObject.GetComponent<PersonScript>().HitPerson();
+                other.gameObject.GetComponent<PersonScript>().HitPerson();
                 Destroy(gameObject);
                 break;
         }
-        Debug.Log("hi");
     }
 
     private void Awake()

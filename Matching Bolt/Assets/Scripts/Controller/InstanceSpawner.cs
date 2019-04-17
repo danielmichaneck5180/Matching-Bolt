@@ -7,6 +7,7 @@ public class InstanceSpawner : MonoBehaviour
     private GameObject instancePlane;
     private float spawnTimer;
 
+    public int maxInstances;
     public GameObject instanceObject;
 
     // Start is called before the first frame update
@@ -32,17 +33,29 @@ public class InstanceSpawner : MonoBehaviour
 
     public GameObject SpawnPerson(int spawnPoint)
     {
-        GameObject instance = Instantiate(instanceObject, instancePlane.transform);
-
-        if (spawnPoint == 1)
+        if (GetComponent<MatchHandler>().GetPersonCount() < maxInstances)
         {
-            instance.transform.position = new Vector3(0, instance.transform.position.y, 0);
-        }
-        else
-        {
-            instance.transform.position = new Vector3(-40, instance.transform.position.y, instance.transform.position.z + Random.Range(-20, 20));
+            GameObject instance = Instantiate(instanceObject, instancePlane.transform);
+
+            if (spawnPoint == 1)
+            {
+                instance.transform.position = new Vector3(0, instance.transform.position.y, 0);
+            }
+            else
+            {
+                instance.transform.position = new Vector3(-20, instance.transform.position.y, instance.transform.position.z + Random.Range(-15, 15));
+            }
+
+            GetComponent<MatchHandler>().AddPerson(instance);
+
+            if (GetComponent<MatchHandler>().GetCurrentMatchSeeker() == null)
+            {
+                GetComponent<MatchHandler>().SetCurrentMatchSeekier(gameObject);
+            }
+
+            return instance;
         }
 
-        return instance;
+        return null;
     }
 }

@@ -7,9 +7,16 @@ public class PersonScript : MonoBehaviour
     private bool isMatchSeeker;
     private bool isMatched;
 
+    public float destroyBoundary;
+    private Vector3 originPosition;
+
+    private int TESTbounce;
+
     private void Awake()
     {
         isMatchSeeker = false;
+        originPosition = transform.position;
+        TESTbounce = 1;
     }
 
     void Update()
@@ -20,7 +27,27 @@ public class PersonScript : MonoBehaviour
         }
         else
         {
-            transform.Translate(-10 * Time.deltaTime, 0, 0);
+            transform.Translate(-10 * Time.deltaTime * TESTbounce, 0, 0);
+        }
+
+        // Checks if the instance is outside of destroyBoundary and if true destroys it
+        if (originPosition.x + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.y + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.z + Mathf.Abs(transform.position.x) >= destroyBoundary)
+        {
+            GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+            Destroy(gameObject);
+        }
+
+        // Bounces
+        if (isMatched == false)
+        {
+            if (transform.position.x >= 20)
+            {
+                TESTbounce = -1;
+            }
+            if (transform.position.x <= -20)
+            {
+                TESTbounce = 1;
+            }
         }
     }
 
@@ -34,7 +61,7 @@ public class PersonScript : MonoBehaviour
     {
         if (CanBeMatched() == true)
         {
-            isMatched = true;
+            FoundMatch();
             return true;
         }
         else
@@ -42,7 +69,8 @@ public class PersonScript : MonoBehaviour
             return false;
         }
     }
-    private bool CanBeMatched()
+
+    public bool CanBeMatched()
     {
         if (isMatched == true || isMatchSeeker == true)
         {
@@ -56,11 +84,22 @@ public class PersonScript : MonoBehaviour
 
     public void HitPerson()
     {
-        Debug.Log("Hit person!");
+        if (CanBeMatched() == true)
+        {
+            GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().MatchMade(gameObject);
+        }
     }
 
-    public void BecomeMatchSeeker()
+    public bool BecomeMatchSeeker()
     {
-        isMatchSeeker = true;
+        if (CanBeMatched() == true)
+        {
+            isMatchSeeker = true;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

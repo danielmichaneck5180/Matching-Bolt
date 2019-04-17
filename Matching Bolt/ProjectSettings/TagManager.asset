@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Main Plane
   - Person
+  - Controller
   layers:
   - Default
   - TransparentFX
