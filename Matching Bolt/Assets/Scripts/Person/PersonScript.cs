@@ -23,10 +23,11 @@ public class PersonScript : MonoBehaviour
     {
         if (isMatchSeeker == true)
         {
-            
+            transform.Find("Indicator").gameObject.SetActive(true);
         }
         else
         {
+            transform.Find("Indicator").gameObject.SetActive(false);
             transform.Translate(-10 * Time.deltaTime * TESTbounce, 0, 0);
         }
 
@@ -55,6 +56,7 @@ public class PersonScript : MonoBehaviour
     {
         isMatched = true;
         isMatchSeeker = false;
+        GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
     }
 
     public bool Match()
