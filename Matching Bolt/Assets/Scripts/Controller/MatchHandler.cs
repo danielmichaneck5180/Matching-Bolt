@@ -32,7 +32,7 @@ public class MatchHandler : MonoBehaviour
         currentMatchSeeker.GetComponent<PersonScript>().FoundMatch();
         newMatch.GetComponent<PersonScript>().Match();
 
-        GetComponent<ScoreKeeper>().AddScore(1);
+        GetComponent<ScoreKeeper>().AddPoints(1);
 
         bool stopLoop = false;
 
