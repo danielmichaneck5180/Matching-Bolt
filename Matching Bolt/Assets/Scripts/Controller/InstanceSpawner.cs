@@ -39,11 +39,13 @@ public class InstanceSpawner : MonoBehaviour
 
             if (spawnPoint == 1)
             {
-                instance.transform.position = new Vector3(0, instance.transform.position.y, 0);
+                instance.transform.Translate(0, 0, 0, Space.Self);
+                //instance.transform.position = new Vector3(0, instance.transform.position.y, 0);
             }
             else
             {
-                instance.transform.position = new Vector3(-20, instance.transform.position.y, instance.transform.position.z + Random.Range(-15, 15));
+                instance.transform.Translate(-20, 0, Random.Range(-15, 15), Space.Self);
+                //instance.transform.position = new Vector3(-20, instance.transform.position.y, instance.transform.position.z + Random.Range(-15, 15));
             }
 
             GetComponent<MatchHandler>().AddPerson(instance);

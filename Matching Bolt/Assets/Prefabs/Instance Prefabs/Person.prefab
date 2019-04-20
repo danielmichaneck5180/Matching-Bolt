@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyBoundary: 100
+  player: {fileID: 7552033902975037746, guid: e295f82dd77d07d45a28e3204cd247b2, type: 3}
 --- !u!65 &5807729567641675651
 BoxCollider:
   m_ObjectHideFlags: 0
