@@ -48,7 +48,7 @@ public class MatchHandler : MonoBehaviour
                 currentMatchSeeker = personList[i];
                 currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
                 stopLoop = true;
-                Debug.Log(i);
+                //Debug.Log(i);
             }
         }
     }
