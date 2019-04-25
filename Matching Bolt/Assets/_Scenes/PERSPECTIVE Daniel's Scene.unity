@@ -580,7 +580,7 @@ Transform:
   m_GameObject: {fileID: 1268845273}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 16, y: 1, z: 9}
   m_Children: []
   m_Father: {fileID: 1366926966}
   m_RootOrder: 0
@@ -970,6 +970,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pathfinding Test Object
       objectReference: {fileID: 0}
+    - target: {fileID: 3838715272276667969, guid: 121268b66900f0742a7b2a28068ee584,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2419158636945369806, guid: 121268b66900f0742a7b2a28068ee584,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1025,6 +1030,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6244217584487161551, guid: 121268b66900f0742a7b2a28068ee584,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1d6d5ee48c612ba4897c68a8ce6793ce, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 121268b66900f0742a7b2a28068ee584, type: 3}
 --- !u!4 &2988422515386295689 stripped
@@ -1062,6 +1072,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Node Spawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204478508031089202, guid: 97054fcd7f052f94d945054a0e2e16a5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6841114612239569832, guid: 97054fcd7f052f94d945054a0e2e16a5,
         type: 3}

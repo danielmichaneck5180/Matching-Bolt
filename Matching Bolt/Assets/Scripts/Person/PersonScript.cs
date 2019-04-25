@@ -15,6 +15,14 @@ public class PersonScript : MonoBehaviour
     private int TESTbounce;
 
     private GameObject sprite;
+    private GameObject indicator;
+
+    // TEMPORARY
+    private List<Vector2> vectorList;
+    private GameObject currentNode;
+    private int i = 0;
+    private float showTimer;
+    private int interest; 
 
     private void Awake()
     {
@@ -22,18 +30,58 @@ public class PersonScript : MonoBehaviour
         originPosition = transform.position;
         TESTbounce = 1;
         sprite = transform.Find("Sprite").gameObject;
+        indicator = sprite.transform.Find("Indicator").gameObject;
+        interest = Mathf.RoundToInt(Random.Range(0, GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetMaxSprites() - 1));
+        indicator.GetComponent<SpriteRenderer>().sprite = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetSprite(interest);
+
+        vectorList = new List<Vector2>();
+
+        //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, 15, 8);
+        SetRandomPath();
+        currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
+
+        //TEMPORARY
+        showTimer = 0.05f;
     }
 
     void Update()
     {
-        if (isMatchSeeker == true)
+        if (isMatched == false)
         {
-            transform.Find("Indicator").gameObject.SetActive(true);
+            if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
+            {
+                if (i < vectorList.Count - 1)
+                {
+                    i++;
+                    SetCurrentNode(i);
+                }
+                else
+                {
+                    SetRandomPath();
+                }
+            }
+            else
+            {
+                Vector3 newPos = currentNode.transform.position - transform.position;
+                newPos.Normalize();
+                transform.Translate(newPos / 16, Space.World);
+            }
+
+            if (CanBeMatched() == true)
+            {
+                if (showTimer > 0)
+                {
+                    showTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    indicator.SetActive(false);
+                }
+            }
         }
         else
         {
-            transform.Find("Indicator").gameObject.SetActive(false);
-            transform.Translate(-10 * Time.deltaTime * TESTbounce, 0, 0);
+            transform.Translate(new Vector3(5, 0, 0), Space.Self);
         }
 
         // Checks if the instance is outside of destroyBoundary and if true destroys it
@@ -43,20 +91,17 @@ public class PersonScript : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // Bounces
-        if (isMatched == false)
-        {
-            if (transform.position.x >= 20)
-            {
-                TESTbounce = -1;
-            }
-            if (transform.position.x <= -20)
-            {
-                TESTbounce = 1;
-            }
-        }
-
         RotateToCamera();
+    }
+
+    private void SetCurrentNode(int node)
+    {
+        currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[node]);
+    }
+
+    private void SetRandomPath()
+    {
+        vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)), Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)));
     }
 
     private void RotateToCamera()
@@ -111,11 +156,23 @@ public class PersonScript : MonoBehaviour
         if (CanBeMatched() == true)
         {
             isMatchSeeker = true;
+            indicator.SetActive(true);
             return true;
         }
         else
         {
             return false;
         }
+    }
+
+    public void ShowInterest()
+    {
+        indicator.SetActive(true);
+        showTimer = 0.05f;
+    }
+
+    public int GetInterest()
+    {
+        return interest;
     }
 }

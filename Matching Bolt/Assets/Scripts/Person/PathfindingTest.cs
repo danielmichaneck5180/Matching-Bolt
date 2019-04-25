@@ -13,7 +13,7 @@ public class PathfindingTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(1, 1, 6, 6);
+        vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, 15, 8);
         Debug.Log("List size " + vectorList.Count);
         currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
     }
@@ -21,7 +21,7 @@ public class PathfindingTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, currentNode.transform.position) < 10f)
+        if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
         {
             if (i < vectorList.Count - 1)
             {
@@ -31,13 +31,15 @@ public class PathfindingTest : MonoBehaviour
         }
         else
         {
-            transform.Translate((currentNode.transform.position - transform.position) / 100, Space.Self);
-            Debug.Log(currentNode.transform.position.x);
+            Vector3 newPos = currentNode.transform.position - transform.position;
+            newPos.Normalize();
+            transform.Translate(newPos / 2, Space.Self);
         }
     }
 
     private void SetCurrentNode(int node)
     {
         currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[node]);
+        //Debug.Log(currentNode.GetComponent<NodeScript>().GetXPosition() + " " + currentNode.GetComponent<NodeScript>().GetZPosition());
     }
 }

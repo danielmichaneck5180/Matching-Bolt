@@ -8,9 +8,15 @@ public class MatchHandler : MonoBehaviour
 
     private GameObject currentMatchSeeker;
 
+    //TEMPORARY
+    private int matchInterest;
+    private float matchTimer;
+
     private void Awake()
     {
         personList = new List<GameObject>();
+        matchInterest = 0;
+        matchTimer = 15f;
     }
 
     private void Start()
@@ -19,37 +25,77 @@ public class MatchHandler : MonoBehaviour
         {
             currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnPerson(1);
             currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
+            matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
         }
     }
 
     private void Update()
     {
+        if (matchTimer > 0)
+        {
+            matchTimer -= Time.deltaTime;
+        }
+        else
+        {
+            currentMatchSeeker.GetComponent<PersonScript>().FoundMatch();
+
+            bool stopLoop = false;
+
+            if (personList.Count <= 0)
+            {
+                currentMatchSeeker = null;
+            }
+
+            for (int i = 0; i < personList.Count; i++)
+            {
+                if (personList[i].GetComponent<PersonScript>().CanBeMatched() == true && stopLoop == false)
+                {
+                    currentMatchSeeker = personList[i];
+                    currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
+                    matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
+                    stopLoop = true;
+                    //Debug.Log(i);
+                }
+            }
+
+            matchTimer = 15f;
+        }
         //Debug.Log(personList.Count);
     }
 
     public void MatchMade(GameObject newMatch)
     {
-        currentMatchSeeker.GetComponent<PersonScript>().FoundMatch();
-        newMatch.GetComponent<PersonScript>().Match();
-
-        GetComponent<ScoreKeeper>().AddPoints(1);
-
-        bool stopLoop = false;
-
-        if (personList.Count <= 0)
+        if (newMatch.GetComponent<PersonScript>().GetInterest() == matchInterest)
         {
-            currentMatchSeeker = null;
-        }
+            currentMatchSeeker.GetComponent<PersonScript>().FoundMatch();
+            newMatch.GetComponent<PersonScript>().Match();
 
-        for (int i = 0; i < personList.Count; i++)
-        {
-            if (personList[i].GetComponent<PersonScript>().CanBeMatched() == true && stopLoop == false)
+            GetComponent<ScoreKeeper>().AddPoints(2);
+
+            bool stopLoop = false;
+
+            if (personList.Count <= 0)
             {
-                currentMatchSeeker = personList[i];
-                currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
-                stopLoop = true;
-                //Debug.Log(i);
+                currentMatchSeeker = null;
             }
+
+            for (int i = 0; i < personList.Count; i++)
+            {
+                if (personList[i].GetComponent<PersonScript>().CanBeMatched() == true && stopLoop == false)
+                {
+                    currentMatchSeeker = personList[i];
+                    currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
+                    matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
+                    stopLoop = true;
+                    //Debug.Log(i);
+                }
+            }
+
+            matchTimer = 15f;
+        }
+        else if (GetComponent<ScoreKeeper>().GetScore() > 0)
+        {
+            GetComponent<ScoreKeeper>().AddPoints(-1);
         }
     }
 

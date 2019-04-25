@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2243935157838797890}
   - component: {fileID: 6713786671510250194}
   - component: {fileID: 5843515882028690917}
+  - component: {fileID: 2969412044029610566}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Controller
@@ -100,6 +101,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c774b505942c0429735de22c9beec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxInstances: 8
+  maxInstances: 20
   instanceObject: {fileID: 4529028407753733726, guid: 666cf0067c953a14381b40bdbcd6c4ac,
     type: 3}
+--- !u!114 &2969412044029610566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5843515882028690923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d179d7352a0881b47aff03102f979bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interestColor: {fileID: 21300000, guid: 5005e0889906a314bb0b2c1e855af507, type: 3}
+  interestRocket: {fileID: 21300000, guid: 75aabfdc7b84f074aa4a0d3e90208d5b, type: 3}
+  interestPlant: {fileID: 21300000, guid: 2b5328ac9bf6eba46a17ae4716cf0cf2, type: 3}
+  interestFootball: {fileID: 21300000, guid: 68d3f86019d35834ba7def7b3e49d85c, type: 3}
+  interestPuppy: {fileID: 21300000, guid: 40ef59663107c30488b663ae41e2972a, type: 3}
+  interestScience: {fileID: 21300000, guid: 023a720085ff60344a537334e6c6bce1, type: 3}
