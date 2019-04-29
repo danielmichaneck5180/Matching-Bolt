@@ -48,6 +48,10 @@ public class PlayerAim : MonoBehaviour
             linePositions[0] = transform.position;
             linePositions[1] = aimRayHit.point;
             line.GetComponent<LineRenderer>().SetPositions(linePositions);
+            if (aimRayHit.collider.gameObject.tag == "Person")
+            {
+                aimRayHit.collider.gameObject.GetComponent<PersonScript>().ShowInterest();
+            }
         }
     }
 
