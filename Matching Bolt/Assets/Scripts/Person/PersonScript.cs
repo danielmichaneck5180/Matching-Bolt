@@ -63,7 +63,7 @@ public class PersonScript : MonoBehaviour
     {
         sprite.transform.rotation = Quaternion.Euler(Vector3.RotateTowards(sprite.transform.rotation.eulerAngles, player.transform.rotation.eulerAngles, 10000f, 1000f));
         sprite.transform.rotation = Quaternion.Euler(new Vector3(sprite.transform.rotation.eulerAngles.x, 180, sprite.transform.rotation.eulerAngles.z));
-        Debug.Log(sprite.transform.rotation.eulerAngles.x);
+        //Debug.Log(sprite.transform.rotation.eulerAngles.x);
     }
 
     public void FoundMatch()

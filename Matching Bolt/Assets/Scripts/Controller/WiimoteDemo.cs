@@ -53,8 +53,6 @@ public class WiimoteDemo : MonoBehaviour {
         model.d_left.enabled = wiimote.Button.d_left;
         model.d_right.enabled = wiimote.Button.d_right;
         model.plus.enabled = wiimote.Button.plus;
-        model.minus.enabled = wiimote.Button.minus;
-        model.home.enabled = wiimote.Button.home;
 
         if (wiimote.current_ext != ExtensionController.MOTIONPLUS)
             model.rot.localRotation = initial_rotation;
@@ -325,4 +323,6 @@ public class WiimoteDemo : MonoBehaviour {
 	        wiimote = null;
 		}
 	}
+
+    
 }
