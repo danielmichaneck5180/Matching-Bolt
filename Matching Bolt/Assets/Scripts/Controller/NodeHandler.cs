@@ -554,9 +554,18 @@ public class NodeHandler : MonoBehaviour
 
                     potentialVectors = GetVectors(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y));
 
+                    bool searching = true;
+
                     for (int i = 0; i < 8; i++)
                     {
-                        //path = Loop(path, new Vector2(vector.x - signX, vector.y - signY));
+                        if (searching == true)
+                        {
+                            if (grid.GetNode(potentialVectors[i]) != null)
+                            {
+                                path = Loop(path, potentialVectors[i]);
+                                searching = false;
+                            }
+                        }
                     }
                 }
 
@@ -627,6 +636,32 @@ public class NodeHandler : MonoBehaviour
                 for (int i = 0; i < 8; i++)
                 {
                     returnList.Add(GetVector(x, z, order[i]));
+                }
+
+                if (x > 1)
+                {
+                    returnList.Remove(GetVector(x, z, 0));
+                    returnList.Remove(GetVector(x, z, 3));
+                    returnList.Remove(GetVector(x, z, 5));
+                }
+                else if (x + 1 < grid.width)
+                {
+                    returnList.Remove(GetVector(x, z, 2));
+                    returnList.Remove(GetVector(x, z, 4));
+                    returnList.Remove(GetVector(x, z, 7));
+                }
+
+                if (z > 1)
+                {
+                    returnList.Remove(GetVector(x, z, 0));
+                    returnList.Remove(GetVector(x, z, 1));
+                    returnList.Remove(GetVector(x, z, 2));
+                }
+                else if (z + 1 < grid.height)
+                {
+                    returnList.Remove(GetVector(x, z, 5));
+                    returnList.Remove(GetVector(x, z, 6));
+                    returnList.Remove(GetVector(x, z, 7));
                 }
 
                 return returnList;
