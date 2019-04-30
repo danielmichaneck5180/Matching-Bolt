@@ -485,7 +485,12 @@ public class NodeHandler : MonoBehaviour
 
         public GameObject GetNode(Vector2 vector)
         {
-            return grid[Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y)];
+            GameObject returnNode = grid[Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y)];
+            if (returnNode.GetComponent<NodeScript>().GetEnabled() == false)
+            {
+                returnNode = null;
+            }
+            return returnNode;
         }
 
         private class Pathfinder
@@ -526,21 +531,33 @@ public class NodeHandler : MonoBehaviour
                 }
                 else
                 {
-                    int signX = Mathf.RoundToInt(Mathf.Sign(vector.x - endVector.x));
+                    // Gets reference to surrounding vectors
+                    List<Vector2> nodeVectors = grid.GetSurroundingVectors(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y));
+                    // Creates vector list of potential nodes to move to next
+                    List<Vector2> potentialVectors = new List<Vector2>();
 
-                    if (vector.x - endVector.x == 0)
+                    // Calculates optimal direction of movement
+                    int signX = 0;
+
+                    if (vector.x - endVector.x != 0)
                     {
-                        signX = 0;
+                        signX = Mathf.RoundToInt(Mathf.Sign(vector.x - endVector.x));
                     }
 
-                    int signY = Mathf.RoundToInt(Mathf.Sign(vector.y - endVector.y));
+                    int signY = 0;
 
-                    if (vector.y - endVector.y == 0)
+                    if (vector.y - endVector.y != 0)
                     {
-                        signY = 0;
+                        signY = Mathf.RoundToInt(Mathf.Sign(vector.y - endVector.y)); ;
                     }
 
-                    path = Loop(path, new Vector2(vector.x - signX, vector.y - signY));
+
+                    potentialVectors = GetVectors(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y));
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        //path = Loop(path, new Vector2(vector.x - signX, vector.y - signY));
+                    }
                 }
 
                 return path;
@@ -549,6 +566,108 @@ public class NodeHandler : MonoBehaviour
             public List<Vector2> GetPath()
             {
                 return pathVectors;
+            }
+
+            private List<Vector2> GetVectors(int x, int z)
+            {
+                // x and z represent the preferred order of vectors, the direction it is moving in
+                List<Vector2> returnList = new List<Vector2>();
+                int[] order = new int[8];
+
+                if (x > 0)
+                {
+                    // Top right
+                    if (z > 0)
+                    {
+                        order = new int[] { 0, 3, 1, 5, 2, 6, 4, 7 };
+                    }
+                    // Bottom right
+                    else if (z < 0)
+                    {
+                        order = new int[] { 5, 6, 3, 7, 0, 4, 1, 2 };
+                    }
+                    // Middle right
+                    else
+                    {
+                        order = new int[] { 3, 5, 0, 6, 1, 7, 2, 4 };
+                    }
+                }
+                else if (x < 0)
+                {
+                    // Top left
+                    if (z > 0)
+                    {
+                        order = new int[] { 2, 1, 4, 0, 7, 3, 6, 5 };
+                    }
+                    // Bottom left
+                    else if (z < 0)
+                    {
+                        order = new int[] { 7, 4, 5, 2, 5, 1, 3, 0 };
+                    }
+                    // Middle left
+                    else
+                    {
+                        order = new int[] { 4, 2, 7, 1, 6, 0, 5, 3 };
+                    }
+                }
+                else
+                {
+                    // Top center
+                    if (z > 0)
+                    {
+                        order = new int[] { 1, 0, 2, 3, 4, 5, 7, 6 };
+                    }
+                    // Bottom center
+                    else //if (z < 0)
+                    {
+                        order = new int[] { 6, 7, 5, 4, 3, 2, 0, 1 };
+                    }
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    returnList.Add(GetVector(x, z, order[i]));
+                }
+
+                return returnList;
+            }
+
+            private Vector2 GetVector(int x, int z, int i)
+            {
+                switch (i)
+                {
+                    // Top right
+                    case 0:
+                        return new Vector2(x + 1, z + 1);
+
+                    // Top center
+                    case 1:
+                        return new Vector2(x, z + 1);
+
+                    // Top left
+                    case 2:
+                        return new Vector2(x - 1, z + 1);
+
+                    // Middle right
+                    case 3:
+                        return new Vector2(x + 1, z);
+
+                    // Middle left
+                    case 4:
+                        return new Vector2(x - 1, z);
+
+                    // Bottom right
+                    case 5:
+                        return new Vector2(x + 1, z - 1);
+
+                    // Bottom center
+                    case 6:
+                        return new Vector2(x, z - 1);
+
+                    // Bottom left
+                    default:
+                        return new Vector2(x - 1, z - 1);
+                }
             }
         };
     };
