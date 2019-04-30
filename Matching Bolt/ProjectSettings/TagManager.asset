@@ -7,7 +7,6 @@ TagManager:
   - Main Plane
   - Person
   - Controller
-  - Node Spawner
   layers:
   - Default
   - TransparentFX
