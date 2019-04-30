@@ -8,6 +8,7 @@ TagManager:
   - Person
   - Controller
   - Node Spawner
+  - Obstacle
   layers:
   - Default
   - TransparentFX
