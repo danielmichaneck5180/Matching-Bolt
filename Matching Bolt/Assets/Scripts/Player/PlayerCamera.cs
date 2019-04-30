@@ -20,9 +20,13 @@ public class PlayerCamera : MonoBehaviour
     void Update()
     {
         playerCamera.transform.position = startPosition;
-        float[] ir = GetComponent<WiimoteScript>().GetWiimotePosition();
-        ir[0] -= 0.5f; ir[1] -= 0.5f; ir[2] -= 0.5f;
-        Vector3 newPosition = new Vector3(ir[0] * invertedHorizontal, ir[1] * invertedVertical * -1, ir[2] / 2000);
-        playerCamera.transform.Translate(newPosition * cameraSensitivity, Space.Self);
+        float[] infra = new float[3];
+        for (int i = 0; i < 3; i++)
+        {
+            infra[i] = GetComponent<WiimoteScript>().GetWiimotePosition()[i];
+        }
+        infra[0] -= 0.5f; infra[1] -= 0.5f; infra[2] -= 0.5f;
+        Vector3 newVector = new Vector3(infra[0] * invertedHorizontal, infra[1] * invertedVertical * -1, infra[2] / 2000);
+        playerCamera.transform.Translate(newVector * cameraSensitivity, Space.Self);
     }
 }

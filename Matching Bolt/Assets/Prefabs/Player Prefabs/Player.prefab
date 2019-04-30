@@ -298,6 +298,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraSensitivity: 35
+  invertedHorizontal: 1
+  invertedVertical: 1
 --- !u!1 &7552033903065723689
 GameObject:
   m_ObjectHideFlags: 0
