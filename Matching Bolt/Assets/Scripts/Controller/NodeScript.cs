@@ -11,7 +11,7 @@ public class NodeScript : MonoBehaviour
 
     private void Awake()
     {
-        nodeEnabled = true;
+        SetEnabled(true);
     }
 
     // Start is called before the first frame update

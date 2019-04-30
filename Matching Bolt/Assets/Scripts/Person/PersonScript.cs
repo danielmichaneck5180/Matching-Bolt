@@ -102,6 +102,10 @@ public class PersonScript : MonoBehaviour
     private void SetRandomPath()
     {
         vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)), Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)));
+        while (vectorList.Count > 39)
+        {
+            vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)), Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)));
+        }
     }
 
     private void RotateToCamera()
