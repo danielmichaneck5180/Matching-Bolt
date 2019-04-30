@@ -119,7 +119,7 @@ public class ScoreKeeper : MonoBehaviour
                     endLoop = true;
                 }
 
-                Debug.Log("Iterations: " + p.ToString());
+                //Debug.Log("Iterations: " + p.ToString());
             }
         }
 

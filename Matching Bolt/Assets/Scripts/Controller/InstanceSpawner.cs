@@ -44,7 +44,7 @@ public class InstanceSpawner : MonoBehaviour
             }
             else
             {
-                instance.transform.Translate(-20, 0, Random.Range(-15, 15), Space.Self);
+                instance.transform.Translate(20, 0, Random.Range(-15, 15), Space.Self);
                 //instance.transform.position = new Vector3(-20, instance.transform.position.y, instance.transform.position.z + Random.Range(-15, 15));
             }
 
