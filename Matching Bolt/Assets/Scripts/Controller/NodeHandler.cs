@@ -50,10 +50,10 @@ public class NodeHandler : MonoBehaviour
         {
             for (int p = 0; p < obstacleList.Length; p++)
             {
-                Debug.Log(Vector3.Distance(nodeList[i].transform.position, obstacleList[p].transform.position));
+                //Debug.Log(Vector3.Distance(nodeList[i].transform.position, obstacleList[p].transform.position));
                 if (Vector3.Distance(nodeList[i].transform.position, obstacleList[p].transform.position) < 9)
                 {
-                    Debug.Log("OI");
+                    //Debug.Log("OI");
                     nodeList[i].GetComponent<NodeScript>().SetEnabled(false);
                 }
             }
@@ -546,7 +546,7 @@ public class NodeHandler : MonoBehaviour
 
                 if (vector == endVector)
                 {
-                    Debug.Log("SUCCESS: FOUND PATH AFTER " + path.Count + " STEPS");
+                    //Debug.Log("SUCCESS: FOUND PATH AFTER " + path.Count + " STEPS");
                     return path;
                 }
                 else
