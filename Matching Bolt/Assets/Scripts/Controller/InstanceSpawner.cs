@@ -67,8 +67,8 @@ public class InstanceSpawner : MonoBehaviour
 
     private Vector3 RandomInstancePosition(out int spawnX, out int spawnZ)
     {
-        var nh = GameObject.FindGameObjectWithTag("Controller").GetComponent<NodeHandler>();
-        Vector2 pos = new Vector2(Mathf.RoundToInt(Random.Range(0, nh.gridWidth - 1)), Mathf.RoundToInt(Random.Range(0, nh.gridHeight - 1)));
+        var nh = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>();
+        Vector2 pos = new Vector2(Mathf.RoundToInt(Random.Range(0, nh.gridWidth - 2)), Mathf.RoundToInt(Random.Range(0, nh.gridHeight - 2)));
         spawnX = Mathf.RoundToInt(pos.x);
         spawnZ = Mathf.RoundToInt(pos.y);
         Debug.Log(spawnX);
@@ -78,7 +78,7 @@ public class InstanceSpawner : MonoBehaviour
 
     private Vector3 InstancePosition(Vector2 pos)
     {
-        var nh = GameObject.FindGameObjectWithTag("Controller").GetComponent<NodeHandler>();
+        var nh = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>();
 
         float returnX = nh.GetNode(pos).transform.position.x;
         float returnZ = nh.GetNode(pos).transform.position.z;
