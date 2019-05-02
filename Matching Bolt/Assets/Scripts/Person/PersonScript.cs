@@ -31,8 +31,8 @@ public class PersonScript : MonoBehaviour
         isMatchSeeker = false;
         originPosition = transform.position;
         TESTbounce = 1;
-        sprite = transform.Find("Sprite").gameObject;
-        indicator = sprite.transform.Find("Indicator").gameObject;
+        sprite = transform.Find("Rotation").gameObject;
+        indicator = sprite.transform.Find("Sprite").transform.Find("Indicator").gameObject;
         interest = Mathf.RoundToInt(Random.Range(0, GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetMaxSprites() - 1));
         indicator.GetComponent<SpriteRenderer>().sprite = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetSprite(interest);
 
@@ -134,7 +134,11 @@ public class PersonScript : MonoBehaviour
 
     private void RotateToCamera()
     {
-        sprite.transform.rotation = Quaternion.Euler(Vector3.RotateTowards(sprite.transform.rotation.eulerAngles, player.transform.rotation.eulerAngles, 10000f, 1000f));
+        Debug.Log("Rotation: " + sprite.transform.rotation.eulerAngles.x + " " + player.transform.Find("Main Camera").transform.rotation.eulerAngles.x);
+        //sprite.transform.LookAt(player.transform.Find("Main Camera").transform.position);
+        //sprite.transform.rotation = Quaternion.Euler(Vector3.RotateTowards(sprite.transform.rotation.eulerAngles, player.transform.Find("Main Camera").transform.position - sprite.transform.position, 10000f, 1000f));
+        //sprite.transform.rotation = Quaternion.Euler(transform.position - player.transform.Find("Main Camera").transform.position);
+        sprite.transform.rotation = Quaternion.Euler(Vector3.RotateTowards(sprite.transform.rotation.eulerAngles, player.transform.Find("Main Camera").transform.rotation.eulerAngles, 10000f, 1000f));
         sprite.transform.rotation = Quaternion.Euler(new Vector3(sprite.transform.rotation.eulerAngles.x, 180, sprite.transform.rotation.eulerAngles.z));
         //Debug.Log(sprite.transform.rotation.eulerAngles.x);
     }
