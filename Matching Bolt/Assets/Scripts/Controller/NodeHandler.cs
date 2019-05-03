@@ -17,27 +17,6 @@ public class NodeHandler : MonoBehaviour
 
     private void Awake()
     {
-        iterations = 0;
-        /*
-        nodeList = new List<GameObject>();
-        vectorList = new List<Vector2>();
-
-        float positionX = transform.position.x - (gridCellSize * (gridWidth / 2));
-        float positionZ = transform.position.z - (gridCellSize * (gridHeight / 2));
-
-        GameObject spawnedNode;
-
-        for (int i = 0; i < gridWidth; i++)
-        {
-            for (int p = 0; p < gridHeight; p++)
-            {
-                spawnedNode = Instantiate(node, transform);
-                spawnedNode.transform.Translate(new Vector3(positionX + (i * gridCellSize), 0, positionZ + (p * gridCellSize)));
-                spawnedNode.GetComponent<NodeScript>().SetNode(i, p);
-                nodeList.Add(spawnedNode);
-            }
-        }
-        */
         grid = new Grid(gridWidth, gridHeight, gridCellSize, node, transform);
     }
 
@@ -60,260 +39,6 @@ public class NodeHandler : MonoBehaviour
         }
     }
 
-    private Vector2 GetNodeVector(int x, int z)
-    {
-        Vector2 returnVector = new Vector2(-1, -1);
-
-        GameObject tempNode = nodeList[(gridHeight * x) + z].gameObject;
-
-        if (tempNode.GetComponent<NodeScript>().GetEnabled() == true)
-        {
-            returnVector = new Vector2(tempNode.GetComponent<NodeScript>().GetXPosition(), tempNode.GetComponent<NodeScript>().GetZPosition());
-        }
-        
-        return returnVector;
-    }
-
-    private List<Vector2> GetAvailabeNodes(int x, int z)
-    {
-        List<Vector2> returnList = new List<Vector2>();
-        Vector2 newVector = new Vector2();
-
-        //Debug.Log("Start x: " + x + " z: " + z);
-
-        if (x > 0)
-        {
-            newVector = GetNodeVector(x - 1, z);
-
-            //Debug.Log("x: " + newVector.x + " z: " + newVector.y);
-
-            if (newVector != new Vector2(-1, -1))
-            {
-                returnList.Add(newVector);
-            }
-
-            if (z > 0)
-            {
-                newVector = GetNodeVector(x - 1, z - 1);
-
-                //Debug.Log("x: " + newVector.x + " z: " + newVector.y);
-
-                if (newVector != new Vector2(-1, -1))
-                {
-                    returnList.Add(newVector);
-                }
-            }
-
-            if (z < gridHeight - 2)
-            {
-                newVector = GetNodeVector(x - 1, z + 1);
-
-                //Debug.Log("x: " + newVector.x + " z: " + newVector.y);
-
-                if (newVector != new Vector2(-1, -1))
-                {
-                    returnList.Add(newVector);
-                }
-            }
-        }
-
-        if (x < gridWidth - 2)
-        {
-            newVector = GetNodeVector(x + 1, z);
-
-            //Debug.Log("x: " + newVector.x + " z: " + newVector.y);
-
-            if (newVector != new Vector2(-1, -1))
-            {
-                returnList.Add(newVector);
-            }
-
-            if (z > 0)
-            {
-                newVector = GetNodeVector(x + 1, z - 1);
-
-                //Debug.Log("x: " + newVector.x + " z: " + newVector.y);
-
-                if (newVector != new Vector2(-1, -1))
-                {
-                    returnList.Add(newVector);
-                }
-            }
-
-            if (z < gridHeight - 2)
-            {
-                newVector = GetNodeVector(x + 1, z + 1);
-
-                //.Log("x: " + newVector.x + " z: " + newVector.y);
-
-                if (newVector != new Vector2(-1, -1))
-                {
-                    returnList.Add(newVector);
-                }
-            }
-        }
-
-        if (z > 0)
-        {
-            newVector = GetNodeVector(x, z - 1);
-
-            //Debug.Log("x: " + newVector.x + " z: " + newVector.y);
-
-            if (newVector != new Vector2(-1, -1))
-            {
-                returnList.Add(newVector);
-            }
-        }
-
-        if (z < gridHeight - 2)
-        {
-            newVector = GetNodeVector(x, z + 1);
-
-            //.Log("x: " + newVector.x + " z: " + newVector.y);
-
-            if (newVector != new Vector2(-1, -1))
-            {
-                returnList.Add(newVector);
-            }
-        }
-
-        //Debug.Log("returnList.Count: " + returnList.Count.ToString());
-        return returnList;
-    }
-
-    private Path PathPathFindLoop(Path previousPath, Vector2 thisVector, Vector2 targetVector, bool first)
-    {
-        iterations++;
-        // Sets up path
-        Path thisPath = previousPath;
-        thisPath.AddVector(thisVector);
-
-        //Debug.Log("Steps: " + thisPath.GetSteps());
-
-        // Check if it has found its target
-        if (thisVector == targetVector)
-        {
-            thisPath.SetFoundTarget(true);
-            return thisPath;
-        }
-        else
-        {
-            // Sets up list of nearby nodes
-            //List<Vector2> nodeList = GetAvailabeNodes(Mathf.RoundToInt(thisVector.x), Mathf.RoundToInt(thisVector.y));
-            List<Vector2> nodeList = grid.GetSurroundingVectors(Mathf.RoundToInt(thisVector.x), Mathf.RoundToInt(thisVector.y));
-
-            // Loops through all nearby nodes
-            List<Path> pathList = new List<Path>();
-            
-            for (int i = 0; i < nodeList.Count; i++)
-            {
-                if (thisPath.CheckForVector(nodeList[i]) == false)
-                {
-                    pathList.Add(PathPathFindLoop(thisPath, nodeList[i], targetVector, false));
-                    
-                }
-            }
-
-            /*
-            for (int p = 0; p < pathList.Count; p++)
-            {
-                if (pathList[p].GetFoundTarget() == true)
-                {
-                    Debug.Log(p);
-                }
-            }
-            */
-
-            //Debug.Log(iterations);
-            
-            // Checks paths to find best route
-            int targetSteps = 1000;
-
-            for (int i = 0; i < pathList.Count; i++)
-            {
-                if (pathList[i].GetFoundTarget() == true)
-                {
-                    if (pathList[i].GetSteps() < targetSteps)
-                    {
-                        thisPath = pathList[i];
-                        targetSteps = pathList[i].GetSteps();
-                        Debug.Log("1: " + i + " Steps: " + targetSteps);
-                    }
-                }
-            }
-
-            if (first == true)
-            {
-                for (int i = 0; i < pathList.Count; i++)
-                {
-                    Debug.Log("I: " + i + " Steps: " + pathList[i].GetSteps());
-                }
-            }
-
-            return thisPath;
-        }
-    }
-
-    private List<Vector2> PathfindLoop(List<Vector2> vectors, Vector2 thisVector, Vector2 targetVector, int steps, int targetSteps, out int returnSteps, out bool targetFound)
-    {
-        vectors.Add(thisVector);
-        int newSteps = steps + 1;
-        Debug.Log("Steps: " + steps.ToString());
-        targetFound = false;
-        List<Vector2> returnVectors = vectors;
-
-        if (newSteps < targetSteps)
-        {
-            if (thisVector == targetVector)
-            {
-                Debug.Log("Found it!");
-                Debug.Log("New return steps: " + newSteps.ToString());
-                returnSteps = newSteps;
-                targetFound = true;
-                return vectors;
-            }
-
-            if (newSteps < targetSteps - 1)
-            {
-                int newReturnSteps = 1000;
-                bool found = false;
-                List<Vector2> vector2s = new List<Vector2>();
-
-                List<Vector2> pathList = GetAvailabeNodes(Mathf.RoundToInt(thisVector.x), Mathf.RoundToInt(thisVector.y));
-
-                for (int i = 0; i < pathList.Count; i++)
-                {
-                    newReturnSteps = 1000;
-                    found = false;
-                    vector2s = new List<Vector2>();
-
-                    if (vectors.Contains(pathList[i]) == false)
-                    {
-                        vector2s = PathfindLoop(vectors, pathList[i], targetVector, newSteps, targetSteps, out newReturnSteps, out found);
-
-                        if (found == true)
-                        {
-                            if (newReturnSteps < targetSteps)
-                            {
-                                returnVectors = vector2s;
-                                targetSteps = newReturnSteps;
-                                targetFound = true;
-                                //Debug.Log("Stopped " + pathList[i].x.ToString() + " " + pathList[i].y.ToString());
-                                i = pathList.Count;
-                            }
-                        }
-                    }
-                }
-
-                returnSteps = newSteps;
-                return returnVectors;
-            }
-        }
-        
-        returnSteps = newSteps;
-        return returnVectors;
-    }
-
     public void DisableNode(int x, int z)
     {
         nodeList[(gridHeight * x) + z].GetComponent<NodeScript>().SetEnabled(false);
@@ -327,86 +52,21 @@ public class NodeHandler : MonoBehaviour
 
     public List<Vector2> Pathfind(int x, int z, int seekX, int seekZ)
     {
-        /*
-        Debug.Log("Pathfind string " + x.ToString() + " " + z.ToString() + " " + seekX.ToString() + " " + seekZ.ToString());
-        int steps = 10000;
-        List<Vector2> path = PathfindLoop(new List<Vector2>(), new Vector2(x, z), new Vector2(seekX, seekZ), 0, 1000, out steps, out bool found);
-        */
-        /*
-        List<Vector2> returnVectors = PathPathFindLoop(new Path(new List<Vector2>(), false), new Vector2(x, z), new Vector2(seekX, seekZ), true).GetVectors();
-        for (int i = 0; i < returnVectors.Count; i++)
-        {
-            if (returnVectors[i].x == 6 && returnVectors[i].y == 6)
-            {
-                Debug.Log("Vector position X: " + returnVectors[i].x + " Y: " + returnVectors[i].y);
-            }
-        }
-        Debug.Log("Iterations: " + iterations);
-        return returnVectors;
-        */
         return grid.FindPath(new Vector2(x, z), new Vector2(seekX, seekZ));
     }
 
     public GameObject GetNode(Vector2 nodeVector)
     {
-        //Debug.Log("GetNode: " + Mathf.RoundToInt((gridHeight * nodeVector.x) + nodeVector.y).ToString() + " nodeList.Count: " + nodeList.Count);
-
-        //return nodeList[Mathf.RoundToInt((gridHeight * nodeVector.x) + nodeVector.y)];
-
+        if (grid.GetNode(nodeVector) == null)
+        {
+            Debug.Log("OI: " + nodeVector.x + " " + nodeVector.y);
+        }
+        else if (grid.GetNode(nodeVector).GetComponent<NodeScript>().GetEnabled() == false)
+        {
+            Debug.Log("WOW: " + nodeVector.x + " " + nodeVector.y);
+        }
         return grid.GetNode(nodeVector);
     }
-
-    private class Path
-    {
-        private List<Vector2> vectorList;
-        private bool foundTarget;
-
-        public Path(List<Vector2> vs, bool f)
-        {
-            vectorList = vs;
-            foundTarget = f;
-        }
-
-        public List<Vector2> GetVectors()
-        {
-            return vectorList;
-        }
-
-        public bool GetFoundTarget()
-        {
-            return foundTarget;
-        }
-
-        public int GetSteps()
-        {
-            return vectorList.Count;
-        }
-
-        public void AddVector(Vector2 newVector)
-        {
-            vectorList.Add(newVector);
-        }
-
-        public void SetFoundTarget(bool newFoundTarget)
-        {
-            foundTarget = newFoundTarget;
-        }
-
-        public bool CheckForVector(Vector2 checkVector)
-        {
-            bool returnBool = false;
-
-            for (int i = 0; i < vectorList.Count; i++)
-            {
-                if (vectorList[i] == checkVector)
-                {
-                    returnBool = true;
-                }
-            }
-
-            return returnBool;
-        }
-    };
 
     private class Grid
     {
@@ -517,6 +177,7 @@ public class NodeHandler : MonoBehaviour
             private readonly Vector2 startVector;
             private readonly Vector2 endVector;
             private List<Vector2> pathVectors;
+            private int[] directions;
             private Grid grid;
 
             public Pathfinder(Vector2 v1, Vector2 v2, Grid g)
@@ -524,6 +185,7 @@ public class NodeHandler : MonoBehaviour
                 startVector = v1;
                 endVector = v2;
                 pathVectors = new List<Vector2>();
+                directions = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
                 grid = g;
                 Pathfind();
             }
@@ -576,8 +238,115 @@ public class NodeHandler : MonoBehaviour
                     {
                         path = Loop(path, new Vector2(vector.x - signX, vector.y - signY));
                     }
+                    else for (float i = 1; i < 7; i++)
+                        {
+                            int e = GetElement(signX, signY);
+
+                            if (i / 2 == Mathf.RoundToInt(i / 2))
+                            {
+                                e += Mathf.RoundToInt(i / 2);
+                            }
+                            else
+                            {
+                                e += Mathf.RoundToInt((((i - 1) / 2) * -1) - 1);
+                            }
+
+                            if (e < 0)
+                            {
+                                e += 7;
+                            }
+                            else if ( e > 7)
+                            {
+                                e -= 7;
+                            }
+                        
+                            if (grid.GetNode(new Vector2(vector.x - GetDirection(e)[0], vector.y - GetDirection(e)[1])) != null)
+                            {
+                                path = Loop(path, new Vector2(vector.x - signX, vector.y - signY));
+                            }
+
+                            if (path.Count < 40)
+                            {
+                                i = 8;
+                            }
+
+                            Debug.Log("E: " + e + " element: " + GetElement(signX, signY));
+                        }
 
                     return path;
+                }
+            }
+
+            private int GetElement(int xDir, int yDir)
+            {
+                if (xDir > 0)
+                {
+                    if (yDir > 0)
+                    {
+                        return 1;
+                    }
+                    else if (yDir < 0)
+                    {
+                        return 3;
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                }
+                else if (xDir < 0)
+                {
+                    if (yDir > 0)
+                    {
+                        return 7;
+                    }
+                    else if (yDir < 0)
+                    {
+                        return 5;
+                    }
+                    else
+                    {
+                        return 6;
+                    }
+                }
+                else if (yDir > 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 4;
+                }
+            }
+
+            private int[] GetDirection(int element) 
+            {
+                switch(element)
+                {
+                    case 0:
+                        return new int[] { 0, 1 };
+
+                    case 1:
+                        return new int[] { 1, 1 };
+
+                    case 2:
+                        return new int[] { 1, 0 };
+
+                    case 3:
+                        return new int[] { 1, -1 };
+
+                    case 4:
+                        return new int[] { 0, -1 };
+
+                    case 5:
+                        return new int[] { -1, -1 };
+
+                    case 6:
+                        return new int[] { -1, 0 };
+
+                    default:
+                        return new int[] { -1, 1 };
+
                 }
             }
 

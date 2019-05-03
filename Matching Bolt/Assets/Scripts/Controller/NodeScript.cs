@@ -17,10 +17,13 @@ public class NodeScript : MonoBehaviour
         SetEnabled(true);
         green = transform.Find("Green").gameObject;
         red = transform.Find("Red").gameObject;
+
+        green.SetActive(false);
+        red.SetActive(false);
     }
     
     void Update()
-    {
+    {/*
         if (nodeEnabled == true)
         {
             green.SetActive(true);
@@ -30,7 +33,7 @@ public class NodeScript : MonoBehaviour
         {
             green.SetActive(false);
             red.SetActive(true);
-        }
+        }*/
     }
 
     public void SetNode(int x, int z)

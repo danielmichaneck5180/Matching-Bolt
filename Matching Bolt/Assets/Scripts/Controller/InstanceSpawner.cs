@@ -39,7 +39,7 @@ public class InstanceSpawner : MonoBehaviour
 
             if (spawnPoint == 1)
             {
-                instance.transform.Translate(InstancePosition(new Vector2(0, 0)), Space.Self);
+                instance.transform.Translate(InstancePosition(new Vector2(GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().gridWidth - 2, 0)), Space.Self);
                 instance.GetComponent<PersonScript>().SetPosition(0, 0);
                 //instance.transform.Translate(-15, 0, -15, Space.Self);
                 //instance.transform.position = new Vector3(0, instance.transform.position.y, 0);
@@ -68,7 +68,7 @@ public class InstanceSpawner : MonoBehaviour
     private Vector3 RandomInstancePosition(out int spawnX, out int spawnZ)
     {
         var nh = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>();
-        Vector2 pos = new Vector2(Mathf.RoundToInt(Random.Range(0, nh.gridWidth - 2)), Mathf.RoundToInt(Random.Range(0, nh.gridHeight - 2)));
+        Vector2 pos = new Vector2(Mathf.RoundToInt(Random.Range(nh.gridWidth - 2, nh.gridWidth - 2)), Mathf.RoundToInt(Random.Range(0, nh.gridHeight - 2)));
         spawnX = Mathf.RoundToInt(pos.x);
         spawnZ = Mathf.RoundToInt(pos.y);
         Debug.Log(spawnX);

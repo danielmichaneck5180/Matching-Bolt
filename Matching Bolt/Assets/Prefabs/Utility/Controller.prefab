@@ -122,3 +122,7 @@ MonoBehaviour:
   interestFootball: {fileID: 21300000, guid: 68d3f86019d35834ba7def7b3e49d85c, type: 3}
   interestPuppy: {fileID: 21300000, guid: 40ef59663107c30488b663ae41e2972a, type: 3}
   interestScience: {fileID: 21300000, guid: 023a720085ff60344a537334e6c6bce1, type: 3}
+  Person1: {fileID: 21300000, guid: adb64fc19c16d6c4abf896010cd66a6f, type: 3}
+  Person2: {fileID: 21300000, guid: 9e4ca6460a1992e40b746d95df9cc16b, type: 3}
+  Person3: {fileID: 21300000, guid: fb033f6c52346d542870b6c6abe9194b, type: 3}
+  Person4: {fileID: 21300000, guid: 11208bcaa6355fe4ab16beb7b33ebc68, type: 3}
