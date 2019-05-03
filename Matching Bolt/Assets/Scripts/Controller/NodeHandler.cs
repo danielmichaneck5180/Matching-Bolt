@@ -41,6 +41,25 @@ public class NodeHandler : MonoBehaviour
         grid = new Grid(gridWidth, gridHeight, gridCellSize, node, transform);
     }
 
+    private void Start()
+    {
+        GameObject[] nodeList = GameObject.FindGameObjectsWithTag("Node");
+        GameObject[] obstacleList = GameObject.FindGameObjectsWithTag("Obstacle");
+
+        for (int i = 0; i < nodeList.Length; i++)
+        {
+            for (int p = 0; p < obstacleList.Length; p++)
+            {
+                //Debug.Log(Vector3.Distance(nodeList[i].transform.position, obstacleList[p].transform.position));
+                if (Vector3.Distance(nodeList[i].transform.position, obstacleList[p].transform.position) < 9)
+                {
+                    //Debug.Log("OI");
+                    nodeList[i].GetComponent<NodeScript>().SetEnabled(false);
+                }
+            }
+        }
+    }
+
     private Vector2 GetNodeVector(int x, int z)
     {
         Vector2 returnVector = new Vector2(-1, -1);
@@ -517,9 +536,9 @@ public class NodeHandler : MonoBehaviour
 
             private List<Vector2> Loop(List<Vector2> path, Vector2 vector)
             {
-                if (path.Count > 40)
+                if (path.Count > 39)
                 {
-                    Debug.Log("ERROR: COULD NOT FIND PATH");
+                    Debug.Log("ERROR: COULD NOT FIND PATH AFTER " + path.Count + " STEPS. Target vector: " + endVector.x + " " + endVector.y + " Current vector: " + vector.x + " " + vector.y);
                     return path;
                 }
 
@@ -527,12 +546,13 @@ public class NodeHandler : MonoBehaviour
 
                 if (vector == endVector)
                 {
+                    //Debug.Log("SUCCESS: FOUND PATH AFTER " + path.Count + " STEPS");
                     return path;
                 }
                 else
                 {
                     // Gets reference to surrounding vectors
-                    List<Vector2> nodeVectors = grid.GetSurroundingVectors(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y));
+                    //List<Vector2> nodeVectors = grid.GetSurroundingVectors(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y));
                     // Creates vector list of potential nodes to move to next
                     List<Vector2> potentialVectors = new List<Vector2>();
 
@@ -551,25 +571,14 @@ public class NodeHandler : MonoBehaviour
                         signY = Mathf.RoundToInt(Mathf.Sign(vector.y - endVector.y)); ;
                     }
 
-
-                    potentialVectors = GetVectors(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y));
-
-                    bool searching = true;
-
-                    for (int i = 0; i < 8; i++)
+                    // Checks if most optimal node is available
+                    if (grid.GetNode(new Vector2(vector.x - signX, vector.y - signY)) != null)
                     {
-                        if (searching == true)
-                        {
-                            if (grid.GetNode(potentialVectors[i]) != null)
-                            {
-                                path = Loop(path, potentialVectors[i]);
-                                searching = false;
-                            }
-                        }
+                        path = Loop(path, new Vector2(vector.x - signX, vector.y - signY));
                     }
-                }
 
-                return path;
+                    return path;
+                }
             }
 
             public List<Vector2> GetPath()
@@ -638,30 +647,77 @@ public class NodeHandler : MonoBehaviour
                     returnList.Add(GetVector(x, z, order[i]));
                 }
 
-                if (x > 1)
+                if (x < 1)
+                {
+                    Debug.Log("Failed x: " + GetVector(x, z, 2).x);
+                    returnList.Remove(GetVector(x, z, 2));
+                    returnList.Remove(GetVector(x, z, 4));
+                    returnList.Remove(GetVector(x, z, 7));
+
+                    if (x < 0)
+                    {
+                        returnList.Remove(GetVector(x, z, 1));
+                        returnList.Remove(GetVector(x, z, 6));
+
+                        if (x < -1)
+                        {
+                            returnList.Clear();
+                        }
+                    }
+                }
+
+                if (x + 2 > grid.width)
                 {
                     returnList.Remove(GetVector(x, z, 0));
                     returnList.Remove(GetVector(x, z, 3));
                     returnList.Remove(GetVector(x, z, 5));
-                }
-                else if (x + 1 < grid.width)
-                {
-                    returnList.Remove(GetVector(x, z, 2));
-                    returnList.Remove(GetVector(x, z, 4));
-                    returnList.Remove(GetVector(x, z, 7));
+
+                    if (x + 1 > grid.width)
+                    {
+                        returnList.Remove(GetVector(x, z, 1));
+                        returnList.Remove(GetVector(x, z, 6));
+
+                        if (x > grid.width)
+                        {
+                            returnList.Clear();
+                        }
+                    }
                 }
 
-                if (z > 1)
-                {
-                    returnList.Remove(GetVector(x, z, 0));
-                    returnList.Remove(GetVector(x, z, 1));
-                    returnList.Remove(GetVector(x, z, 2));
-                }
-                else if (z + 1 < grid.height)
+                if (z < 1)
                 {
                     returnList.Remove(GetVector(x, z, 5));
                     returnList.Remove(GetVector(x, z, 6));
                     returnList.Remove(GetVector(x, z, 7));
+
+                    if (z < 0)
+                    {
+                        returnList.Remove(GetVector(x, z, 3));
+                        returnList.Remove(GetVector(x, z, 4));
+
+                        if (z < -1)
+                        {
+                            returnList.Clear();
+                        }
+                    }
+                }
+
+                if (z + 2 > grid.height)
+                {
+                    returnList.Remove(GetVector(x, z, 0));
+                    returnList.Remove(GetVector(x, z, 1));
+                    returnList.Remove(GetVector(x, z, 2));
+
+                    if (z + 1 > grid.height)
+                    {
+                        returnList.Remove(GetVector(x, z, 3));
+                        returnList.Remove(GetVector(x, z, 4));
+
+                        if (z > grid.height)
+                        {
+                            returnList.Clear();
+                        }
+                    }
                 }
 
                 return returnList;

@@ -10,6 +10,8 @@ public class WiimoteScript : MonoBehaviour
     private float ir0;
     private float ir1;
     private float ir2;
+    private bool bHeld;
+    private bool bDown;
 
     private void Awake()
     {
@@ -53,6 +55,24 @@ public class WiimoteScript : MonoBehaviour
         {
             ir[2] = ir2;
         }
+
+        if (bHeld == true)
+        {
+            bDown = false;
+        }
+        else
+        {
+            bDown = true;
+        }
+        
+        if (wiimote.Button.b == true)
+        {
+            bHeld = true;
+        }
+        else
+        {
+            bHeld = false;
+        }
     }
 
     public float[] GetWiimotePosition()
@@ -68,5 +88,22 @@ public class WiimoteScript : MonoBehaviour
     public int GetWiimoteHeight()
     {
         return 767;
+    }
+
+    public bool GetBButton()
+    {
+        return bHeld;
+    }
+
+    public bool GetBButtonDown()
+    {
+        if (bHeld == true)
+        {
+            return bDown;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

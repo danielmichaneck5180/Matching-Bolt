@@ -9,21 +9,28 @@ public class NodeScript : MonoBehaviour
     private int positionX;
     private int positionZ;
 
+    private GameObject green;
+    private GameObject red;
+
     private void Awake()
     {
-        nodeEnabled = true;
+        SetEnabled(true);
+        green = transform.Find("Green").gameObject;
+        red = transform.Find("Red").gameObject;
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        
+        if (nodeEnabled == true)
+        {
+            green.SetActive(true);
+            red.SetActive(false);
+        }
+        else
+        {
+            green.SetActive(false);
+            red.SetActive(true);
+        }
     }
 
     public void SetNode(int x, int z)
