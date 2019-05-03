@@ -5,19 +5,24 @@ using WiimoteApi;
 
 public class WiimoteScript : MonoBehaviour
 {
-    private Wiimote wiimote;
+    private Wiimote wiimote1;
+    private Wiimote wiimote2;
     private float[] ir;
     private float ir0;
     private float ir1;
     private float ir2;
     private bool bHeld;
     private bool bDown;
+    public int CamerWiimote;
+    public int GunWiimote;
 
     private void Awake()
     {
         WiimoteManager.FindWiimotes();
-        wiimote = WiimoteManager.Wiimotes[0];
-        wiimote.SetupIRCamera(IRDataType.BASIC);
+        wiimote1 = WiimoteManager.Wiimotes[CamerWiimote];
+        wiimote2 = WiimoteManager.Wiimotes[GunWiimote];
+        wiimote1.SetupIRCamera(IRDataType.BASIC);
+        wiimote2.SetupIRCamera(IRDataType.BASIC);
         ir = new float[3];
     }
 
