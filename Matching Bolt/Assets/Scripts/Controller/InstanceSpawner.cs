@@ -71,8 +71,8 @@ public class InstanceSpawner : MonoBehaviour
         Vector2 pos = new Vector2(Mathf.RoundToInt(Random.Range(nh.gridWidth - 2, nh.gridWidth - 2)), Mathf.RoundToInt(Random.Range(0, nh.gridHeight - 2)));
         spawnX = Mathf.RoundToInt(pos.x);
         spawnZ = Mathf.RoundToInt(pos.y);
-        Debug.Log(spawnX);
-        Debug.Log(spawnZ);
+        //Debug.Log(spawnX);
+        //Debug.Log(spawnZ);
         return InstancePosition(pos);
     }
 

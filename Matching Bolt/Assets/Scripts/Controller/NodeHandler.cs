@@ -104,13 +104,40 @@ public class NodeHandler : MonoBehaviour
         {
             List<Vector2> path = new List<Vector2>();
 
-            if (startVector == endVector)
+            if (GetNode(startVector) == null || GetNode(endVector) == null || startVector == endVector)
             {
+                if (GetNode(startVector) == null)
+                {
+                    Debug.Log("ERROR: START");
+                }
+                else if (GetNode(endVector) == null)
+                {
+                    Debug.Log("ERROR: END");
+                }
+                else if (startVector == endVector)
+                {
+                    Debug.Log("ERROR: SAME");
+                }
                 path.Add(startVector);
                 return path;
             }
 
             Pathfinder pathfinder = new Pathfinder(startVector, endVector, this);
+            if (pathfinder.GetPath().Count < 40)
+            {
+                Debug.Log("Path okay " + pathfinder.GetPath().Count);
+            }
+            else
+            {
+                Debug.Log("Path faulty " + pathfinder.GetPath().Count);
+            }
+            for (int i = 0; i < pathfinder.GetPath().Count; i++)
+            {
+                if (GetNode(pathfinder.GetPath()[i]) == null)
+                {
+                    Debug.LogError("How did this happen???!!!");
+                }
+            }
 
             return pathfinder.GetPath();
         }
@@ -164,11 +191,18 @@ public class NodeHandler : MonoBehaviour
 
         public GameObject GetNode(Vector2 vector)
         {
+            if (vector.x < 0 || vector.x > width - 1 || vector.y < 0 || vector.y > height - 1)
+            {
+                return null;
+            }
+
             GameObject returnNode = grid[Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y)];
+
             if (returnNode.GetComponent<NodeScript>().GetEnabled() == false)
             {
-                returnNode = null;
+                return null;
             }
+
             return returnNode;
         }
 
@@ -204,6 +238,11 @@ public class NodeHandler : MonoBehaviour
                     return path;
                 }
 
+                if (grid.GetNode(vector) == null)
+                {
+                    Debug.LogError("But how?");
+                }
+
                 path.Add(vector);
 
                 if (vector == endVector)
@@ -234,15 +273,19 @@ public class NodeHandler : MonoBehaviour
                     }
 
                     // Checks if most optimal node is available
-                    if (grid.GetNode(new Vector2(vector.x - signX, vector.y - signY)) != null)
+                    if (CheckAvailableNode(new Vector2(vector.x - signX, vector.y - signY), path) == 0)
                     {
                         path = Loop(path, new Vector2(vector.x - signX, vector.y - signY));
                     }
-                    else for (float i = 1; i < 7; i++)
+                    else if (CheckAvailableNode(new Vector2(vector.x - signX, vector.y - signY), path) == 1)
+                    {
+
+                    }
+                    else for (float i = 1; i < 9; i++)
                         {
                             int e = GetElement(signX, signY);
 
-                            if (i / 2 == Mathf.RoundToInt(i / 2))
+                            if (i / 2f == Mathf.RoundToInt(i / 2f))
                             {
                                 e += Mathf.RoundToInt(i / 2);
                             }
@@ -253,28 +296,46 @@ public class NodeHandler : MonoBehaviour
 
                             if (e < 0)
                             {
-                                e += 7;
+                                e += 8;
                             }
                             else if ( e > 7)
                             {
-                                e -= 7;
+                                e -= 8;
                             }
                         
-                            if (grid.GetNode(new Vector2(vector.x - GetDirection(e)[0], vector.y - GetDirection(e)[1])) != null)
+                            if (CheckAvailableNode(new Vector2(vector.x - GetDirection(e)[0], vector.y - GetDirection(e)[1]), path) == 0)
                             {
-                                path = Loop(path, new Vector2(vector.x - signX, vector.y - signY));
+                                path = Loop(path, new Vector2(vector.x - GetDirection(e)[0], vector.y - GetDirection(e)[1]));
                             }
-
-                            if (path.Count < 40)
+                            else if (CheckAvailableNode(new Vector2(vector.x - GetDirection(e)[0], vector.y - GetDirection(e)[1]), path) == 1)
                             {
                                 i = 8;
                             }
 
-                            Debug.Log("E: " + e + " element: " + GetElement(signX, signY));
+                            Debug.Log("E: " + e + " element: " + GetElement(signX, signY) + " i: " + i);
+                            
+                            if (path[path.Count - 1] == endVector)
+                            {
+                                i = 8;
+                            }
                         }
-
+                    
                     return path;
                 }
+            }
+
+            private int CheckAvailableNode(Vector2 vector, List<Vector2> previousVectors)
+            {
+                if (grid.GetNode(vector) == null)
+                {
+                    return -1;
+                }
+                else if (previousVectors.Contains(vector) == true)
+                {
+                    return -1;
+                }
+
+                return 0;
             }
 
             private int GetElement(int xDir, int yDir)
@@ -321,6 +382,7 @@ public class NodeHandler : MonoBehaviour
 
             private int[] GetDirection(int element) 
             {
+                Debug.Log("Element: " + element);
                 switch(element)
                 {
                     case 0:

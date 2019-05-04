@@ -23,7 +23,7 @@ public class NodeScript : MonoBehaviour
     }
     
     void Update()
-    {/*
+    {
         if (nodeEnabled == true)
         {
             green.SetActive(true);
@@ -33,7 +33,7 @@ public class NodeScript : MonoBehaviour
         {
             green.SetActive(false);
             red.SetActive(true);
-        }*/
+        }
     }
 
     public void SetNode(int x, int z)

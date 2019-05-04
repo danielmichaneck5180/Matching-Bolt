@@ -41,9 +41,9 @@ public class PersonScript : MonoBehaviour
         vectorList = new List<Vector2>();
 
         //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, 15, 8);
-        x = 0;
-        z = 0;
-        SetRandomPath();
+        //x = 0;
+        //z = 0;
+        SetPath(15, 0);
         currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
 
         //TEMPORARY
@@ -54,14 +54,14 @@ public class PersonScript : MonoBehaviour
     {
         if (isMatched == false)
         {
-            
+            /*
             while (currentNode == null)
             {
                 SetRandomPath();
                 SetCurrentNode(0);
                 i = 0;
             }
-            
+            */
             if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
             {
                 if (i < vectorList.Count - 1)
@@ -77,6 +77,7 @@ public class PersonScript : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("Found node: " + vectorList.Count);
                     i = 0;
                     SetRandomPath();
                 }
@@ -130,7 +131,7 @@ public class PersonScript : MonoBehaviour
 
         for (int i = 0; i < vectorList.Count; i++)
         {
-            Debug.Log("Added vector: " + vectorList[i].x + " " + vectorList[i].y);
+            //Debug.Log("Added vector: " + vectorList[i].x + " " + vectorList[i].y);
         }
 
         //for (int i = 0; i < vectorList.Count; i++)
@@ -140,6 +141,15 @@ public class PersonScript : MonoBehaviour
         //        Debug.Log(i);
         //    }
         //}
+    }
+
+    private void SetPath(int xCor, int zCor)
+    {
+        vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, xCor, zCor);
+        while (vectorList.Count > 39)
+        {
+            vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, xCor, zCor);
+        }
     }
 
     private void RotateToCamera()

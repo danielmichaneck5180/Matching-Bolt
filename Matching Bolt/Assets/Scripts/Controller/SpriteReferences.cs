@@ -52,7 +52,6 @@ public class SpriteReferences : MonoBehaviour
 
     public Sprite GetPerson(int number)
     {
-        Debug.Log("Sprite: " + number);
         switch(number)
         {
             case 0:
