@@ -8,6 +8,7 @@ public class NodeHandler : MonoBehaviour
     public int gridWidth;
     public int gridHeight;
     public float gridCellSize;
+    public int pathfindingAccuracy;
 
     private List<GameObject> nodeList;
     private List<Vector2> vectorList;
@@ -222,20 +223,21 @@ public class NodeHandler : MonoBehaviour
                 directions = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
                 grid = g;
                 Pathfind();
+                RefinePath();
             }
 
             private void Pathfind()
             {
                 List<Vector2> initList = new List<Vector2>();
-                pathVectors = Loop(initList, startVector);
+                pathVectors = PathFindLoop(initList, startVector);
             }
 
-            private List<Vector2> Loop(List<Vector2> path, Vector2 vector)
+            private List<Vector2> PathFindLoop(List<Vector2> path, Vector2 vector)
             {
                 if (path.Count > 39)
                 {
                     Debug.Log("ERROR: COULD NOT FIND PATH AFTER " + path.Count + " STEPS. Target vector: " + endVector.x + " " + endVector.y + " Current vector: " + vector.x + " " + vector.y);
-                    return path;
+                    //return path;
                 }
 
                 if (grid.GetNode(vector) == null)
@@ -252,11 +254,6 @@ public class NodeHandler : MonoBehaviour
                 }
                 else
                 {
-                    // Gets reference to surrounding vectors
-                    //List<Vector2> nodeVectors = grid.GetSurroundingVectors(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y));
-                    // Creates vector list of potential nodes to move to next
-                    List<Vector2> potentialVectors = new List<Vector2>();
-
                     // Calculates optimal direction of movement
                     int signX = 0;
 
@@ -275,7 +272,7 @@ public class NodeHandler : MonoBehaviour
                     // Checks if most optimal node is available
                     if (CheckAvailableNode(new Vector2(vector.x - signX, vector.y - signY), path) == 0)
                     {
-                        path = Loop(path, new Vector2(vector.x - signX, vector.y - signY));
+                        path = PathFindLoop(path, new Vector2(vector.x - signX, vector.y - signY));
                     }
                     else if (CheckAvailableNode(new Vector2(vector.x - signX, vector.y - signY), path) == 1)
                     {
@@ -305,14 +302,14 @@ public class NodeHandler : MonoBehaviour
                         
                             if (CheckAvailableNode(new Vector2(vector.x - GetDirection(e)[0], vector.y - GetDirection(e)[1]), path) == 0)
                             {
-                                path = Loop(path, new Vector2(vector.x - GetDirection(e)[0], vector.y - GetDirection(e)[1]));
+                                path = PathFindLoop(path, new Vector2(vector.x - GetDirection(e)[0], vector.y - GetDirection(e)[1]));
                             }
                             else if (CheckAvailableNode(new Vector2(vector.x - GetDirection(e)[0], vector.y - GetDirection(e)[1]), path) == 1)
                             {
                                 i = 8;
                             }
 
-                            Debug.Log("E: " + e + " element: " + GetElement(signX, signY) + " i: " + i);
+                            //Debug.Log("E: " + e + " element: " + GetElement(signX, signY) + " i: " + i);
                             
                             if (path[path.Count - 1] == endVector)
                             {
@@ -382,7 +379,7 @@ public class NodeHandler : MonoBehaviour
 
             private int[] GetDirection(int element) 
             {
-                Debug.Log("Element: " + element);
+                //Debug.Log("Element: " + element);
                 switch(element)
                 {
                     case 0:
@@ -412,184 +409,179 @@ public class NodeHandler : MonoBehaviour
                 }
             }
 
-            public List<Vector2> GetPath()
+            private void RefinePath()
             {
-                return pathVectors;
+                Debug.Log("path size 1: " + pathVectors.Count);
+                PathRefineLoopBackward(0);
+                Debug.Log("path size 2: " + pathVectors.Count);
+                SmoothPath();
+                Debug.Log("path size 3: " + pathVectors.Count);
+                for (int i = 0; i < 2; i++)
+                {
+                    PathRefineLoopForward(0);
+                }
+                Debug.Log("path size 4: " + pathVectors.Count);
+                SmoothPath();
+                Debug.Log("path size 5: " + pathVectors.Count);
             }
 
-            private List<Vector2> GetVectors(int x, int z)
+            private bool CheckPaths(List<Vector2> list1, List<Vector2> list2)
             {
-                // x and z represent the preferred order of vectors, the direction it is moving in
-                List<Vector2> returnList = new List<Vector2>();
-                int[] order = new int[8];
-
-                if (x > 0)
+                if (list1.Count == list2.Count)
                 {
-                    // Top right
-                    if (z > 0)
+                    for (int i = 0; i < list1.Count; i++)
                     {
-                        order = new int[] { 0, 3, 1, 5, 2, 6, 4, 7 };
+                        if (list1[i] != list2[i])
+                        {
+                            return false;
+                        }
                     }
-                    // Bottom right
-                    else if (z < 0)
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            private void PathRefineLoopBackward(int start)
+            {
+                if (start < pathVectors.Count - 1)
+                {
+                    for (int i = pathVectors.Count - 1; i >= start; i--)
                     {
-                        order = new int[] { 5, 6, 3, 7, 0, 4, 1, 2 };
+                        if (i < pathVectors.Count)
+                        {
+                            if (CheckPossiblePath(pathVectors[start], pathVectors[i], 0) == true)
+                            {
+                                for (int p = i - 1; p > start; p--)
+                                {
+                                    pathVectors.Remove(pathVectors[p]);
+                                }
+                            }
+                        }
                     }
-                    // Middle right
-                    else
+
+                    PathRefineLoopBackward(start + 1);
+                }
+            }
+
+            private void SmoothPath()
+            {
+                List<Vector2> newPath = new List<Vector2>();
+                List<Vector2> addList;
+
+                for (int i = 0; i < pathVectors.Count - 1; i++)
+                {
+                    addList = GetPossiblePath(pathVectors[i], pathVectors[i + 1], new List<Vector2>());
+
+                    for (int p = 0; p < addList.Count; p++)
                     {
-                        order = new int[] { 3, 5, 0, 6, 1, 7, 2, 4 };
+                        newPath.Add(addList[p]);
                     }
                 }
-                else if (x < 0)
+
+                for (int i = 0; i < newPath.Count; i++)
                 {
-                    // Top left
-                    if (z > 0)
+                    for (int p = 0; p < newPath.Count; p++)
                     {
-                        order = new int[] { 2, 1, 4, 0, 7, 3, 6, 5 };
+                        if (i != p)
+                        {
+                            if (newPath[i] == newPath[p])
+                            {
+                                newPath.Remove(newPath[p]);
+                            }
+                        }
                     }
-                    // Bottom left
-                    else if (z < 0)
+                }
+
+                pathVectors = newPath;
+            }
+
+            private void PathRefineLoopForward(int start)
+            {
+                if (start < pathVectors.Count - 2)
+                {
+                    if (CheckPossiblePath(pathVectors[start], pathVectors[start + 2], 0) == true)
                     {
-                        order = new int[] { 7, 4, 5, 2, 5, 1, 3, 0 };
+                        pathVectors.Remove(pathVectors[start + 1]);
                     }
-                    // Middle left
-                    else
-                    {
-                        order = new int[] { 4, 2, 7, 1, 6, 0, 5, 3 };
-                    }
+
+                    PathRefineLoopForward(start + 1);
+                }
+            }
+
+            private bool CheckPossiblePath(Vector2 vector1, Vector2 vector2, int steps)
+            {
+                if (steps > grid.width - 1)
+                {
+                    return false;
+                }
+
+                if (vector1 == vector2)
+                {
+                    return true;
                 }
                 else
                 {
-                    // Top center
-                    if (z > 0)
+                    // Calculates optimal direction of movement
+                    int signX = 0;
+
+                    if (vector1.x - vector2.x != 0)
                     {
-                        order = new int[] { 1, 0, 2, 3, 4, 5, 7, 6 };
+                        signX = Mathf.RoundToInt(Mathf.Sign(vector1.x - vector2.x));
                     }
-                    // Bottom center
-                    else //if (z < 0)
+
+                    int signY = 0;
+
+                    if (vector1.y - vector2.y != 0)
                     {
-                        order = new int[] { 6, 7, 5, 4, 3, 2, 0, 1 };
+                        signY = Mathf.RoundToInt(Mathf.Sign(vector1.y - vector2.y)); ;
                     }
-                }
 
-                for (int i = 0; i < 8; i++)
-                {
-                    returnList.Add(GetVector(x, z, order[i]));
-                }
-
-                if (x < 1)
-                {
-                    Debug.Log("Failed x: " + GetVector(x, z, 2).x);
-                    returnList.Remove(GetVector(x, z, 2));
-                    returnList.Remove(GetVector(x, z, 4));
-                    returnList.Remove(GetVector(x, z, 7));
-
-                    if (x < 0)
+                    // Checks if most optimal node is available
+                    if (CheckAvailableNode(new Vector2(vector1.x - signX, vector1.y - signY), new List<Vector2>()) == 0)
                     {
-                        returnList.Remove(GetVector(x, z, 1));
-                        returnList.Remove(GetVector(x, z, 6));
-
-                        if (x < -1)
-                        {
-                            returnList.Clear();
-                        }
+                        return CheckPossiblePath(new Vector2(vector1.x - signX, vector1.y - signY), vector2, steps + 1);
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
-
-                if (x + 2 > grid.width)
-                {
-                    returnList.Remove(GetVector(x, z, 0));
-                    returnList.Remove(GetVector(x, z, 3));
-                    returnList.Remove(GetVector(x, z, 5));
-
-                    if (x + 1 > grid.width)
-                    {
-                        returnList.Remove(GetVector(x, z, 1));
-                        returnList.Remove(GetVector(x, z, 6));
-
-                        if (x > grid.width)
-                        {
-                            returnList.Clear();
-                        }
-                    }
-                }
-
-                if (z < 1)
-                {
-                    returnList.Remove(GetVector(x, z, 5));
-                    returnList.Remove(GetVector(x, z, 6));
-                    returnList.Remove(GetVector(x, z, 7));
-
-                    if (z < 0)
-                    {
-                        returnList.Remove(GetVector(x, z, 3));
-                        returnList.Remove(GetVector(x, z, 4));
-
-                        if (z < -1)
-                        {
-                            returnList.Clear();
-                        }
-                    }
-                }
-
-                if (z + 2 > grid.height)
-                {
-                    returnList.Remove(GetVector(x, z, 0));
-                    returnList.Remove(GetVector(x, z, 1));
-                    returnList.Remove(GetVector(x, z, 2));
-
-                    if (z + 1 > grid.height)
-                    {
-                        returnList.Remove(GetVector(x, z, 3));
-                        returnList.Remove(GetVector(x, z, 4));
-
-                        if (z > grid.height)
-                        {
-                            returnList.Clear();
-                        }
-                    }
-                }
-
-                return returnList;
             }
 
-            private Vector2 GetVector(int x, int z, int i)
+            private List<Vector2> GetPossiblePath(Vector2 vector1, Vector2 vector2, List<Vector2> path)
             {
-                switch (i)
+                path.Add(vector1);
+
+                if (vector1 == vector2)
                 {
-                    // Top right
-                    case 0:
-                        return new Vector2(x + 1, z + 1);
-
-                    // Top center
-                    case 1:
-                        return new Vector2(x, z + 1);
-
-                    // Top left
-                    case 2:
-                        return new Vector2(x - 1, z + 1);
-
-                    // Middle right
-                    case 3:
-                        return new Vector2(x + 1, z);
-
-                    // Middle left
-                    case 4:
-                        return new Vector2(x - 1, z);
-
-                    // Bottom right
-                    case 5:
-                        return new Vector2(x + 1, z - 1);
-
-                    // Bottom center
-                    case 6:
-                        return new Vector2(x, z - 1);
-
-                    // Bottom left
-                    default:
-                        return new Vector2(x - 1, z - 1);
+                    return path;
                 }
+                else
+                {
+                    // Calculates optimal direction of movement
+                    int signX = 0;
+
+                    if (vector1.x - vector2.x != 0)
+                    {
+                        signX = Mathf.RoundToInt(Mathf.Sign(vector1.x - vector2.x));
+                    }
+
+                    int signY = 0;
+
+                    if (vector1.y - vector2.y != 0)
+                    {
+                        signY = Mathf.RoundToInt(Mathf.Sign(vector1.y - vector2.y)); ;
+                    }
+
+                    return GetPossiblePath(new Vector2(vector1.x - signX, vector1.y - signY), vector2, path);
+                }
+            }
+
+            public List<Vector2> GetPath()
+            {
+                return pathVectors;
             }
         };
     };

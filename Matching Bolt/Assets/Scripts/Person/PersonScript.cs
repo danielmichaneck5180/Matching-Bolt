@@ -43,7 +43,7 @@ public class PersonScript : MonoBehaviour
         //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, 15, 8);
         //x = 0;
         //z = 0;
-        SetPath(15, 0);
+        SetPath(15, 8);
         currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
 
         //TEMPORARY
@@ -124,12 +124,12 @@ public class PersonScript : MonoBehaviour
     private void SetRandomPath()
     {
         vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(x, z, Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)));
-        while (vectorList.Count > 39)
+        //while (vectorList.Count > 39)
         {
-            vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)), Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)));
+            //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)), Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)));
         }
 
-        for (int i = 0; i < vectorList.Count; i++)
+        //for (int i = 0; i < vectorList.Count; i++)
         {
             //Debug.Log("Added vector: " + vectorList[i].x + " " + vectorList[i].y);
         }
@@ -146,9 +146,9 @@ public class PersonScript : MonoBehaviour
     private void SetPath(int xCor, int zCor)
     {
         vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, xCor, zCor);
-        while (vectorList.Count > 39)
+        //while (vectorList.Count > 39)
         {
-            vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, xCor, zCor);
+            //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, xCor, zCor);
         }
     }
 
