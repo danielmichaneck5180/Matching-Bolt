@@ -23,7 +23,7 @@ public class MatchHandler : MonoBehaviour
     {
         if (currentMatchSeeker == null)
         {
-            currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnPerson(1);
+            currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnPerson(false);
             currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
             matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
         }

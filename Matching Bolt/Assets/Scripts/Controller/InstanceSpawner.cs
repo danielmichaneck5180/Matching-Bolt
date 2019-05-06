@@ -10,10 +10,21 @@ public class InstanceSpawner : MonoBehaviour
     public int maxInstances;
     public GameObject instanceObject;
 
+    public GameObject Node1;
+    public GameObject Node2;
+    public GameObject Node3;
+    public GameObject Node4;
+    public GameObject Node5;
+    public List<GameObject> spawnPoints;
+
     // Start is called before the first frame update
     void Awake()
     {
         instancePlane = transform.parent.Find("Game Plane").Find("Instance Plane").gameObject;
+        spawnPoints.Add(Node2);
+        spawnPoints.Add(Node3);
+        spawnPoints.Add(Node4);
+        spawnPoints.Add(Node5);
     }
 
     // Update is called once per frame
@@ -27,29 +38,29 @@ public class InstanceSpawner : MonoBehaviour
         {
             spawnTimer = 1f;
 
-            SpawnPerson(0);
+            SpawnPerson(true);
         }
     }
 
-    public GameObject SpawnPerson(int spawnPoint)
+    public GameObject SpawnPerson(bool random)
     {
         if (GetComponent<MatchHandler>().GetPersonCount() < maxInstances)
         {
             GameObject instance = Instantiate(instanceObject, instancePlane.transform);
 
-            if (spawnPoint == 1)
+            if (random == true)
             {
-                instance.transform.Translate(InstancePosition(new Vector2(GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().gridWidth - 2, 0)), Space.Self);
-                instance.GetComponent<PersonScript>().SetPosition(0, 0);
-                //instance.transform.Translate(-15, 0, -15, Space.Self);
-                //instance.transform.position = new Vector3(0, instance.transform.position.y, 0);
+                int pos = Mathf.FloorToInt(Random.Range(0, spawnPoints.Count - 0.01f));
+                instance.transform.Translate(transform.position - spawnPoints[pos].transform.position, Space.Self);
+                instance.GetComponent<PersonScript>().SetPosition(5, 5);
+                Debug.Log(instance.transform.position.x + " " + instance.transform.position.y + " " + instance.transform.position.z);
             }
             else
             {
-                instance.transform.Translate(RandomInstancePosition(out int spawnX, out int spawnZ), Space.Self);
-                instance.GetComponent<PersonScript>().SetPosition(spawnX, spawnZ);
-                //instance.transform.Translate(20, 0, Random.Range(-15, 15), Space.Self);
-                //instance.transform.position = new Vector3(-20, instance.transform.position.y, instance.transform.position.z + Random.Range(-15, 15));
+                Debug.Log("OI");
+                instance.transform.Translate(transform.position - Node1.transform.position, Space.Self);
+                instance.GetComponent<PersonScript>().SetPosition(15, 5);
+                Debug.Log(instance.transform.position.x + " " + instance.transform.position.y + " " + instance.transform.position.z);
             }
 
             GetComponent<MatchHandler>().AddPerson(instance);
@@ -68,11 +79,9 @@ public class InstanceSpawner : MonoBehaviour
     private Vector3 RandomInstancePosition(out int spawnX, out int spawnZ)
     {
         var nh = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>();
-        Vector2 pos = new Vector2(Mathf.RoundToInt(Random.Range(nh.gridWidth - 2, nh.gridWidth - 2)), Mathf.RoundToInt(Random.Range(0, nh.gridHeight - 2)));
+        Vector2 pos = new Vector2(Mathf.RoundToInt(Random.Range(0, nh.gridWidth - 1)), Mathf.RoundToInt(Random.Range(0, nh.gridHeight - 1)));
         spawnX = Mathf.RoundToInt(pos.x);
         spawnZ = Mathf.RoundToInt(pos.y);
-        //Debug.Log(spawnX);
-        //Debug.Log(spawnZ);
         return InstancePosition(pos);
     }
 
@@ -81,8 +90,9 @@ public class InstanceSpawner : MonoBehaviour
         var nh = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>();
 
         float returnX = nh.GetNode(pos).transform.position.x;
+        float returnY = nh.GetNode(pos).transform.position.y;
         float returnZ = nh.GetNode(pos).transform.position.z;
 
-        return new Vector3(returnX, 0, returnZ);
+        return new Vector3(returnX, returnY, returnZ);
     }
 }

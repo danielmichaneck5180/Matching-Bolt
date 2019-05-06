@@ -411,18 +411,18 @@ public class NodeHandler : MonoBehaviour
 
             private void RefinePath()
             {
-                Debug.Log("path size 1: " + pathVectors.Count);
+                //Debug.Log("path size 1: " + pathVectors.Count);
                 PathRefineLoopBackward(0);
-                Debug.Log("path size 2: " + pathVectors.Count);
+                //Debug.Log("path size 2: " + pathVectors.Count);
                 SmoothPath();
-                Debug.Log("path size 3: " + pathVectors.Count);
+                //Debug.Log("path size 3: " + pathVectors.Count);
                 for (int i = 0; i < 2; i++)
                 {
                     PathRefineLoopForward(0);
                 }
-                Debug.Log("path size 4: " + pathVectors.Count);
+                //Debug.Log("path size 4: " + pathVectors.Count);
                 SmoothPath();
-                Debug.Log("path size 5: " + pathVectors.Count);
+                //Debug.Log("path size 5: " + pathVectors.Count);
             }
 
             private bool CheckPaths(List<Vector2> list1, List<Vector2> list2)

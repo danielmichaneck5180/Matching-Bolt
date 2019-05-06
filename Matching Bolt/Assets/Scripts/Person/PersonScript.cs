@@ -43,6 +43,7 @@ public class PersonScript : MonoBehaviour
         //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, 15, 8);
         //x = 0;
         //z = 0;
+
         SetPath(15, 8);
         currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
 
