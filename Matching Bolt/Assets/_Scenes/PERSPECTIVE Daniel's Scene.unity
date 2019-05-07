@@ -632,6 +632,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4560704598569558044, guid: e295f82dd77d07d45a28e3204cd247b2,
+        type: 3}
+      propertyPath: GunWiimote
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e295f82dd77d07d45a28e3204cd247b2, type: 3}
 --- !u!1 &1268845273
