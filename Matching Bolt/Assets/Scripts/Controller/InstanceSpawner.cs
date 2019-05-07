@@ -10,21 +10,46 @@ public class InstanceSpawner : MonoBehaviour
     public int maxInstances;
     public GameObject instanceObject;
 
-    public GameObject Node1;
-    public GameObject Node2;
-    public GameObject Node3;
-    public GameObject Node4;
-    public GameObject Node5;
-    public List<GameObject> spawnPoints;
+    public GameObject matchSpawnNode;
+    public GameObject matchEndNode;
+
+    public GameObject leftNode1;
+    public GameObject leftNode2;
+    public GameObject leftNode3;
+    public GameObject leftNode4;
+    public GameObject leftNode5;
+    public GameObject leftNode6;
+    public GameObject leftNode7;
+
+    public GameObject rightNode1;
+    public GameObject rightNode2;
+    public GameObject rightNode3;
+    public GameObject rightNode4;
+    public GameObject rightNode5;
+    public GameObject rightNode6;
+    public GameObject rightNode7;
+
+    private List<GameObject> spawnPoints;
 
     // Start is called before the first frame update
     void Awake()
     {
         instancePlane = transform.parent.Find("Game Plane").Find("Instance Plane").gameObject;
-        spawnPoints.Add(Node2);
-        spawnPoints.Add(Node3);
-        spawnPoints.Add(Node4);
-        spawnPoints.Add(Node5);
+        spawnPoints = new List<GameObject>();
+        spawnPoints.Add(leftNode1);
+        spawnPoints.Add(leftNode2);
+        spawnPoints.Add(leftNode3);
+        spawnPoints.Add(leftNode4);
+        spawnPoints.Add(leftNode5);
+        spawnPoints.Add(leftNode6);
+        spawnPoints.Add(leftNode7);
+        spawnPoints.Add(rightNode1);
+        spawnPoints.Add(rightNode2);
+        spawnPoints.Add(rightNode3);
+        spawnPoints.Add(rightNode4);
+        spawnPoints.Add(rightNode5);
+        spawnPoints.Add(rightNode6);
+        spawnPoints.Add(rightNode7);
     }
 
     // Update is called once per frame
@@ -36,44 +61,97 @@ public class InstanceSpawner : MonoBehaviour
         }
         else
         {
-            spawnTimer = 1f;
+            if (GetComponent<MatchHandler>().GetPersonCount() < 21)
+            {
+                spawnTimer = 1f;
 
-            SpawnPerson(true);
+                SpawnPerson(true);
+            }
         }
     }
 
     public GameObject SpawnPerson(bool random)
     {
-        if (GetComponent<MatchHandler>().GetPersonCount() < maxInstances)
+        GameObject instance = Instantiate(instanceObject, instancePlane.transform);
+
+        if (random == true)
         {
-            GameObject instance = Instantiate(instanceObject, instancePlane.transform);
+            int pos = Mathf.FloorToInt(Random.Range(0, spawnPoints.Count - 0.01f));
+            instance.transform.position = spawnPoints[pos].transform.position;
 
-            if (random == true)
+            switch (pos)
             {
-                int pos = Mathf.FloorToInt(Random.Range(0, spawnPoints.Count - 0.01f));
-                instance.transform.Translate(transform.position - spawnPoints[pos].transform.position, Space.Self);
-                instance.GetComponent<PersonScript>().SetPosition(5, 5);
-                Debug.Log(instance.transform.position.x + " " + instance.transform.position.y + " " + instance.transform.position.z);
-            }
-            else
-            {
-                Debug.Log("OI");
-                instance.transform.Translate(transform.position - Node1.transform.position, Space.Self);
-                instance.GetComponent<PersonScript>().SetPosition(15, 5);
-                Debug.Log(instance.transform.position.x + " " + instance.transform.position.y + " " + instance.transform.position.z);
-            }
+                case 0:
+                    instance.GetComponent<PersonScript>().SetPosition(0, 0);
+                    break;
 
-            GetComponent<MatchHandler>().AddPerson(instance);
+                case 1:
+                    instance.GetComponent<PersonScript>().SetPosition(0, 1);
+                    break;
 
-            if (GetComponent<MatchHandler>().GetCurrentMatchSeeker() == null)
-            {
-                GetComponent<MatchHandler>().SetCurrentMatchSeekier(gameObject);
+                case 2:
+                    instance.GetComponent<PersonScript>().SetPosition(0, 2);
+                    break;
+
+                case 3:
+                    instance.GetComponent<PersonScript>().SetPosition(0, 5);
+                    break;
+
+                case 4:
+                    instance.GetComponent<PersonScript>().SetPosition(0, 6);
+                    break;
+
+                case 5:
+                    instance.GetComponent<PersonScript>().SetPosition(0, 7);
+                    break;
+
+                case 6:
+                    instance.GetComponent<PersonScript>().SetPosition(0, 8);
+                    break;
+
+                case 7:
+                    instance.GetComponent<PersonScript>().SetPosition(15, 0);
+                    break;
+
+                case 8:
+                    instance.GetComponent<PersonScript>().SetPosition(15, 1);
+                    break;
+
+                case 9:
+                    instance.GetComponent<PersonScript>().SetPosition(15, 2);
+                    break;
+
+                case 10:
+                    instance.GetComponent<PersonScript>().SetPosition(15, 5);
+                    break;
+
+                case 11:
+                    instance.GetComponent<PersonScript>().SetPosition(15, 6);
+                    break;
+
+                case 12:
+                    instance.GetComponent<PersonScript>().SetPosition(15, 7);
+                    break;
+
+                case 13:
+                    instance.GetComponent<PersonScript>().SetPosition(15, 8);
+                    break;
             }
-
-            return instance;
+        }
+        else
+        {
+            instance.transform.position = matchSpawnNode.transform.position;
+            instance.GetComponent<PersonScript>().SetPosition(0, 3);
         }
 
-        return null;
+        GetComponent<MatchHandler>().AddPerson(instance);
+
+        if (GetComponent<MatchHandler>().GetCurrentMatchSeeker() == null)
+        {
+            GetComponent<MatchHandler>().SetCurrentMatchSeekier(gameObject);
+        }
+
+        return instance;
     }
 
     private Vector3 RandomInstancePosition(out int spawnX, out int spawnZ)

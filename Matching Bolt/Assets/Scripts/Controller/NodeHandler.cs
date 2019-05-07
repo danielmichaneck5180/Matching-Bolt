@@ -31,7 +31,7 @@ public class NodeHandler : MonoBehaviour
             for (int p = 0; p < obstacleList.Length; p++)
             {
                 //Debug.Log(Vector3.Distance(nodeList[i].transform.position, obstacleList[p].transform.position));
-                if (Vector3.Distance(nodeList[i].transform.position, obstacleList[p].transform.position) < 9)
+                if (Vector3.Distance(nodeList[i].transform.position, obstacleList[p].transform.position) < obstacleList[p].GetComponent<ObstacleScript>().GetObstacleSize())
                 {
                     //Debug.Log("OI");
                     nodeList[i].GetComponent<NodeScript>().SetEnabled(false);
@@ -109,15 +109,15 @@ public class NodeHandler : MonoBehaviour
             {
                 if (GetNode(startVector) == null)
                 {
-                    Debug.Log("ERROR: START");
+                    //Debug.Log("ERROR: START");
                 }
                 else if (GetNode(endVector) == null)
                 {
-                    Debug.Log("ERROR: END");
+                    //Debug.Log("ERROR: END");
                 }
                 else if (startVector == endVector)
                 {
-                    Debug.Log("ERROR: SAME");
+                    //Debug.Log("ERROR: SAME");
                 }
                 path.Add(startVector);
                 return path;
@@ -126,11 +126,11 @@ public class NodeHandler : MonoBehaviour
             Pathfinder pathfinder = new Pathfinder(startVector, endVector, this);
             if (pathfinder.GetPath().Count < 40)
             {
-                Debug.Log("Path okay " + pathfinder.GetPath().Count);
+                //Debug.Log("Path okay " + pathfinder.GetPath().Count);
             }
             else
             {
-                Debug.Log("Path faulty " + pathfinder.GetPath().Count);
+                Debug.LogError("Path faulty " + pathfinder.GetPath().Count);
             }
             for (int i = 0; i < pathfinder.GetPath().Count; i++)
             {
@@ -234,12 +234,6 @@ public class NodeHandler : MonoBehaviour
 
             private List<Vector2> PathFindLoop(List<Vector2> path, Vector2 vector)
             {
-                if (path.Count > 39)
-                {
-                    Debug.Log("ERROR: COULD NOT FIND PATH AFTER " + path.Count + " STEPS. Target vector: " + endVector.x + " " + endVector.y + " Current vector: " + vector.x + " " + vector.y);
-                    //return path;
-                }
-
                 if (grid.GetNode(vector) == null)
                 {
                     Debug.LogError("But how?");

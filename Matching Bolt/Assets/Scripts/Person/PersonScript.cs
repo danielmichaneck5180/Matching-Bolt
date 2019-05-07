@@ -25,6 +25,7 @@ public class PersonScript : MonoBehaviour
     private int interest;
     private int x;
     private int z;
+    private bool moveToEndPoint;
 
     private void Awake()
     {
@@ -41,46 +42,64 @@ public class PersonScript : MonoBehaviour
         vectorList = new List<Vector2>();
 
         //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, 15, 8);
-        //x = 0;
-        //z = 0;
+        x = 0;
+        z = 0;
 
-        SetPath(15, 8);
-        currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
+        //SetPath(15, 8);
 
         //TEMPORARY
         showTimer = 0.05f;
+
+        moveToEndPoint = false;
+    }
+
+    private void Start()
+    {
+        if (isMatchSeeker == false)
+        {
+            SetRandomPath();
+        }
     }
 
     void Update()
     {
         if (isMatched == false)
         {
-            /*
-            while (currentNode == null)
+            if (moveToEndPoint == true)
             {
-                SetRandomPath();
-                SetCurrentNode(0);
-                i = 0;
+                if (Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("MatchEndPoint").transform.position) < 1f)
+                {
+                    GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().SetCurrentMatchSeekier(null);
+                    GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    Vector3 newPos = GameObject.FindGameObjectWithTag("MatchEndPoint").transform.position - transform.position;
+                    newPos.Normalize();
+                    transform.Translate(newPos / 16, Space.World);
+                }
             }
-            */
-            if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
+            else if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
             {
                 if (i < vectorList.Count - 1)
                 {
                     i++;
                     SetCurrentNode(i);
-                    if (currentNode == null)
-                    {
-                        Debug.Log("ERROR: " + i + " " + vectorList.Count);
-                    }
                     x = currentNode.GetComponent<NodeScript>().GetXPosition();
                     z = currentNode.GetComponent<NodeScript>().GetZPosition();
                 }
                 else
                 {
-                    Debug.Log("Found node: " + vectorList.Count);
-                    i = 0;
-                    SetRandomPath();
+                    if (isMatchSeeker == true)
+                    {
+                        moveToEndPoint = true;
+                    }
+                    else
+                    {
+                        i = 0;
+                        SetRandomPath();
+                    }
                 }
             }
             else
@@ -124,44 +143,40 @@ public class PersonScript : MonoBehaviour
 
     private void SetRandomPath()
     {
-        vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(x, z, Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)));
-        //while (vectorList.Count > 39)
+        if (isMatchSeeker == true)
         {
-            //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)), Mathf.RoundToInt(Random.Range(1f, 14f)), Mathf.RoundToInt(Random.Range(0f, 7f)));
+            Debug.Log("Wat");
+        }
+        int goX = Mathf.RoundToInt(Random.Range(1f, 14f));
+        int goZ = Mathf.RoundToInt(Random.Range(0f, 7f));
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (goZ == 3)
+            {
+                goZ = Mathf.RoundToInt(Random.Range(0f, 7f));
+            }
         }
 
-        //for (int i = 0; i < vectorList.Count; i++)
+        if (goZ == 3)
         {
-            //Debug.Log("Added vector: " + vectorList[i].x + " " + vectorList[i].y);
+            goZ = 4;
         }
 
-        //for (int i = 0; i < vectorList.Count; i++)
-        //{
-        //    if (GameObject.FindGameObjectWithTag("Controller").GetComponent<NodeHandler>().GetNode(vectorList[i]) == null)
-        //    {
-        //        Debug.Log(i);
-        //    }
-        //}
+        vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(x, z, goX, goZ);
+        currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
     }
 
     private void SetPath(int xCor, int zCor)
     {
-        vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, xCor, zCor);
-        //while (vectorList.Count > 39)
-        {
-            //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, xCor, zCor);
-        }
+        vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(x, z, xCor, zCor);
+        currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
     }
 
     private void RotateToCamera()
     {
-        //Debug.Log("Rotation: " + sprite.transform.rotation.eulerAngles.x + " " + player.transform.Find("Main Camera").transform.rotation.eulerAngles.x);
-        //sprite.transform.LookAt(player.transform.Find("Main Camera").transform.position);
-        //sprite.transform.rotation = Quaternion.Euler(Vector3.RotateTowards(sprite.transform.rotation.eulerAngles, player.transform.Find("Main Camera").transform.position - sprite.transform.position, 10000f, 1000f));
-        //sprite.transform.rotation = Quaternion.Euler(transform.position - player.transform.Find("Main Camera").transform.position);
         sprite.transform.rotation = Quaternion.Euler(Vector3.RotateTowards(sprite.transform.rotation.eulerAngles, player.transform.Find("Main Camera").transform.rotation.eulerAngles, 10000f, 1000f));
         sprite.transform.rotation = Quaternion.Euler(new Vector3(sprite.transform.rotation.eulerAngles.x, 180, sprite.transform.rotation.eulerAngles.z));
-        //Debug.Log(sprite.transform.rotation.eulerAngles.x);
     }
 
     public void FoundMatch()
@@ -210,6 +225,8 @@ public class PersonScript : MonoBehaviour
         {
             isMatchSeeker = true;
             indicator.SetActive(true);
+            SetPath(15, 3);
+            Debug.Log("X: " + x + " Z: " + z + " List size: " + vectorList.Count);
             return true;
         }
         else
