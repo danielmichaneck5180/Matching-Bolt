@@ -16,8 +16,7 @@ public class PersonScript : MonoBehaviour
 
     private GameObject sprite;
     private GameObject indicator;
-
-    // TEMPORARY
+    
     private List<Vector2> vectorList;
     private GameObject currentNode;
     private int i = 0;
@@ -25,7 +24,10 @@ public class PersonScript : MonoBehaviour
     private int interest;
     private int x;
     private int z;
-    private bool moveToEndPoint;
+
+    enum PersonState { Normal, StraightPath, MatchWaiting, MatchMover, MatchEnd };
+    private PersonState state;
+    private GameObject matchObject;
 
     private void Awake()
     {
@@ -50,7 +52,7 @@ public class PersonScript : MonoBehaviour
         //TEMPORARY
         showTimer = 0.05f;
 
-        moveToEndPoint = false;
+        state = PersonState.Normal;
     }
 
     private void Start()
@@ -63,13 +65,113 @@ public class PersonScript : MonoBehaviour
 
     void Update()
     {
-        if (isMatched == false)
+        switch(state)
         {
-            if (moveToEndPoint == true)
-            {
+            case PersonState.Normal:
+                if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
+                {
+                    if (i < vectorList.Count - 1)
+                    {
+                        i++;
+                        SetCurrentNode(i);
+                        x = currentNode.GetComponent<NodeScript>().GetXPosition();
+                        z = currentNode.GetComponent<NodeScript>().GetZPosition();
+                    }
+                    else
+                    {
+                        SetRandomPath();
+                        SetCurrentNode(i);
+                    }
+                }
+                else
+                {
+                    Vector3 newPos = currentNode.transform.position - transform.position;
+                    newPos.Normalize();
+                    transform.Translate(newPos / 16, Space.World);
+                }
+                break;
+
+            case PersonState.StraightPath:
+                if (vectorList.Count > 0)
+                {
+                    if (vectorList[vectorList.Count - 1] != new Vector2(15, 3))
+                    {
+                        SetPath(15, 3);
+                    }
+                }
+                else
+                {
+                    SetPath(15, 3);
+                }
+
+                if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
+                {
+                    if (i < vectorList.Count - 1)
+                    {
+                        i++;
+                        SetCurrentNode(i);
+                        x = currentNode.GetComponent<NodeScript>().GetXPosition();
+                        z = currentNode.GetComponent<NodeScript>().GetZPosition();
+                    }
+                    else
+                    {
+                        state = PersonState.MatchEnd;
+                    }
+                }
+                else
+                {
+                    Vector3 newPos = currentNode.transform.position - transform.position;
+                    newPos.Normalize();
+                    transform.Translate(newPos / 16, Space.World);
+                }
+                break;
+
+            case PersonState.MatchMover:
+                if (matchObject != null)
+                {
+                    if (vectorList.Count <= 0)
+                    {
+                        SetPath(matchObject.GetComponent<PersonScript>().GetPosition()[0], matchObject.GetComponent<PersonScript>().GetPosition()[1]);
+                    }
+                    else if (vectorList[vectorList.Count - 1 ] != new Vector2(matchObject.GetComponent<PersonScript>().GetPosition()[0], matchObject.GetComponent<PersonScript>().GetPosition()[1]))
+                    {
+                        SetPath(matchObject.GetComponent<PersonScript>().GetPosition()[0], matchObject.GetComponent<PersonScript>().GetPosition()[1]);
+                    }
+
+                    if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
+                    {
+                        if (i < vectorList.Count - 1)
+                        {
+                            i++;
+                            SetCurrentNode(i);
+                            x = currentNode.GetComponent<NodeScript>().GetXPosition();
+                            z = currentNode.GetComponent<NodeScript>().GetZPosition();
+                        }
+                        else
+                        {
+                            state = PersonState.StraightPath;
+                            matchObject.GetComponent<PersonScript>().SetState(1);
+                        }
+                    }
+                    else
+                    {
+                        Vector3 newPos = currentNode.transform.position - transform.position;
+                        newPos.Normalize();
+                        transform.Translate(newPos / 16, Space.World);
+                    }
+                }
+                break;
+
+            case PersonState.MatchWaiting:
+                break;
+
+            case PersonState.MatchEnd:
                 if (Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("MatchEndPoint").transform.position) < 1f)
                 {
-                    GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().SetCurrentMatchSeekier(null);
+                    if (GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().GetCurrentMatchSeeker() == gameObject)
+                    {
+                        GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().SetCurrentMatchSeekier(null);
+                    }
                     GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
                     Destroy(gameObject);
                 }
@@ -79,51 +181,19 @@ public class PersonScript : MonoBehaviour
                     newPos.Normalize();
                     transform.Translate(newPos / 16, Space.World);
                 }
-            }
-            else if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
+                break;
+        }
+
+        if (CanBeMatched() == true)
+        {
+            if (showTimer > 0)
             {
-                if (i < vectorList.Count - 1)
-                {
-                    i++;
-                    SetCurrentNode(i);
-                    x = currentNode.GetComponent<NodeScript>().GetXPosition();
-                    z = currentNode.GetComponent<NodeScript>().GetZPosition();
-                }
-                else
-                {
-                    if (isMatchSeeker == true)
-                    {
-                        moveToEndPoint = true;
-                    }
-                    else
-                    {
-                        i = 0;
-                        SetRandomPath();
-                    }
-                }
+                showTimer -= Time.deltaTime;
             }
             else
             {
-                Vector3 newPos = currentNode.transform.position - transform.position;
-                newPos.Normalize();
-                transform.Translate(newPos / 16, Space.World);
+                indicator.SetActive(false);
             }
-
-            if (CanBeMatched() == true)
-            {
-                if (showTimer > 0)
-                {
-                    showTimer -= Time.deltaTime;
-                }
-                else
-                {
-                    indicator.SetActive(false);
-                }
-            }
-        }
-        else
-        {
-            transform.Translate(new Vector3(5, 0, 0), Space.Self);
         }
 
         // Checks if the instance is outside of destroyBoundary and if true destroys it
@@ -165,12 +235,14 @@ public class PersonScript : MonoBehaviour
 
         vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(x, z, goX, goZ);
         currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
+        i = 0;
     }
 
     private void SetPath(int xCor, int zCor)
     {
         vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(x, z, xCor, zCor);
         currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
+        i = 0;
     }
 
     private void RotateToCamera()
@@ -179,18 +251,28 @@ public class PersonScript : MonoBehaviour
         sprite.transform.rotation = Quaternion.Euler(new Vector3(sprite.transform.rotation.eulerAngles.x, 180, sprite.transform.rotation.eulerAngles.z));
     }
 
-    public void FoundMatch()
+    public void FoundMatch(GameObject match)
     {
-        isMatched = true;
+        if (isMatchSeeker == true)
+        {
+            state = PersonState.MatchWaiting;
+            matchObject = match;
+        }
+        else
+        {
+            state = PersonState.MatchMover;
+            matchObject = match;
+        }
         isMatchSeeker = false;
+        isMatched = true;
         GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
     }
 
-    public bool Match()
+    public bool Match(GameObject match)
     {
         if (CanBeMatched() == true)
         {
-            FoundMatch();
+            FoundMatch(match);
             return true;
         }
         else
@@ -225,7 +307,7 @@ public class PersonScript : MonoBehaviour
         {
             isMatchSeeker = true;
             indicator.SetActive(true);
-            SetPath(15, 3);
+            state = PersonState.StraightPath;
             Debug.Log("X: " + x + " Z: " + z + " List size: " + vectorList.Count);
             return true;
         }
@@ -250,5 +332,41 @@ public class PersonScript : MonoBehaviour
     {
         x = setX;
         z = setZ;
+    }
+
+    public int[] GetPosition()
+    {
+        return new int[] { x, z };
+    }
+
+    public void SetMatchObject(GameObject match)
+    {
+        matchObject = match;
+    }
+
+    public void SetState(int newState)
+    {
+        switch (newState)
+        {
+            case 0:
+                state = PersonState.Normal;
+                break;
+
+            case 1:
+                state = PersonState.StraightPath;
+                break;
+
+            case 2:
+                state = PersonState.MatchWaiting;
+                break;
+
+            case 3:
+                state = PersonState.MatchMover;
+                break;
+
+            case 4:
+                state = PersonState.MatchEnd;
+                break;
+        }
     }
 }

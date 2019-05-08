@@ -44,10 +44,12 @@ public class MatchHandler : MonoBehaviour
     {
         if (newMatch.GetComponent<PersonScript>().GetInterest() == matchInterest)
         {
-            currentMatchSeeker.GetComponent<PersonScript>().FoundMatch();
-            newMatch.GetComponent<PersonScript>().Match();
-
-            GetComponent<ScoreKeeper>().AddPoints(2);
+            if (newMatch.GetComponent<PersonScript>().Match(currentMatchSeeker) == true)
+            {
+                currentMatchSeeker.GetComponent<PersonScript>().FoundMatch(newMatch);
+                currentMatchSeeker = null;
+                GetComponent<ScoreKeeper>().AddPoints(2);
+            }
         }
         else if (GetComponent<ScoreKeeper>().GetScore() > 0)
         {
