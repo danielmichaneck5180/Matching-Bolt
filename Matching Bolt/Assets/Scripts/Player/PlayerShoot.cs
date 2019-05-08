@@ -16,11 +16,16 @@ public class PlayerShoot : MonoBehaviour
     public GameObject playerProjectile;
     public float projectileSpeed;
 
+    private void Awake()
+    {
+        playerCamera = transform.Find("Main Camera").GetComponent<Camera>();
+    }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0) == true || GetComponent<WiimoteScript>().GetBButtonDown() == true)
         {
-            GameObject projectile = GameObject.Instantiate(playerProjectile, transform);
+            GameObject projectile = GameObject.Instantiate(playerProjectile, playerCamera.gameObject.transform);
             projectile.GetComponent<ProjectileScript>().SetVelocityVector(GetComponent<PlayerAim>().GetAimPoint(), projectileSpeed);
         }
     }

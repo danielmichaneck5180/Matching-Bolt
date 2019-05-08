@@ -10,6 +10,9 @@ public class ProjectileScript : MonoBehaviour
 
     public void SetVelocityVector(Vector3 vector, float speed)
     {
+        Debug.Log("X: " + transform.position.x + " " + vector.x);
+        Debug.Log("Y: " + transform.position.y + " " + vector.y);
+        Debug.Log("Z: " + transform.position.z + " " + vector.z);
         velocityVector = Vector3.Normalize(vector) * speed;
     }
 

@@ -66,7 +66,7 @@ public class PersonScript : MonoBehaviour
                 {
                     i++;
                     SetCurrentNode(i);
-                    Debug.Log(currentNode.GetComponent<NodeScript>().GetEnabled());
+                    //Debug.Log(currentNode.GetComponent<NodeScript>().GetEnabled());
                     x = currentNode.GetComponent<NodeScript>().GetXPosition();
                     z = currentNode.GetComponent<NodeScript>().GetZPosition();
                 }
@@ -134,7 +134,7 @@ public class PersonScript : MonoBehaviour
 
     private void RotateToCamera()
     {
-        Debug.Log("Rotation: " + sprite.transform.rotation.eulerAngles.x + " " + player.transform.Find("Main Camera").transform.rotation.eulerAngles.x);
+        //Debug.Log("Rotation: " + sprite.transform.rotation.eulerAngles.x + " " + player.transform.Find("Main Camera").transform.rotation.eulerAngles.x);
         //sprite.transform.LookAt(player.transform.Find("Main Camera").transform.position);
         //sprite.transform.rotation = Quaternion.Euler(Vector3.RotateTowards(sprite.transform.rotation.eulerAngles, player.transform.Find("Main Camera").transform.position - sprite.transform.position, 10000f, 1000f));
         //sprite.transform.rotation = Quaternion.Euler(transform.position - player.transform.Find("Main Camera").transform.position);
