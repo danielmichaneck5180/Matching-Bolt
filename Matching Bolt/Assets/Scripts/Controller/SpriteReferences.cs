@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpriteReferences : MonoBehaviour
 {
+    // Interests
     public Sprite interestColor;
     public Sprite interestRocket;
     public Sprite interestPlant;
@@ -11,19 +12,13 @@ public class SpriteReferences : MonoBehaviour
     public Sprite interestPuppy;
     public Sprite interestScience;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // Persons
+    public Sprite Person1;
+    public Sprite Person2;
+    public Sprite Person3;
+    public Sprite Person4;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public Sprite GetSprite(int number)
+    public Sprite GetInterest(int number)
     {
         switch(number)
         {
@@ -50,8 +45,36 @@ public class SpriteReferences : MonoBehaviour
         }
     }
 
-    public int GetMaxSprites()
+    public int GetMaxInterests()
     {
         return 6;
+    }
+
+    public Sprite GetPerson(int number)
+    {
+        switch(number)
+        {
+            case 0:
+                return Person2;
+
+            case 1:
+                return Person3;
+
+            case 2:
+                return Person4;
+
+            default:
+                return Person1;
+        }
+    }
+
+    public Sprite GetRandomPerson()
+    {
+        return GetPerson(Mathf.FloorToInt(Random.Range(0, GetMaxPersons())));
+    }
+
+    public int GetMaxPersons()
+    {
+        return 4;
     }
 }
