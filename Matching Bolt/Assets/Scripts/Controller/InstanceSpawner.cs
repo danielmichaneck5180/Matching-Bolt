@@ -61,7 +61,7 @@ public class InstanceSpawner : MonoBehaviour
         }
         else
         {
-            if (GetComponent<MatchHandler>().GetPersonCount() < 21)
+            if (GetComponent<MatchHandler>().GetPersonCount() < maxInstances)
             {
                 spawnTimer = 1f;
 

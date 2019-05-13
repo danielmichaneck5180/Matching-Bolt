@@ -109,15 +109,15 @@ public class NodeHandler : MonoBehaviour
             {
                 if (GetNode(startVector) == null)
                 {
-                    //Debug.Log("ERROR: START");
+                    Debug.Log("ERROR: START");
                 }
                 else if (GetNode(endVector) == null)
                 {
-                    //Debug.Log("ERROR: END");
+                    Debug.Log("ERROR: END");
                 }
                 else if (startVector == endVector)
                 {
-                    //Debug.Log("ERROR: SAME");
+                    Debug.Log("ERROR: SAME");
                 }
                 path.Add(startVector);
                 return path;

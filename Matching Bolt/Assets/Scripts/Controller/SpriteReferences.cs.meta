@@ -14,6 +14,10 @@ MonoImporter:
   - Person2: {fileID: 21300000, guid: 9e4ca6460a1992e40b746d95df9cc16b, type: 3}
   - Person3: {fileID: 21300000, guid: fb033f6c52346d542870b6c6abe9194b, type: 3}
   - Person4: {fileID: 21300000, guid: 11208bcaa6355fe4ab16beb7b33ebc68, type: 3}
+  - Despair1: {fileID: 22100000, guid: d0a8b05698e79d240930b5c0267b9c86, type: 2}
+  - Despair2: {fileID: 22100000, guid: 382ded53be407ba4c8fa2c036b8d5318, type: 2}
+  - Despair3: {fileID: 22100000, guid: 2be1963169f394d4e81d84617f14de9f, type: 2}
+  - Despair4: {fileID: 22100000, guid: 27e3e8ec764897d43814133d1d1b62b1, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

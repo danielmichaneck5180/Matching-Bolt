@@ -32,7 +32,7 @@ public class ProjectileScript : MonoBehaviour
     void Update()
     {
         // Moves the projectile
-        transform.Translate(velocityVector * Time.deltaTime, Space.World);
+        transform.Translate(velocityVector * Time.deltaTime * 60, Space.World);
 
         // Checks if the projectile is outside of destroyBoundary and if true destroys it
         if (originPosition.x + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.y + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.z + Mathf.Abs(transform.position.x) >= destroyBoundary)
