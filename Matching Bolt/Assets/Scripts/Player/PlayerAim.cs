@@ -34,9 +34,9 @@ public class PlayerAim : MonoBehaviour
     
     void Update()
     {
-        aimRay = playerCamera.ScreenPointToRay(Input.mousePosition);
-        //float[] ir = GetComponent<WiimoteScript>().GetWiimotePosition();
-        //aimRay = playerCamera.ScreenPointToRay(new Vector3((ir[0] * playerCamera.pixelWidth), (ir[1] * playerCamera.pixelHeight), ir[2]));
+        //aimRay = playerCamera.ScreenPointToRay(Input.mousePosition);
+        float[] ir = GetComponent<WiimoteScript>().GetWiimotePosition();
+        aimRay = playerCamera.ScreenPointToRay(new Vector3((ir[0] * playerCamera.pixelWidth), (ir[1] * playerCamera.pixelHeight), ir[2]));
         bool boolHit = false;
         if (Physics.Raycast(aimRay, out aimRayHit))
         {

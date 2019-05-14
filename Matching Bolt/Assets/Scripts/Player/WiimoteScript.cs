@@ -23,7 +23,15 @@ public class WiimoteScript : MonoBehaviour
 
     void Update()
     {
-        wiimote.ReadWiimoteData();
+        // Read Wiimote data
+        
+        int ret;
+        do
+        {
+        ret = wiimote.ReadWiimoteData();
+        } while (ret > 0);
+        
+        //wiimote.ReadWiimoteData();
 
         float[] tempir = wiimote.Ir.GetPointingPosition();
         ir0 = tempir[0];
