@@ -18,6 +18,11 @@ public class SpriteReferences : MonoBehaviour
     public Sprite Person3;
     public Sprite Person4;
 
+    public RuntimeAnimatorController Despair1;
+    public RuntimeAnimatorController Despair2;
+    public RuntimeAnimatorController Despair3;
+    public RuntimeAnimatorController Despair4;
+
     public Sprite GetInterest(int number)
     {
         switch(number)
@@ -74,6 +79,35 @@ public class SpriteReferences : MonoBehaviour
     }
 
     public int GetMaxPersons()
+    {
+        return 4;
+    }
+
+    public RuntimeAnimatorController GetDespair(int number)
+    {
+        switch (number)
+        {
+            case 0:
+                return Despair2;
+
+            case 1:
+                return Despair3;
+
+            case 2:
+                return Despair4;
+
+            default:
+                return Despair1;
+        }
+    }
+
+    public RuntimeAnimatorController GetRandomDespair(out int number)
+    {
+        number = Mathf.FloorToInt(Random.Range(0, GetMaxDespairs()));
+        return GetDespair(number);
+    }
+
+    public int GetMaxDespairs()
     {
         return 4;
     }

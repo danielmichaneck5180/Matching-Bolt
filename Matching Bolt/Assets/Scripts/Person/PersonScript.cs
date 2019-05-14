@@ -87,7 +87,7 @@ public class PersonScript : MonoBehaviour
                 {
                     Vector3 newPos = currentNode.transform.position - transform.position;
                     newPos.Normalize();
-                    transform.Translate(newPos / 16, Space.World);
+                    transform.Translate((newPos / 16) * Time.deltaTime * 60, Space.World);
                 }
                 break;
 
@@ -122,7 +122,14 @@ public class PersonScript : MonoBehaviour
                 {
                     Vector3 newPos = currentNode.transform.position - transform.position;
                     newPos.Normalize();
-                    transform.Translate(newPos / 16, Space.World);
+                    if (isMatched == false)
+                    {
+                        transform.Translate((newPos / 16) * Time.deltaTime * 60, Space.World);
+                    }
+                    else
+                    {
+                        transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
+                    }
                 }
                 break;
 
@@ -157,7 +164,7 @@ public class PersonScript : MonoBehaviour
                     {
                         Vector3 newPos = currentNode.transform.position - transform.position;
                         newPos.Normalize();
-                        transform.Translate(newPos / 16, Space.World);
+                        transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
                     }
                 }
                 break;
@@ -179,7 +186,7 @@ public class PersonScript : MonoBehaviour
                 {
                     Vector3 newPos = GameObject.FindGameObjectWithTag("MatchEndPoint").transform.position - transform.position;
                     newPos.Normalize();
-                    transform.Translate(newPos / 16, Space.World);
+                    transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
                 }
                 break;
         }

@@ -104,6 +104,22 @@ MonoBehaviour:
   maxInstances: 20
   instanceObject: {fileID: 4529028407753733726, guid: 666cf0067c953a14381b40bdbcd6c4ac,
     type: 3}
+  matchSpawnNode: {fileID: 0}
+  matchEndNode: {fileID: 0}
+  leftNode1: {fileID: 0}
+  leftNode2: {fileID: 0}
+  leftNode3: {fileID: 0}
+  leftNode4: {fileID: 0}
+  leftNode5: {fileID: 0}
+  leftNode6: {fileID: 0}
+  leftNode7: {fileID: 0}
+  rightNode1: {fileID: 0}
+  rightNode2: {fileID: 0}
+  rightNode3: {fileID: 0}
+  rightNode4: {fileID: 0}
+  rightNode5: {fileID: 0}
+  rightNode6: {fileID: 0}
+  rightNode7: {fileID: 0}
 --- !u!114 &2969412044029610566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,3 +142,7 @@ MonoBehaviour:
   Person2: {fileID: 21300000, guid: 9e4ca6460a1992e40b746d95df9cc16b, type: 3}
   Person3: {fileID: 21300000, guid: fb033f6c52346d542870b6c6abe9194b, type: 3}
   Person4: {fileID: 21300000, guid: 11208bcaa6355fe4ab16beb7b33ebc68, type: 3}
+  Despair1: {fileID: 22100000, guid: d0a8b05698e79d240930b5c0267b9c86, type: 2}
+  Despair2: {fileID: 22100000, guid: 382ded53be407ba4c8fa2c036b8d5318, type: 2}
+  Despair3: {fileID: 22100000, guid: 2be1963169f394d4e81d84617f14de9f, type: 2}
+  Despair4: {fileID: 22100000, guid: 27e3e8ec764897d43814133d1d1b62b1, type: 2}

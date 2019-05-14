@@ -24,6 +24,9 @@ public class ProjectileScript : MonoBehaviour
                 other.gameObject.GetComponent<PersonScript>().HitPerson();
                 Destroy(gameObject);
                 break;
+
+            default:
+                break;
         }
     }
 
