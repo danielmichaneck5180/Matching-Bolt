@@ -60,8 +60,14 @@ public class WiimoteScript : MonoBehaviour
 
     private void Updatewiimote( Wiimote wiimote, int n)
     {
-        wiimote.ReadWiimoteData();
+        // Reads Wiimote data
+        int ret;
+        do
+        {
+        ret = wiimote.ReadWiimoteData();
+        } while (ret > 0);
 
+        // Gets Wiimote IR Input
         float[] tempir = wiimote.Ir.GetPointingPosition();
         ir0 = tempir[0];
         ir1 = tempir[1];
@@ -79,7 +85,7 @@ public class WiimoteScript : MonoBehaviour
         //Debug.Log("IR2: " + ir2.ToString());
         //Debug.Log("IR[2]: " + ir[2].ToString());
 
-        if (wiimote == wiimote1)
+        if (wiimote == WiimoteManager.Wiimotes[cameraWiimote])
         {
             if (ir0 > 0)
             {
