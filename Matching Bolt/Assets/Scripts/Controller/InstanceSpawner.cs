@@ -8,7 +8,8 @@ public class InstanceSpawner : MonoBehaviour
     private float spawnTimer;
 
     public int maxInstances;
-    public GameObject instanceObject;
+    public GameObject personObject;
+    public GameObject despairObject;
 
     public GameObject matchSpawnNode;
     public GameObject matchEndNode;
@@ -65,92 +66,105 @@ public class InstanceSpawner : MonoBehaviour
             {
                 spawnTimer = 1f;
 
-                SpawnPerson(true);
+                SpawnPersonRandom();
             }
         }
     }
 
-    public GameObject SpawnPerson(bool random)
+    public GameObject SpawnMatchSeeker()
     {
-        GameObject instance = Instantiate(instanceObject, instancePlane.transform);
+        GameObject instance = Instantiate(personObject, instancePlane.transform);
+        instance.transform.position = matchSpawnNode.transform.position;
+        instance.GetComponent<PersonScript>().SetPosition(0, 3);
+        return instance;
+    }
 
-        if (random == true)
+    public GameObject SpawnPersonRandom()
+    {
+        GameObject instance = Instantiate(personObject, instancePlane.transform);
+
+        int pos = Mathf.FloorToInt(Random.Range(0, spawnPoints.Count - 0.01f));
+        instance.transform.position = spawnPoints[pos].transform.position;
+
+        switch (pos)
         {
-            int pos = Mathf.FloorToInt(Random.Range(0, spawnPoints.Count - 0.01f));
-            instance.transform.position = spawnPoints[pos].transform.position;
+            case 0:
+                instance.GetComponent<PersonScript>().SetPosition(0, 0);
+                break;
 
-            switch (pos)
-            {
-                case 0:
-                    instance.GetComponent<PersonScript>().SetPosition(0, 0);
-                    break;
+            case 1:
+                instance.GetComponent<PersonScript>().SetPosition(0, 1);
+                break;
 
-                case 1:
-                    instance.GetComponent<PersonScript>().SetPosition(0, 1);
-                    break;
+            case 2:
+                instance.GetComponent<PersonScript>().SetPosition(0, 2);
+                break;
 
-                case 2:
-                    instance.GetComponent<PersonScript>().SetPosition(0, 2);
-                    break;
+            case 3:
+                instance.GetComponent<PersonScript>().SetPosition(0, 5);
+                break;
 
-                case 3:
-                    instance.GetComponent<PersonScript>().SetPosition(0, 5);
-                    break;
+            case 4:
+                instance.GetComponent<PersonScript>().SetPosition(0, 6);
+                break;
 
-                case 4:
-                    instance.GetComponent<PersonScript>().SetPosition(0, 6);
-                    break;
+            case 5:
+                instance.GetComponent<PersonScript>().SetPosition(0, 7);
+                break;
 
-                case 5:
-                    instance.GetComponent<PersonScript>().SetPosition(0, 7);
-                    break;
+            case 6:
+                instance.GetComponent<PersonScript>().SetPosition(0, 8);
+                break;
 
-                case 6:
-                    instance.GetComponent<PersonScript>().SetPosition(0, 8);
-                    break;
+            case 7:
+                instance.GetComponent<PersonScript>().SetPosition(15, 0);
+                break;
 
-                case 7:
-                    instance.GetComponent<PersonScript>().SetPosition(15, 0);
-                    break;
+            case 8:
+                instance.GetComponent<PersonScript>().SetPosition(15, 1);
+                break;
 
-                case 8:
-                    instance.GetComponent<PersonScript>().SetPosition(15, 1);
-                    break;
+            case 9:
+                instance.GetComponent<PersonScript>().SetPosition(15, 2);
+                break;
 
-                case 9:
-                    instance.GetComponent<PersonScript>().SetPosition(15, 2);
-                    break;
+            case 10:
+                instance.GetComponent<PersonScript>().SetPosition(15, 5);
+                break;
 
-                case 10:
-                    instance.GetComponent<PersonScript>().SetPosition(15, 5);
-                    break;
+            case 11:
+                instance.GetComponent<PersonScript>().SetPosition(15, 6);
+                break;
 
-                case 11:
-                    instance.GetComponent<PersonScript>().SetPosition(15, 6);
-                    break;
+            case 12:
+                instance.GetComponent<PersonScript>().SetPosition(15, 7);
+                break;
 
-                case 12:
-                    instance.GetComponent<PersonScript>().SetPosition(15, 7);
-                    break;
-
-                case 13:
-                    instance.GetComponent<PersonScript>().SetPosition(15, 8);
-                    break;
-            }
-        }
-        else
-        {
-            instance.transform.position = matchSpawnNode.transform.position;
-            instance.GetComponent<PersonScript>().SetPosition(0, 3);
+            case 13:
+                instance.GetComponent<PersonScript>().SetPosition(15, 8);
+                break;
         }
 
         GetComponent<MatchHandler>().AddPerson(instance);
 
-        if (GetComponent<MatchHandler>().GetCurrentMatchSeeker() == null)
-        {
-            GetComponent<MatchHandler>().SetCurrentMatchSeekier(gameObject);
-        }
+        return instance;
+    }
 
+    public GameObject SpawnPersonFromDespair(Vector3 spawnVector, int x, int z)
+    {
+        GameObject instance = Instantiate(personObject, instancePlane.transform);
+        instance.transform.position = spawnVector;
+        instance.GetComponent<PersonScript>().SetPosition(x, z);
+        GetComponent<MatchHandler>().AddPerson(instance);
+        return instance;
+    }
+
+    public GameObject SpawnDespair(Vector3 spawnVector, int x, int z)
+    {
+        GameObject instance = Instantiate(despairObject, instancePlane.transform);
+        instance.transform.position = spawnVector;
+        instance.GetComponent<DespairScript>().SetPosition(x, z);
+        GetComponent<MatchHandler>().AddPerson(instance);
         return instance;
     }
 

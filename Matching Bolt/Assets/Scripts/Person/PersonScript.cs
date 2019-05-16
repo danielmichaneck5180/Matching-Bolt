@@ -21,7 +21,10 @@ public class PersonScript : MonoBehaviour
     private GameObject currentNode;
     private int i = 0;
     private float showTimer;
+
     private int interest;
+    private bool knownDespairStatus;
+
     private int x;
     private int z;
 
@@ -37,8 +40,7 @@ public class PersonScript : MonoBehaviour
         TESTbounce = 1;
         sprite = transform.Find("Rotation").gameObject;
         indicator = sprite.transform.Find("Sprite").transform.Find("Indicator").gameObject;
-        interest = Mathf.RoundToInt(Random.Range(0, conspr.GetMaxInterests() - 1));
-        indicator.GetComponent<SpriteRenderer>().sprite = conspr.GetInterest(interest);
+        SetInterest(Mathf.RoundToInt(Random.Range(0, conspr.GetMaxInterests() - 1)));
         sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = conspr.GetRandomPerson();
 
         vectorList = new List<Vector2>();
@@ -53,6 +55,8 @@ public class PersonScript : MonoBehaviour
         showTimer = 0.05f;
 
         state = PersonState.Normal;
+
+        knownDespairStatus = false;
     }
 
     private void Start()
@@ -258,6 +262,31 @@ public class PersonScript : MonoBehaviour
         sprite.transform.rotation = Quaternion.Euler(new Vector3(sprite.transform.rotation.eulerAngles.x, 180, sprite.transform.rotation.eulerAngles.z));
     }
 
+    private void ShowInterest()
+    {
+        indicator.SetActive(true);
+        showTimer = 0.05f;
+    }
+
+    private void CheckDespair()
+    {
+        if (knownDespairStatus == false)
+        {
+            knownDespairStatus = true;
+            if (GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().GetDespairStatus() == true)
+            {
+                TurnToDespair();
+            }
+        }
+    }
+
+    private void TurnToDespair()
+    {
+        GameObject.FindGameObjectWithTag("Controller").GetComponent<InstanceSpawner>().SpawnDespair(transform.position, x, z);
+        GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+        Destroy(gameObject);
+    }
+
     public void FoundMatch(GameObject match)
     {
         if (isMatchSeeker == true)
@@ -315,7 +344,8 @@ public class PersonScript : MonoBehaviour
             isMatchSeeker = true;
             indicator.SetActive(true);
             state = PersonState.StraightPath;
-            Debug.Log("X: " + x + " Z: " + z + " List size: " + vectorList.Count);
+            GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+            //Debug.Log("X: " + x + " Z: " + z + " List size: " + vectorList.Count);
             return true;
         }
         else
@@ -324,15 +354,26 @@ public class PersonScript : MonoBehaviour
         }
     }
 
-    public void ShowInterest()
+    public void AimedAt()
     {
-        indicator.SetActive(true);
-        showTimer = 0.05f;
+        CheckDespair();
+        ShowInterest();
     }
 
     public int GetInterest()
     {
         return interest;
+    }
+
+    public void SetInterest(int newInterest)
+    {
+        interest = newInterest;
+        indicator.GetComponent<SpriteRenderer>().sprite = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetInterest(interest);
+    }
+
+    public void SetDespairStatus()
+    {
+        knownDespairStatus = true;
     }
 
     public void SetPosition(int setX, int setZ)

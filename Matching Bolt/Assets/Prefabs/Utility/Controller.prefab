@@ -101,9 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c774b505942c0429735de22c9beec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxInstances: 20
-  instanceObject: {fileID: 4529028407753733726, guid: 666cf0067c953a14381b40bdbcd6c4ac,
-    type: 3}
+  maxInstances: 10
+  personObject: {fileID: 0}
+  despairObject: {fileID: 0}
   matchSpawnNode: {fileID: 0}
   matchEndNode: {fileID: 0}
   leftNode1: {fileID: 0}

@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class MatchHandler : MonoBehaviour
 {
-    List<GameObject> personList;
+    private List<GameObject> personList;
+    private List<bool> despairList;
 
     private GameObject currentMatchSeeker;
 
     //TEMPORARY
     private int matchInterest;
-    private float matchTimer;
 
     private void Awake()
     {
         personList = new List<GameObject>();
+        ResetDespairList();
         matchInterest = 0;
-        matchTimer = 15f;
     }
 
     private void Start()
     {
         if (currentMatchSeeker == null)
         {
-            currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnPerson(false);
+            currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnMatchSeeker();
             currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
             matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
         }
@@ -34,9 +34,51 @@ public class MatchHandler : MonoBehaviour
         if (currentMatchSeeker == null)
         {
             Debug.Log("Spawned matchseeker");
-            currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnPerson(false);
+            currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnMatchSeeker();
             currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
-            matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
+            List<int> list = new List<int>();
+            for (int i = 0; i < personList.Count; i++)
+            {
+                if (personList[i].GetComponent<PersonScript>() != null)
+                {
+                    if (list.Contains(personList[i].GetComponent<PersonScript>().GetInterest()) == false)
+                    {
+                        list.Add(personList[i].GetComponent<PersonScript>().GetInterest());
+                    }
+                }
+            }
+            int rMatch = Mathf.FloorToInt(Random.Range(0f, list.Count - 0.01f));
+            matchInterest = list[rMatch];
+            currentMatchSeeker.GetComponent<PersonScript>().SetInterest(matchInterest);
+        }
+    }
+
+    private void ResetDespairList()
+    {
+        despairList = new List<bool>();
+        despairList.Add(false);
+        despairList.Add(false);
+
+        if (Random.Range(0f, 3f) < 1)
+        {
+            despairList.Add(true);
+            despairList.Add(false);
+            despairList.Add(false);
+        }
+        else
+        {
+            if (Random.Range(0f, 2f) < 1)
+            {
+                despairList.Add(false);
+                despairList.Add(true);
+                despairList.Add(false);
+            }
+            else
+            {
+                despairList.Add(false);
+                despairList.Add(false);
+                despairList.Add(true);
+            }
         }
     }
 
@@ -96,5 +138,20 @@ public class MatchHandler : MonoBehaviour
     public void SetCurrentMatchSeekier(GameObject newMatchSeeker)
     {
         currentMatchSeeker = newMatchSeeker;
+    }
+
+    public bool GetDespairStatus()
+    {
+        bool returnBool = false;
+        if (despairList.Count < 1)
+        {
+            ResetDespairList();
+        }
+        if (despairList[0] == true)
+        {
+            returnBool = true;
+        }
+        despairList.RemoveAt(0);
+        return returnBool;
     }
 }

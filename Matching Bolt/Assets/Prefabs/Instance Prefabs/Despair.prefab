@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8373893953361913988}
   - component: {fileID: 3563248510411026372}
-  m_Layer: 0
+  - component: {fileID: 1306687029933754050}
+  m_Layer: 8
   m_Name: Despair
-  m_TagString: Untagged
+  m_TagString: Despair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 8265291469949539932, guid: 9e67fdcae5dac8c4ab2bb653db62879b,
     type: 3}
+--- !u!65 &1306687029933754050
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2783299036597672243}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 10, z: 4}
+  m_Center: {x: 0, y: -5, z: 0}
 --- !u!1 &4088909130765872085
 GameObject:
   m_ObjectHideFlags: 0

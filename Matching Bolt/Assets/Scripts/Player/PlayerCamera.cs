@@ -9,18 +9,17 @@ public class PlayerCamera : MonoBehaviour
     public int invertedVertical;
 
     private Vector3 startPosition;
-    private GameObject playerCamera;
+    private GameObject camera;
 
     void Awake()
     {
-        playerCamera = transform.Find("Main Camera").gameObject;
-        startPosition = playerCamera.transform.position;
+        camera = transform.Find("Main Camera").gameObject;
+        startPosition = camera.transform.position;
     }
     
     void Update()
     {
-        
-        playerCamera.transform.position = startPosition;
+        camera.transform.position = startPosition;
         float[] infra = new float[3];
         for (int i = 0; i < 3; i++)
         {
@@ -28,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
         }
         infra[0] -= 0.5f; infra[1] -= 0.5f;// infra[2] -= 0.5f;
         Vector3 newVector = new Vector3(infra[0] * invertedHorizontal, infra[1] * invertedVertical * -1, infra[2] / 1500);
-        playerCamera.transform.Translate(newVector * cameraSensitivity, Space.Self);
+        camera.transform.Translate(newVector * cameraSensitivity, Space.Self);
         
     }
 }

@@ -107,6 +107,7 @@ public class NodeHandler : MonoBehaviour
 
             if (GetNode(startVector) == null || GetNode(endVector) == null || startVector == endVector)
             {
+                /*
                 if (GetNode(startVector) == null)
                 {
                     Debug.Log("ERROR: START");
@@ -119,6 +120,7 @@ public class NodeHandler : MonoBehaviour
                 {
                     Debug.Log("ERROR: SAME");
                 }
+                */
                 path.Add(startVector);
                 return path;
             }

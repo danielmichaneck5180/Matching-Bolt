@@ -10,9 +10,6 @@ public class PlayerShoot : MonoBehaviour
     private Vector3 aimPoint;
     private Vector3 distanceToPlane;
 
-    private float widthRatio;
-    private float heightRatio;
-
     public GameObject playerProjectile;
     public float projectileSpeed;
 
@@ -29,5 +26,4 @@ public class PlayerShoot : MonoBehaviour
             projectile.GetComponent<ProjectileScript>().SetVelocityVector(GetComponent<PlayerAim>().GetAimPoint(), projectileSpeed);
         }
     }
-
 }

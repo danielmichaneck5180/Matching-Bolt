@@ -7,13 +7,18 @@ public class ProjectileScript : MonoBehaviour
     public float destroyBoundary;
     private Vector3 originPosition;
     private Vector3 velocityVector;
+    private float speed;
 
-    public void SetVelocityVector(Vector3 vector, float speed)
+    public void SetVelocityVector(Vector3 vector, float s)
     {
+        /*
         Debug.Log("X: " + transform.position.x + " " + vector.x);
         Debug.Log("Y: " + transform.position.y + " " + vector.y);
         Debug.Log("Z: " + transform.position.z + " " + vector.z);
-        velocityVector = Vector3.Normalize(vector) * speed;
+        */
+        velocityVector = vector;
+        speed = s;
+        //velocityVector = Vector3.Normalize(vector) * speed;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,6 +27,11 @@ public class ProjectileScript : MonoBehaviour
         {
             case "Person":
                 other.gameObject.GetComponent<PersonScript>().HitPerson();
+                Destroy(gameObject);
+                break;
+
+            case "Despair":
+                other.gameObject.GetComponent<DespairScript>().HitDespair();
                 Destroy(gameObject);
                 break;
 
@@ -37,11 +47,17 @@ public class ProjectileScript : MonoBehaviour
 
     void Update()
     {
-        // Moves the projectile
-        transform.Translate(velocityVector * Time.deltaTime, Space.World);
+        if (Vector3.Distance(transform.position, velocityVector) < 1f)
+        {
+            velocityVector = new Vector3(velocityVector.x, -200f, velocityVector.z);
+        }
 
+        // Moves the projectile
+        //transform.Translate(velocityVector * Time.deltaTime, Space.World);
+        transform.position = Vector3.MoveTowards(transform.position, velocityVector, speed * Time.deltaTime);
+        
         // Checks if the projectile is outside of destroyBoundary and if true destroys it
-        if (originPosition.x + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.y + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.z + Mathf.Abs(transform.position.x) >= destroyBoundary)
+        if (originPosition.x + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.y + Mathf.Abs(transform.position.y) >= destroyBoundary || originPosition.z + Mathf.Abs(transform.position.z) >= destroyBoundary)
         {
             Destroy(gameObject);
         }

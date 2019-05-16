@@ -14,7 +14,7 @@ public class DespairProjectileScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "PlayerCollision")
         {
             Destroy(gameObject);
         }
@@ -35,6 +35,11 @@ public class DespairProjectileScript : MonoBehaviour
 
     void Update()
     {
+        if (Vector3.Distance(transform.position, targetPosition) < 1f)
+        {
+            targetPosition = new Vector3(0f, 1000f, 0f);
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
         RotateToCamera();

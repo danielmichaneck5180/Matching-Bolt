@@ -22,6 +22,7 @@ public class DespairScript : MonoBehaviour
     private float transformTimer;
     private float throwTimer;
     private float stopThrowTimer;
+    private float endTimer;
 
     private float previousX;
     private float directionRotation;
@@ -43,6 +44,7 @@ public class DespairScript : MonoBehaviour
         transformTimer = 0.5f;
         throwTimer = 3f;
         stopThrowTimer = 1f;
+        endTimer = 1f;
     }
 
     private void Start()
@@ -125,11 +127,27 @@ public class DespairScript : MonoBehaviour
 
             case DespairState.End:
                 sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Idle", 0);
+                if (endTimer > 0)
+                {
+                    endTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("Controller").GetComponent<InstanceSpawner>().SpawnPersonFromDespair(transform.position, x, z);
+                    GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+                    Destroy(gameObject);
+                }
                 break;
         }
 
         RotateToCamera();
         Turn();
+    }
+
+    public void SetPosition(int setX, int setZ)
+    {
+        x = setX;
+        z = setZ;
     }
 
     private void SetCurrentNode(int node)
@@ -191,5 +209,10 @@ public class DespairScript : MonoBehaviour
         }
 
         previousX = transform.position.x;
+    }
+
+    public void HitDespair()
+    {
+        state = DespairState.End;
     }
 }
