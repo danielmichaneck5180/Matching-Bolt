@@ -11,6 +11,7 @@ public class GameHandler : MonoBehaviour
     void Awake()
     {
         gameRunning = true;
+        Time.timeScale = 1;
     }
 
     private void Update()
@@ -26,6 +27,17 @@ public class GameHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))
         {
             GetComponent<TextHandler>().DisplayHighScore();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (Time.timeScale == 0)
+            {
+                Time.timeScale = 1;
+            }
+            else
+            {
+                Time.timeScale = 0;
+            }
         }
     }
 

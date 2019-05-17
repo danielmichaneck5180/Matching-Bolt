@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 8683870081001280047}
   - component: {fileID: 1947596285465434500}
   - component: {fileID: 3118804383334703120}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerCollision
   m_TagString: PlayerCollision
   m_Icon: {fileID: 0}
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerProjectile: {fileID: 2410232029507386099, guid: 69777e7f107cf1142872cb3bc0d66e7a,
     type: 3}
-  projectileSpeed: 60
+  projectileSpeed: 90
 --- !u!114 &482404022
 MonoBehaviour:
   m_ObjectHideFlags: 0

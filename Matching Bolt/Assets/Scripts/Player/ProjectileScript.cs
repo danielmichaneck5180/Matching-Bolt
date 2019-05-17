@@ -8,6 +8,7 @@ public class ProjectileScript : MonoBehaviour
     private Vector3 originPosition;
     private Vector3 velocityVector;
     private float speed;
+    private bool hit;
 
     public void SetVelocityVector(Vector3 vector, float s)
     {
@@ -26,7 +27,11 @@ public class ProjectileScript : MonoBehaviour
         switch (other.transform.tag)
         {
             case "Person":
-                other.gameObject.GetComponent<PersonScript>().HitPerson();
+                if (hit == false)
+                {
+                    other.gameObject.GetComponent<PersonScript>().HitPerson();
+                }
+                hit = true;
                 Destroy(gameObject);
                 break;
 
@@ -42,6 +47,7 @@ public class ProjectileScript : MonoBehaviour
 
     private void Awake()
     {
+        hit = false;
         originPosition = transform.position;
     }
 

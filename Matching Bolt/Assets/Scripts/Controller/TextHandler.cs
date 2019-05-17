@@ -6,20 +6,32 @@ using UnityEngine.UI;
 public class TextHandler : MonoBehaviour
 {
     public Text scoreText;
+    public Text healthText;
     public Text highScoreTextNames;
     public Text highScoreTextPoints;
     public Text highScoreTextDates;
 
-    // Start is called before the first frame update
     void Start()
     {
         ResetText();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        SetHealthText();
+    }
+
+    private void SetHealthText()
+    {
+        int newText = GameObject.FindGameObjectWithTag("Controller").GetComponent<HealthScript>().GetHealth();
+        if (newText < 0)
+        {
+            healthText.text = "0";
+        }
+        else
+        {
+            healthText.text = newText.ToString();
+        }
     }
 
     public void SetScoreText(float score)
@@ -61,6 +73,9 @@ public class TextHandler : MonoBehaviour
         // Sets scoreText
         scoreText.text = 0.ToString();
         scoreText.gameObject.SetActive(true);
+        // Sets healthText
+        healthText.text = GameObject.FindGameObjectWithTag("Controller").GetComponent<HealthScript>().GetHealth().ToString();
+        healthText.gameObject.SetActive(true);
         // Sets highScore texts
         highScoreTextNames.text = "";
         highScoreTextNames.gameObject.SetActive(false);

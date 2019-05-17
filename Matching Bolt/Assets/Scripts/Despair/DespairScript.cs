@@ -194,7 +194,7 @@ public class DespairScript : MonoBehaviour
     private void Shoot()
     {
         GameObject p = Instantiate(projectile, transform);
-        p.GetComponent<DespairProjectileScript>().SetupProjectile(player.transform.position);
+        p.GetComponent<DespairProjectileScript>().SetupProjectile(player.transform.Find("Main Camera").position);
     }
 
     private void Turn()
@@ -213,6 +213,7 @@ public class DespairScript : MonoBehaviour
 
     public void HitDespair()
     {
+        GameObject.FindGameObjectWithTag("Controller").GetComponent<ScoreKeeper>().AddPoints(1);
         state = DespairState.End;
     }
 }

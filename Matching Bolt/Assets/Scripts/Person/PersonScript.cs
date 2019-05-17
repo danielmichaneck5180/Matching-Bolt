@@ -6,13 +6,12 @@ public class PersonScript : MonoBehaviour
 {
     public float destroyBoundary;
     public GameObject player;
+    public GameObject heartAnimation;
 
     private bool isMatchSeeker;
     private bool isMatched;
 
     private Vector3 originPosition;
-
-    private int TESTbounce;
 
     private GameObject sprite;
     private GameObject indicator;
@@ -32,14 +31,19 @@ public class PersonScript : MonoBehaviour
     private PersonState state;
     private GameObject matchObject;
 
+    private float previousX;
+    private float directionRotation;
+
     private void Awake()
     {
+        previousX = transform.position.x;
+        directionRotation = 0;
         var conspr = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>();
         isMatchSeeker = false;
         originPosition = transform.position;
-        TESTbounce = 1;
         sprite = transform.Find("Rotation").gameObject;
         indicator = sprite.transform.Find("Sprite").transform.Find("Indicator").gameObject;
+        SetIndicatorVisible(false);
         SetInterest(Mathf.RoundToInt(Random.Range(0, conspr.GetMaxInterests() - 1)));
         sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = conspr.GetRandomPerson();
 
@@ -203,7 +207,7 @@ public class PersonScript : MonoBehaviour
             }
             else
             {
-                indicator.SetActive(false);
+                SetIndicatorVisible(false);
             }
         }
 
@@ -215,6 +219,7 @@ public class PersonScript : MonoBehaviour
         }
 
         RotateToCamera();
+        Turn();
     }
 
     private void SetCurrentNode(int node)
@@ -259,12 +264,12 @@ public class PersonScript : MonoBehaviour
     private void RotateToCamera()
     {
         sprite.transform.rotation = Quaternion.Euler(Vector3.RotateTowards(sprite.transform.rotation.eulerAngles, player.transform.Find("Main Camera").transform.rotation.eulerAngles, 10000f, 1000f));
-        sprite.transform.rotation = Quaternion.Euler(new Vector3(sprite.transform.rotation.eulerAngles.x, 180, sprite.transform.rotation.eulerAngles.z));
+        sprite.transform.rotation = Quaternion.Euler(new Vector3(sprite.transform.rotation.eulerAngles.x + 180, 0, sprite.transform.rotation.eulerAngles.z + directionRotation));
     }
 
     private void ShowInterest()
     {
-        indicator.SetActive(true);
+        SetIndicatorVisible(true);
         showTimer = 0.05f;
     }
 
@@ -287,6 +292,20 @@ public class PersonScript : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void Turn()
+    {
+        if (transform.position.x > previousX)
+        {
+            directionRotation = 0;
+        }
+        else if (transform.position.x < previousX)
+        {
+            directionRotation = 180;
+        }
+
+        previousX = transform.position.x;
+    }
+
     public void FoundMatch(GameObject match)
     {
         if (isMatchSeeker == true)
@@ -302,6 +321,8 @@ public class PersonScript : MonoBehaviour
         isMatchSeeker = false;
         isMatched = true;
         GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+        Instantiate(heartAnimation, sprite.transform);
+        SetIndicatorVisible(false);
     }
 
     public bool Match(GameObject match)
@@ -342,7 +363,7 @@ public class PersonScript : MonoBehaviour
         if (CanBeMatched() == true)
         {
             isMatchSeeker = true;
-            indicator.SetActive(true);
+            SetIndicatorVisible(true);
             state = PersonState.StraightPath;
             GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
             //Debug.Log("X: " + x + " Z: " + z + " List size: " + vectorList.Count);
@@ -356,8 +377,11 @@ public class PersonScript : MonoBehaviour
 
     public void AimedAt()
     {
-        CheckDespair();
-        ShowInterest();
+        if (isMatchSeeker == false)
+        {
+            CheckDespair();
+            ShowInterest();
+        }
     }
 
     public int GetInterest()
@@ -414,6 +438,27 @@ public class PersonScript : MonoBehaviour
 
             case 4:
                 state = PersonState.MatchEnd;
+                break;
+        }
+    }
+
+    private void SetIndicatorVisible(bool visible)
+    {
+        switch (visible)
+        {
+            case false:
+                indicator.SetActive(false);
+                break;
+
+            default:
+                if (isMatched == false)
+                {
+                    indicator.SetActive(true);
+                }
+                else
+                {
+                    indicator.SetActive(false);
+                }
                 break;
         }
     }

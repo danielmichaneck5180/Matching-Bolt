@@ -18,10 +18,15 @@ public class SpriteReferences : MonoBehaviour
     public Sprite Person3;
     public Sprite Person4;
 
+    // Despairs
     public RuntimeAnimatorController Despair1;
     public RuntimeAnimatorController Despair2;
     public RuntimeAnimatorController Despair3;
     public RuntimeAnimatorController Despair4;
+
+    // Despair projectiles
+    public Sprite despairProjectile;
+    public Sprite despairProjectileWarning;
 
     public Sprite GetInterest(int number)
     {
@@ -110,5 +115,17 @@ public class SpriteReferences : MonoBehaviour
     public int GetMaxDespairs()
     {
         return 4;
+    }
+
+    public Sprite GetDespairProjectile(string type)
+    {
+        switch (type)
+        {
+            case "Warning":
+                return despairProjectileWarning;
+
+            default:
+                return despairProjectile;
+        }
     }
 }
