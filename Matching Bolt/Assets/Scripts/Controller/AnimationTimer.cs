@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeartExplosionScript : MonoBehaviour
+public class AnimationTimer : MonoBehaviour
 {
     private float timer;
     private void Awake()
     {
         Debug.Log("Spawned");
-        timer = 2f;
+        timer = 3f;
     }
 
     void Update()

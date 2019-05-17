@@ -30,6 +30,8 @@ public class PersonScript : MonoBehaviour
     enum PersonState { Normal, StraightPath, MatchWaiting, MatchMover, MatchEnd };
     private PersonState state;
     private GameObject matchObject;
+    private bool shownPoofAnim;
+    private bool shownTurnAnim;
 
     private float previousX;
     private float directionRotation;
@@ -46,7 +48,6 @@ public class PersonScript : MonoBehaviour
         SetIndicatorVisible(false);
         SetInterest(Mathf.RoundToInt(Random.Range(0, conspr.GetMaxInterests() - 1)));
         sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = conspr.GetRandomPerson();
-
         vectorList = new List<Vector2>();
 
         //vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(0, 0, 15, 8);

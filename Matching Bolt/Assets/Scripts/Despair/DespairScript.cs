@@ -23,6 +23,11 @@ public class DespairScript : MonoBehaviour
     private float throwTimer;
     private float stopThrowTimer;
     private float endTimer;
+    private bool shownPoofAnim;
+    private bool shownTurnAnim;
+    public GameObject poofAnimation;
+    public GameObject turnAnimation;
+   
 
     private float previousX;
     private float directionRotation;
@@ -45,6 +50,8 @@ public class DespairScript : MonoBehaviour
         throwTimer = 3f;
         stopThrowTimer = 1f;
         endTimer = 1f;
+        shownPoofAnim = false;
+        shownTurnAnim = false;
     }
 
     private void Start()
@@ -63,6 +70,11 @@ public class DespairScript : MonoBehaviour
         {
             case DespairState.Start:
                 sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Idle", 0);
+                if(shownPoofAnim == false)
+                {
+                    Instantiate(poofAnimation, sprite.transform);
+                    shownPoofAnim = true;
+                }
                 if (transformTimer > 0)
                 {
                     transformTimer -= Time.deltaTime;
@@ -129,6 +141,11 @@ public class DespairScript : MonoBehaviour
 
             case DespairState.End:
                 sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Idle", 0);
+                if (shownTurnAnim == false)
+                {
+                    Instantiate(turnAnimation, transform);
+                    shownTurnAnim = true;
+                }
                 if (endTimer > 0)
                 {
                     endTimer -= Time.deltaTime;
