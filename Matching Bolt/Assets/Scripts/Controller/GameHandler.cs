@@ -5,17 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class GameHandler : MonoBehaviour
 {
-
+    private float difficultyMultiplier;
     private bool gameRunning;
 
     void Awake()
     {
         gameRunning = true;
         Time.timeScale = 1;
+        difficultyMultiplier = 1;
     }
 
     private void Update()
     {
+        UpdateDifficulty();
+
         if (Input.GetKeyDown(KeyCode.F) == true)
         {
             EndGame();
@@ -39,6 +42,16 @@ public class GameHandler : MonoBehaviour
                 Time.timeScale = 0;
             }
         }
+    }
+
+    private void UpdateDifficulty()
+    {
+        difficultyMultiplier += Time.deltaTime / 60;
+    }
+
+    public float GetDifficultyMultiplier()
+    {
+        return difficultyMultiplier;
     }
 
     public void EndGame()

@@ -60,7 +60,7 @@ public class DespairProjectileScript : MonoBehaviour
             targetPosition = new Vector3(0f, 1000f, 0f);
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime * GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier());
 
         // Checks if the projectile is outside of destroyBoundary and if true destroys it
         if (originPosition.x + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.y + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.z + Mathf.Abs(transform.position.x) >= destroyBoundary)
@@ -82,22 +82,27 @@ public class DespairProjectileScript : MonoBehaviour
     private void CheckCollisionCourse()
     {
         Vector3 rayDirection = transform.position - targetPosition;
-        Debug.Log(rayDirection.x + " " + rayDirection.y + " " + rayDirection.z);
+        //Debug.Log(rayDirection.x + " " + rayDirection.y + " " + rayDirection.z);
         rayDirection.Normalize();
         ray = new Ray(transform.position, rayDirection);
+        if (Vector3.Distance(ray.GetPoint(Vector3.Distance(transform.position, targetPosition)), targetPosition) < 2f)
+        {
+            Debug.Log("OI");
+        }
+        /*
         //Debug.Log(ray.GetPoint(Vector3.Distance(transform.position, targetPosition)).y);
         //Debug.Log(ray.GetPoint(10f).y);
         if (Physics.Raycast(ray, out RaycastHit rayHit, 100000f, LayerMask.GetMask("Player")) != gonnaHit)
         {
             //SetSprite(gonnaHit);
-        }
+        }*/
         //if (gonnaHit == true)
         {
             linePositions[0] = transform.position;
-            linePositions[1] = rayHit.point;
+            linePositions[1] = ray.GetPoint(Vector3.Distance(transform.position, targetPosition));
             lineRenderer.SetPositions(linePositions);
-        }
-        previousPosition = transform.position;
+        }/*
+        previousPosition = transform.position;*/
     }
 
     private void SetSprite(bool hit)

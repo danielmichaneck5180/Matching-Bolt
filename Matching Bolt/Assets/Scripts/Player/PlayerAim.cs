@@ -59,8 +59,8 @@ public class PlayerAim : MonoBehaviour
     
     void Update()
     {
-        aimRay = playerCamera.ScreenPointToRay(Input.mousePosition);
-        /*
+        //aimRay = playerCamera.ScreenPointToRay(Input.mousePosition);
+        
         float[] ir = GetComponent<WiimoteScript>().GetCrossWiimotePosition();
         ir[0] -= 0.5f;
         ir[1] -= 0.5f;
@@ -86,7 +86,7 @@ public class PlayerAim : MonoBehaviour
         mediumZ = CalcMediumValue(irZ);
 
         //aimRay = playerCamera.ScreenPointToRay(new Vector3((ir[0] * playerCamera.pixelWidth), (ir[1] * playerCamera.pixelHeight), ir[2]));
-        aimRay = new Ray(aim.transform.position, new Vector3(mediumX * cameraMultiplier, -distanceToPlane, mediumZ * cameraMultiplier));*/
+        aimRay = new Ray(aim.transform.position, new Vector3(mediumX * cameraMultiplier, -distanceToPlane, mediumZ * cameraMultiplier));
         bool boolHit = false;
         if (Physics.Raycast(aimRay, out aimRayHit, 1000f, LayerMask.GetMask("RaycastTarget")))
         {
