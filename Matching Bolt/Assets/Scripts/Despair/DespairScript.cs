@@ -19,6 +19,7 @@ public class DespairScript : MonoBehaviour
     private int i;
     private int x;
     private int z;
+    private int interest;
     private float transformTimer;
     private float throwTimer;
     private float stopThrowTimer;
@@ -135,7 +136,7 @@ public class DespairScript : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.FindGameObjectWithTag("Controller").GetComponent<InstanceSpawner>().SpawnPersonFromDespair(transform.position, x, z);
+                    GameObject.FindGameObjectWithTag("Controller").GetComponent<InstanceSpawner>().SpawnPersonFromDespair(transform.position, x, z, interest);
                     GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
                     Destroy(gameObject);
                 }
@@ -217,5 +218,10 @@ public class DespairScript : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("Controller").GetComponent<ScoreKeeper>().AddPoints(1);
         state = DespairState.End;
+    }
+
+    public void SetInterest(int i)
+    {
+        interest = i;
     }
 }

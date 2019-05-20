@@ -287,7 +287,7 @@ public class PersonScript : MonoBehaviour
 
     private void TurnToDespair()
     {
-        GameObject.FindGameObjectWithTag("Controller").GetComponent<InstanceSpawner>().SpawnDespair(transform.position, x, z);
+        GameObject.FindGameObjectWithTag("Controller").GetComponent<InstanceSpawner>().SpawnDespair(transform.position, x, z, interest);
         GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
         Destroy(gameObject);
     }

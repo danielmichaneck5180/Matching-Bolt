@@ -150,20 +150,22 @@ public class InstanceSpawner : MonoBehaviour
         return instance;
     }
 
-    public GameObject SpawnPersonFromDespair(Vector3 spawnVector, int x, int z)
+    public GameObject SpawnPersonFromDespair(Vector3 spawnVector, int x, int z, int i)
     {
         GameObject instance = Instantiate(personObject, instancePlane.transform);
         instance.transform.position = spawnVector;
         instance.GetComponent<PersonScript>().SetPosition(x, z);
+        instance.GetComponent<PersonScript>().SetInterest(i);
         GetComponent<MatchHandler>().AddPerson(instance);
         return instance;
     }
 
-    public GameObject SpawnDespair(Vector3 spawnVector, int x, int z)
+    public GameObject SpawnDespair(Vector3 spawnVector, int x, int z, int i)
     {
         GameObject instance = Instantiate(despairObject, instancePlane.transform);
         instance.transform.position = spawnVector;
         instance.GetComponent<DespairScript>().SetPosition(x, z);
+        instance.GetComponent<DespairScript>().SetInterest(i);
         GetComponent<MatchHandler>().AddPerson(instance);
         return instance;
     }
