@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerAim : MonoBehaviour
 {
+    public bool wiimoteEnabled;
+
     private Ray aimRay;
     private RaycastHit aimRayHit;
 
@@ -59,34 +61,39 @@ public class PlayerAim : MonoBehaviour
     
     void Update()
     {
-        //aimRay = playerCamera.ScreenPointToRay(Input.mousePosition);
-        
-        float[] ir = GetComponent<WiimoteScript>().GetCrossWiimotePosition();
-        ir[0] -= 0.5f;
-        ir[1] -= 0.5f;
-
-        // Adds values to list of floats and calculates medium position
-        float mediumX = CalcMediumValue(irX);
-        float mediumZ = CalcMediumValue(irZ);
-
-        for (int i = 0; i < CompareDifference(mediumX, ir[0], smoothening, maxCount); i++)
+        if (wiimoteEnabled == true)
         {
-            irX.Add(ir[0]);
-        }
+            float[] ir = GetComponent<WiimoteScript>().GetCrossWiimotePosition();
+            ir[0] -= 0.5f;
+            ir[1] -= 0.5f;
 
-        for (int i = 0; i < CompareDifference(mediumZ, ir[1], smoothening, maxCount); i++)
+            // Adds values to list of floats and calculates medium position
+            float mediumX = CalcMediumValue(irX);
+            float mediumZ = CalcMediumValue(irZ);
+
+            for (int i = 0; i < CompareDifference(mediumX, ir[0], smoothening, maxCount); i++)
+            {
+                irX.Add(ir[0]);
+            }
+
+            for (int i = 0; i < CompareDifference(mediumZ, ir[1], smoothening, maxCount); i++)
+            {
+                irZ.Add(ir[1]);
+            }
+
+            RefineList(irX, maxCount);
+            RefineList(irZ, maxCount);
+
+            mediumX = CalcMediumValue(irX);
+            mediumZ = CalcMediumValue(irZ);
+
+            //aimRay = playerCamera.ScreenPointToRay(new Vector3((ir[0] * playerCamera.pixelWidth), (ir[1] * playerCamera.pixelHeight), ir[2]));
+            aimRay = new Ray(aim.transform.position, new Vector3(mediumX * cameraMultiplier, -distanceToPlane, mediumZ * cameraMultiplier));
+        }
+        else
         {
-            irZ.Add(ir[1]);
+            aimRay = playerCamera.ScreenPointToRay(Input.mousePosition);
         }
-
-        RefineList(irX, maxCount);
-        RefineList(irZ, maxCount);
-
-        mediumX = CalcMediumValue(irX);
-        mediumZ = CalcMediumValue(irZ);
-
-        //aimRay = playerCamera.ScreenPointToRay(new Vector3((ir[0] * playerCamera.pixelWidth), (ir[1] * playerCamera.pixelHeight), ir[2]));
-        aimRay = new Ray(aim.transform.position, new Vector3(mediumX * cameraMultiplier, -distanceToPlane, mediumZ * cameraMultiplier));
         bool boolHit = false;
         if (Physics.Raycast(aimRay, out aimRayHit, 1000f, LayerMask.GetMask("RaycastTarget")))
         {
