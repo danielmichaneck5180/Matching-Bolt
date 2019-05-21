@@ -36,48 +36,60 @@ public class PlayerCamera : MonoBehaviour
         }
         else
         {
-            int dir = 0;
-            if (Input.GetKey(KeyCode.A) == true)
+            int xDir = CalcDir(KeyCode.A, KeyCode.D, camera.transform.position.x, startPosition.x);
+            int yDir = CalcDir(KeyCode.S, KeyCode.W, camera.transform.position.z, startPosition.z);
+
+            camera.transform.position = new Vector3(camera.transform.position.x + (xDir * sideDistance * Time.deltaTime * 2), camera.transform.position.y, camera.transform.position.z + (yDir * sideDistance * Time.deltaTime * 2));
+
+            if (Mathf.Abs(camera.transform.position.x) > Mathf.Abs(startPosition.x + (xDir * sideDistance)))
             {
-                dir -= 1;
-            }
-            if (Input.GetKey(KeyCode.D) == true)
-            {
-                dir += 1;
-            }
-            if (dir == 0)
-            {
-                float dist = camera.transform.position.x - startPosition.x;
-                if (dist > 1f)
-                {
-                    if (dist - 1 < 0)
-                    {
-                        dir = Mathf.RoundToInt(-dist);
-                    }
-                    else
-                    {
-                        dir = -1;
-                    }
-                }
-                else if (dist < -1f)
-                {
-                    if (dist + 1 > 0)
-                    {
-                        dir = Mathf.RoundToInt(dist);
-                    }
-                    else
-                    {
-                        dir = 1;
-                    }
-                }
+                camera.transform.position = new Vector3(startPosition.x + (xDir * sideDistance), camera.transform.position.y, camera.transform.position.z);
             }
 
-            camera.transform.position = new Vector3(camera.transform.position.x + (dir * sideDistance * Time.deltaTime * 2), camera.transform.position.y, camera.transform.position.z);
-
-            if (Mathf.Abs(camera.transform.position.x) > Mathf.Abs(startPosition.x + (dir * sideDistance)))
+            if (Mathf.Abs(camera.transform.position.z) > Mathf.Abs(startPosition.z + (yDir * sideDistance)))
             {
-                camera.transform.position = new Vector3(startPosition.x + (dir * sideDistance), camera.transform.position.y, camera.transform.position.z);
+                camera.transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y, startPosition.z + (yDir * sideDistance));
             }
         }
+    }
+
+    private int CalcDir(KeyCode A, KeyCode B, float a, float b)
+    {
+        int dir = 0;
+        if (Input.GetKey(A) == true)
+        {
+            dir -= 1;
+        }
+        if (Input.GetKey(B) == true)
+        {
+            dir += 1;
+        }
+        if (dir == 0)
+        {
+            float dist = a - b;
+            if (dist > 1f)
+            {
+                if (dist - 1 < 0)
+                {
+                    dir = Mathf.RoundToInt(-dist);
+                }
+                else
+                {
+                    dir = -1;
+                }
+            }
+            else if (dist < -1f)
+            {
+                if (dist + 1 > 0)
+                {
+                    dir = Mathf.RoundToInt(dist);
+                }
+                else
+                {
+                    dir = 1;
+                }
+            }
+        }
+        return dir;
     }
 }

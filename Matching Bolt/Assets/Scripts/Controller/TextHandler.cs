@@ -6,31 +6,104 @@ using UnityEngine.UI;
 public class TextHandler : MonoBehaviour
 {
     public Text scoreText;
-    public Text healthText;
     public Text highScoreTextNames;
     public Text highScoreTextPoints;
     public Text highScoreTextDates;
 
+    public GameObject Heart1;
+    public GameObject Heart2;
+    public GameObject Heart3;
+
     void Start()
     {
         ResetText();
+        ResetHealth();
     }
 
     void Update()
     {
-        SetHealthText();
+        SetHealth();
     }
 
-    private void SetHealthText()
+    private void SetHealth()
     {
-        int newText = GameObject.FindGameObjectWithTag("Controller").GetComponent<HealthScript>().GetHealth();
-        if (newText < 0)
+        int health = GetComponent<HealthScript>().GetHealth();
+        int fullHearts = Mathf.FloorToInt(health / 3);
+        health -= fullHearts * 3;
+        int fracturedHearts = Mathf.FloorToInt(health / 2);
+        health -= fracturedHearts * 2;
+        int halfHearts = health;
+
+        if (fullHearts >= 1)
         {
-            healthText.text = "0";
+            Heart1.SetActive(true);
+            Heart1.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(2);
+
+            if (fullHearts >= 2)
+            {
+                Heart2.SetActive(true);
+                Heart2.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(2);
+
+                if (fullHearts >= 3)
+                {
+                    Heart3.SetActive(true);
+                    Heart3.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(2);
+                }
+                else
+                {
+                    if (fracturedHearts > 0)
+                    {
+                        Heart3.SetActive(true);
+                        Heart3.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(1);
+                    }
+                    else if (halfHearts > 0)
+                    {
+                        Heart3.SetActive(true);
+                        Heart3.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(0);
+                        Heart3.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(67f, 100f);
+                    }
+                    else
+                    {
+                        Heart3.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                if (fracturedHearts > 0)
+                {
+                    Heart2.SetActive(true);
+                    Heart2.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(1);
+                }
+                else if (halfHearts > 0)
+                {
+                    Heart2.SetActive(true);
+                    Heart2.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(0);
+                    Heart2.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(67f, 100f);
+                }
+                else
+                {
+                    Heart2.SetActive(false);
+                }
+            }
         }
         else
         {
-            healthText.text = newText.ToString();
+            if (fracturedHearts > 0)
+            {
+                Heart1.SetActive(true);
+                Heart1.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(1);
+            }
+            else if (halfHearts > 0)
+            {
+                Heart1.SetActive(true);
+                Heart1.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(0);
+                Heart1.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(67f, 100f);
+            }
+            else
+            {
+                Heart1.SetActive(false);
+            }
         }
     }
 
@@ -73,9 +146,6 @@ public class TextHandler : MonoBehaviour
         // Sets scoreText
         scoreText.text = 0.ToString();
         scoreText.gameObject.SetActive(true);
-        // Sets healthText
-        healthText.text = GameObject.FindGameObjectWithTag("Controller").GetComponent<HealthScript>().GetHealth().ToString();
-        healthText.gameObject.SetActive(true);
         // Sets highScore texts
         highScoreTextNames.text = "";
         highScoreTextNames.gameObject.SetActive(false);
@@ -83,5 +153,14 @@ public class TextHandler : MonoBehaviour
         highScoreTextPoints.gameObject.SetActive(false);
         highScoreTextDates.text = "";
         highScoreTextDates.gameObject.SetActive(false);
-}
+        //Sets health
+
+    }
+
+    private void ResetHealth()
+    {
+        Heart1.SetActive(false);
+        Heart2.SetActive(false);
+        Heart3.SetActive(false);
+    }
 }

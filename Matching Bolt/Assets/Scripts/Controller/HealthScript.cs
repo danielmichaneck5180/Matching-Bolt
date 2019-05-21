@@ -8,7 +8,7 @@ public class HealthScript : MonoBehaviour
 
     private void Awake()
     {
-        health = 5;
+        health = 9;
     }
 
     void Update()

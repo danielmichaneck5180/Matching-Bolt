@@ -18,30 +18,40 @@ public class WiimoteScript : MonoBehaviour
     public int Crossbow;
     private int cameraWiimote;
     private int crossWiimote;
+    private bool wiimotesFound;
 
 
     private void Awake()
     {
-        WiimoteManager.FindWiimotes();
-        wiimote1 = WiimoteManager.Wiimotes[Camera];
-        wiimote2 = WiimoteManager.Wiimotes[Crossbow];
-        wiimote1.SetupIRCamera(IRDataType.BASIC);
-        wiimote2.SetupIRCamera(IRDataType.BASIC);
-        irArray1 = new float[3];
-        irArray2 = new float[3];
-        cameraWiimote = 0;
-        crossWiimote = 1;
+        if (WiimoteManager.FindWiimotes() == true)
+        {
+            wiimotesFound = true;
+            wiimote1 = WiimoteManager.Wiimotes[Camera];
+            wiimote2 = WiimoteManager.Wiimotes[Crossbow];
+            wiimote1.SetupIRCamera(IRDataType.BASIC);
+            wiimote2.SetupIRCamera(IRDataType.BASIC);
+            irArray1 = new float[3];
+            irArray2 = new float[3];
+            cameraWiimote = 0;
+            crossWiimote = 1;
+        }
+        else
+        {
+            wiimotesFound = false;
+        }
     }
 
     void Update()
     {
-        Updatewiimote(wiimote1, 1);
-        Updatewiimote(wiimote2, 2);
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (wiimotesFound == true)
         {
-            SwtichWiimotes();
+            Updatewiimote(wiimote1, 1);
+            Updatewiimote(wiimote2, 2);
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                SwtichWiimotes();
+            }
         }
-
     }
 
     public void SwtichWiimotes()

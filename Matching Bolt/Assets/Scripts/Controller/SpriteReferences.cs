@@ -12,6 +12,11 @@ public class SpriteReferences : MonoBehaviour
     public Sprite interestPuppy;
     public Sprite interestScience;
 
+    // Hearts
+    public Sprite HeartFull;
+    public Sprite HeartFractured;
+    public Sprite HeartHalf;
+
     // Persons
     public Sprite Person1;
     public Sprite Person2;
@@ -126,6 +131,21 @@ public class SpriteReferences : MonoBehaviour
 
             default:
                 return despairProjectile;
+        }
+    }
+
+    public Sprite GetHeart(int i)
+    {
+        switch (i)
+        {
+            case 0:
+                return HeartHalf;
+
+            case 1:
+                return HeartFractured;
+
+            default:
+                return HeartFull;
         }
     }
 }
