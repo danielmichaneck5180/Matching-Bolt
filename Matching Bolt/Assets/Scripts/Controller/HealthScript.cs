@@ -15,7 +15,7 @@ public class HealthScript : MonoBehaviour
     {
         if (health < 1)
         {
-            Time.timeScale = 0;
+            GetComponent<GameHandler>().GameOver();
         }
     }
 

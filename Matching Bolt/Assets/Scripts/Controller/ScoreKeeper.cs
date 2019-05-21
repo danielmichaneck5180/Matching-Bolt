@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEditor;
+using System.IO;
 
 public class ScoreKeeper : MonoBehaviour
 {
@@ -10,23 +11,47 @@ public class ScoreKeeper : MonoBehaviour
     private int score;
     private HighScore highScore;
     private Score currentScore;
-    
+    string path;
+
     private void Awake()
     {
         score = 0;
         highScore = new HighScore();
         currentScore = new Score("Daniel", 0);
-        highScore.AddScore(new Score("Sharon", 10));
-        highScore.AddScore(new Score("Mathilda", 1));
-        highScore.AddScore(new Score("Eric", 5));
-        highScore.AddScore(new Score("Amr", 20));
-        highScore.AddScore(new Score("Jesper", 30));
+        path = "Assets/Text/Highscore.txt";
+        LoadHighScoreText();
     }
     
     void Update()
     {
         GetComponent<TextHandler>().SetScoreText(score);
         currentScore.SetPoints(score);
+    }
+
+    private void LoadHighScoreText()
+    {
+        StreamReader reader = new StreamReader(path);
+
+        
+    }
+
+    public void SaveHighscoreText()
+    {
+        GetHighScore(out List<string> names, out List<float> points, out List<System.DateTime> dates);
+
+        StreamWriter writer = new StreamWriter(path, false);
+        writer.Write("");
+        writer.Close();
+        writer = new StreamWriter(path, true);
+
+        for (int i = 0; i < names.Count; i++)
+        {
+            writer.WriteLine(names[i]);
+            writer.WriteLine(points[i]);
+        }
+
+        writer.Close();
+        AssetDatabase.ImportAsset(path);
     }
 
     public int GetScore()

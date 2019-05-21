@@ -377,7 +377,7 @@ public class PersonScript : MonoBehaviour
 
     public void AimedAt()
     {
-        if (isMatchSeeker == false)
+        if (isMatchSeeker == false && isMatched == false)
         {
             CheckDespair();
             ShowInterest();

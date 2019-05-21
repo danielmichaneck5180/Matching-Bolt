@@ -25,7 +25,7 @@ public class GameHandler : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.R) == true)
         {
-            SceneManager.LoadScene("PERSPECTIVE Daniel's Scene");
+            SceneManager.LoadScene("Main Scene");
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -52,6 +52,12 @@ public class GameHandler : MonoBehaviour
     public float GetDifficultyMultiplier()
     {
         return difficultyMultiplier;
+    }
+
+    public void GameOver()
+    {
+        GetComponent<ScoreKeeper>().SaveHighscoreText();
+        SceneManager.LoadScene("Main Menu");
     }
 
     public void EndGame()
