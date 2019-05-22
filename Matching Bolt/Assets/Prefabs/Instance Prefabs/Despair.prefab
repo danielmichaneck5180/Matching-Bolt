@@ -47,6 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 8265291469949539932, guid: 9e67fdcae5dac8c4ab2bb653db62879b,
     type: 3}
+  poofAnimation: {fileID: 3791219380761978544, guid: 47de88e4084064d46997be2371558df3,
+    type: 3}
+  turnAnimation: {fileID: 8287209351162428212, guid: 9eb26f0a30ec3a24f85506056c741325,
+    type: 3}
 --- !u!65 &1306687029933754050
 BoxCollider:
   m_ObjectHideFlags: 0

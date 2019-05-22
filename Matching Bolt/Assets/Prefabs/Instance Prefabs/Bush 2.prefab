@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2a51f584e69c9409a16c3e7dc9c929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleSize: 5
+  obstacleSize: 4
 --- !u!65 &746206855259667437
 BoxCollider:
   m_ObjectHideFlags: 0

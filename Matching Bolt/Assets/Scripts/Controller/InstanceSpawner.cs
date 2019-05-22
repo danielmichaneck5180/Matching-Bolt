@@ -51,6 +51,21 @@ public class InstanceSpawner : MonoBehaviour
         spawnPoints.Add(rightNode5);
         spawnPoints.Add(rightNode6);
         spawnPoints.Add(rightNode7);
+
+        leftNode1.transform.Find("Cube").gameObject.SetActive(false);
+        leftNode2.transform.Find("Cube").gameObject.SetActive(false);
+        leftNode3.transform.Find("Cube").gameObject.SetActive(false);
+        leftNode4.transform.Find("Cube").gameObject.SetActive(false);
+        leftNode5.transform.Find("Cube").gameObject.SetActive(false);
+        leftNode6.transform.Find("Cube").gameObject.SetActive(false);
+        leftNode7.transform.Find("Cube").gameObject.SetActive(false);
+        rightNode1.transform.Find("Cube").gameObject.SetActive(false);
+        rightNode2.transform.Find("Cube").gameObject.SetActive(false);
+        rightNode3.transform.Find("Cube").gameObject.SetActive(false);
+        rightNode4.transform.Find("Cube").gameObject.SetActive(false);
+        rightNode5.transform.Find("Cube").gameObject.SetActive(false);
+        rightNode6.transform.Find("Cube").gameObject.SetActive(false);
+        rightNode7.transform.Find("Cube").gameObject.SetActive(false);
     }
 
     // Update is called once per frame
