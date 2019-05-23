@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667546, g: 0.48427135, b: 0.5645225, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2600,81 +2600,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 689689138}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &690614525
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1022712573}
-    m_Modifications:
-    - target: {fileID: 2783299036597672243, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_Name
-      value: Despair
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e7b9e910473a4a34fab68a5ff6821234, type: 3}
---- !u!4 &690614526 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8373893953361913988, guid: e7b9e910473a4a34fab68a5ff6821234,
-    type: 3}
-  m_PrefabInstance: {fileID: 690614525}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &701659368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3960,7 +3885,6 @@ Transform:
   - {fileID: 1176753346}
   - {fileID: 517968235}
   - {fileID: 1240853662}
-  - {fileID: 690614526}
   m_Father: {fileID: 1366926966}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -13,6 +13,7 @@ public class GameHandler : MonoBehaviour
         gameRunning = true;
         Time.timeScale = 1;
         difficultyMultiplier = 1;
+        Cursor.visible = false;
     }
 
     private void Update()
