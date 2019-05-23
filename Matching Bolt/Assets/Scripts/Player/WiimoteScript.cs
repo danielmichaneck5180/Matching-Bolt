@@ -23,9 +23,11 @@ public class WiimoteScript : MonoBehaviour
 
     private void Awake()
     {
-        if (WiimoteManager.FindWiimotes() == true)
-        {
+        //if (WiimoteManager.FindWiimotes() == true)
+        //{
+            WiimoteManager.FindWiimotes();
             wiimotesFound = true;
+            Debug.Log("Oisan Svojsan");
             wiimote1 = WiimoteManager.Wiimotes[Camera];
             wiimote2 = WiimoteManager.Wiimotes[Crossbow];
             wiimote1.SetupIRCamera(IRDataType.BASIC);
@@ -34,11 +36,14 @@ public class WiimoteScript : MonoBehaviour
             irArray2 = new float[3];
             cameraWiimote = 0;
             crossWiimote = 1;
-        }
-        else
-        {
-            wiimotesFound = false;
-        }
+            Updatewiimote(wiimote1, 1);
+            Updatewiimote(wiimote2, 2);
+        //}
+        //else
+        //{
+        //    wiimotesFound = false;
+        //}
+        
     }
 
     void Update()

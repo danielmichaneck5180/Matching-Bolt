@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e81f8df0292713c4fa2c162fba5af186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wiimoteEnabled: 1
 --- !u!114 &4560704598569558044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,6 +368,7 @@ MonoBehaviour:
   cameraSensitivity: 35
   invertedHorizontal: 1
   invertedVertical: 1
+  wiimoteEnabled: 1
 --- !u!1 &7552033903065723689
 GameObject:
   m_ObjectHideFlags: 0
