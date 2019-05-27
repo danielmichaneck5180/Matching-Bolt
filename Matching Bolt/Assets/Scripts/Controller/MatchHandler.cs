@@ -23,6 +23,10 @@ public class MatchHandler : MonoBehaviour
     {
         if (currentMatchSeeker == null)
         {
+            if (personList.Count < 1)
+            {
+                GetComponent<InstanceSpawner>().SpawnPersonRandom();
+            }
             currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnMatchSeeker();
             currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
             matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
@@ -33,6 +37,10 @@ public class MatchHandler : MonoBehaviour
     {
         if (currentMatchSeeker == null)
         {
+            if (personList.Count < 1)
+            {
+                GetComponent<InstanceSpawner>().SpawnPersonRandom();
+            }
             Debug.Log("Spawned matchseeker");
             currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnMatchSeeker();
             currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
@@ -47,7 +55,7 @@ public class MatchHandler : MonoBehaviour
                     }
                 }
             }
-            int rMatch = Mathf.FloorToInt(Random.Range(0f, list.Count - 0.01f));
+            int rMatch = Mathf.FloorToInt(Random.Range(0f, list.Count - 0.001f));
             matchInterest = list[rMatch];
             currentMatchSeeker.GetComponent<PersonScript>().SetInterest(matchInterest);
         }
@@ -55,30 +63,39 @@ public class MatchHandler : MonoBehaviour
 
     private void ResetDespairList()
     {
+        float dif = GetComponent<GameHandler>().GetDifficultyMultiplier();
         despairList = new List<bool>();
-        despairList.Add(false);
-        despairList.Add(false);
 
-        if (Random.Range(0f, 3f) < 1)
+        if (dif < 2f)
         {
-            despairList.Add(true);
-            despairList.Add(false);
             despairList.Add(false);
         }
-        else
+        else if (dif >= 2f)
         {
-            if (Random.Range(0f, 2f) < 1)
+            for (int i = 0; i < 5; i++)
             {
                 despairList.Add(false);
-                despairList.Add(true);
-                despairList.Add(false);
             }
-            else
+
+            despairList[Mathf.FloorToInt(Random.Range(3f, 5f - 0.001f))] = true;
+        }
+        else if (dif >= 3f)
+        {
+            for (int i = 0; i < 4; i++)
             {
                 despairList.Add(false);
-                despairList.Add(false);
-                despairList.Add(true);
             }
+
+            despairList[Mathf.FloorToInt(Random.Range(3f, 4f - 0.001f))] = true;
+        }
+        else if (dif >= 4.5f)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                despairList.Add(false);
+            }
+
+            despairList[Mathf.FloorToInt(Random.Range(1f, 3f - 0.001f))] = true;
         }
     }
 

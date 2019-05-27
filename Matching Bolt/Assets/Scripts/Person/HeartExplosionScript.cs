@@ -7,7 +7,6 @@ public class HeartExplosionScript : MonoBehaviour
     private float timer;
     private void Awake()
     {
-        Debug.Log("Spawned");
         timer = 2f;
     }
 
@@ -19,7 +18,6 @@ public class HeartExplosionScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("Destroyed");
             Destroy(gameObject);
         }
     }

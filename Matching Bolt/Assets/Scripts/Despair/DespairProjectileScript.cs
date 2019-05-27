@@ -60,7 +60,7 @@ public class DespairProjectileScript : MonoBehaviour
             targetPosition = new Vector3(0f, 1000f, 0f);
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime * GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier());
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime * (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier() - 0.99f));
 
         // Checks if the projectile is outside of destroyBoundary and if true destroys it
         if (originPosition.x + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.y + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.z + Mathf.Abs(transform.position.x) >= destroyBoundary)

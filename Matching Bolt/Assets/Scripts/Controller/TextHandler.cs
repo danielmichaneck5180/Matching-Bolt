@@ -28,10 +28,8 @@ public class TextHandler : MonoBehaviour
     private void SetHealth()
     {
         int health = GetComponent<HealthScript>().GetHealth();
-        int fullHearts = Mathf.FloorToInt(health / 3);
-        health -= fullHearts * 3;
-        int fracturedHearts = Mathf.FloorToInt(health / 2);
-        health -= fracturedHearts * 2;
+        int fullHearts = Mathf.FloorToInt(health / 2);
+        health -= fullHearts * 2;
         int halfHearts = health;
 
         if (fullHearts >= 1)
@@ -51,12 +49,7 @@ public class TextHandler : MonoBehaviour
                 }
                 else
                 {
-                    if (fracturedHearts > 0)
-                    {
-                        Heart3.SetActive(true);
-                        Heart3.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(1);
-                    }
-                    else if (halfHearts > 0)
+                    if (halfHearts > 0)
                     {
                         Heart3.SetActive(true);
                         Heart3.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(0);
@@ -70,12 +63,7 @@ public class TextHandler : MonoBehaviour
             }
             else
             {
-                if (fracturedHearts > 0)
-                {
-                    Heart2.SetActive(true);
-                    Heart2.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(1);
-                }
-                else if (halfHearts > 0)
+                if (halfHearts > 0)
                 {
                     Heart2.SetActive(true);
                     Heart2.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(0);
@@ -89,12 +77,7 @@ public class TextHandler : MonoBehaviour
         }
         else
         {
-            if (fracturedHearts > 0)
-            {
-                Heart1.SetActive(true);
-                Heart1.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(1);
-            }
-            else if (halfHearts > 0)
+            if (halfHearts > 0)
             {
                 Heart1.SetActive(true);
                 Heart1.GetComponent<Image>().sprite = GetComponent<SpriteReferences>().GetHeart(0);

@@ -56,7 +56,7 @@ public class DespairScript : MonoBehaviour
 
     private void Start()
     {
-        throwTimer /= GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier();
+        throwTimer /= (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier() - 0.99f);
 
         GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().AddPerson(gameObject);
 
@@ -101,7 +101,7 @@ public class DespairScript : MonoBehaviour
                 }
                 else
                 {
-                    throwTimer = 3f / GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier();
+                    throwTimer = 3f / (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier() - 0.99f);
                     stopThrowTimer = 1;
                     Shoot();
                     state = DespairState.Throw;
