@@ -58,7 +58,7 @@ public class GameHandler : MonoBehaviour
     public void GameOver()
     {
         GetComponent<ScoreKeeper>().SaveHighscoreText();
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Highscore Scene");
     }
 
     public void EndGame()

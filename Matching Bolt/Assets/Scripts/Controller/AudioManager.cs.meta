@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 479a74c2ff5f0054f91127797da317f4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - match1: {fileID: 8300000, guid: aa590f93cdf076742ac6c2a9d1a09173, type: 3}
+  - match2: {fileID: 8300000, guid: 1584db1230f48db449a02fa2ca4dd8c5, type: 3}
+  - giggle: {fileID: 8300000, guid: 1c50f193914be744eab9b5d38de5f127, type: 3}
+  - shoot: {fileID: 8300000, guid: ea7266779c055344581face80c5f733e, type: 3}
+  - happy: {fileID: 8300000, guid: f7734956bb03dac499f07c48f38c6f2a, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

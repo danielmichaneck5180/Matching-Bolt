@@ -22,6 +22,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) == true || GetComponent<WiimoteScript>().GetBButtonDown() == true)
         {
+            GameObject.FindGameObjectWithTag("Controller").GetComponent<AudioManager>().PlaySound("Shoot");
             GameObject projectile = GameObject.Instantiate(playerProjectile, playerCamera.gameObject.transform);
             projectile.GetComponent<ProjectileScript>().SetVelocityVector(GetComponent<PlayerAim>().GetAimPoint(), projectileSpeed);
         }

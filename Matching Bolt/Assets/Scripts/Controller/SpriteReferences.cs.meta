@@ -9,7 +9,10 @@ MonoImporter:
   - interestPlant: {fileID: 21300000, guid: d94e343f2c86d594e9935d0f4f3d6cf4, type: 3}
   - interestFootball: {fileID: 21300000, guid: 5a6ee743c35cd2c4aa6f235be808a609, type: 3}
   - interestPuppy: {fileID: 21300000, guid: 6ca39c843e170a048b0666ea090738d9, type: 3}
-  - interestScience: {fileID: 21300000, guid: 023a720085ff60344a537334e6c6bce1, type: 3}
+  - interestScience: {fileID: 21300000, guid: 9a783d3e7431be747b20e9726f50ace6, type: 3}
+  - interestMusic: {fileID: 21300000, guid: d5c6bb90fe9a08746bba0ebd654098f6, type: 3}
+  - interestGames: {fileID: 21300000, guid: f7b613b3e2d7c04498a5ca3ca675cf34, type: 3}
+  - interestBaseball: {fileID: 21300000, guid: cb212fdd19cd83a4a85a118d82c9706f, type: 3}
   - HeartFull: {fileID: 21300000, guid: 4fb41c1928d5c1147a65b6b2e99832cf, type: 3}
   - HeartFractured: {fileID: 21300000, guid: 8b37a15aa13a51b46acd7967835b4c64, type: 3}
   - HeartHalf: {fileID: 21300000, guid: df068172ae0ec1c4ea9b0552014a3765, type: 3}

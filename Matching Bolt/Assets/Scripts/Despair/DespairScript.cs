@@ -146,6 +146,7 @@ public class DespairScript : MonoBehaviour
                 sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Idle", 0);
                 if (shownTurnAnim == false)
                 {
+                    GameObject.FindGameObjectWithTag("Controller").GetComponent<AudioManager>().PlaySound("Match2");
                     Instantiate(turnAnimation, transform);
                     shownTurnAnim = true;
                 }

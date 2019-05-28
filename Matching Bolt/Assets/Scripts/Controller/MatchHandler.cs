@@ -63,39 +63,86 @@ public class MatchHandler : MonoBehaviour
 
     private void ResetDespairList()
     {
-        float dif = GetComponent<GameHandler>().GetDifficultyMultiplier();
+        float dif = Mathf.FloorToInt(GetComponent<GameHandler>().GetDifficultyMultiplier());
+        int setup = 0;
         despairList = new List<bool>();
 
-        if (dif < 2f)
+        switch (dif)
         {
-            despairList.Add(false);
-        }
-        else if (dif >= 2f)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                despairList.Add(false);
-            }
+            case 0:
+                setup = 0;
+                break;
 
-            despairList[Mathf.FloorToInt(Random.Range(3f, 5f - 0.001f))] = true;
-        }
-        else if (dif >= 3f)
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                despairList.Add(false);
-            }
+            case 1:
+                setup = 1;
+                break;
 
-            despairList[Mathf.FloorToInt(Random.Range(3f, 4f - 0.001f))] = true;
-        }
-        else if (dif >= 4.5f)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                despairList.Add(false);
-            }
+            case 2:
+                setup = 1;
+                break;
 
-            despairList[Mathf.FloorToInt(Random.Range(1f, 3f - 0.001f))] = true;
+            case 3:
+                setup = 2;
+                break;
+
+            default:
+                setup = 3;
+                break;
+        }
+
+        switch (setup)
+        {
+            case 0:
+                despairList.Add(false);
+                break;
+
+            case 1:
+                despairList.Add(false);
+                despairList.Add(false);
+                despairList.Add(false);
+                if (Random.Range(0f, 2f) < 1f)
+                {
+
+                    despairList.Add(true);
+                    despairList.Add(false);
+                }
+                else
+                {
+                    despairList.Add(false);
+                    despairList.Add(true);
+                }
+                break;
+
+            case 2:
+                despairList.Add(false);
+                despairList.Add(false);
+                if (Random.Range(0f, 2f) < 1f)
+                {
+
+                    despairList.Add(true);
+                    despairList.Add(false);
+                }
+                else
+                {
+                    despairList.Add(false);
+                    despairList.Add(true);
+                }
+                break;
+
+            default:
+                despairList.Add(false);
+                if (Random.Range(0f, 2f) < 1f)
+                {
+
+                    despairList.Add(true);
+                    despairList.Add(false);
+                }
+                else
+                {
+                    despairList.Add(false);
+                    despairList.Add(true);
+                }
+                break;
         }
     }
 
@@ -105,6 +152,7 @@ public class MatchHandler : MonoBehaviour
         {
             if (newMatch.GetComponent<PersonScript>().Match(currentMatchSeeker) == true)
             {
+                GetComponent<AudioManager>().PlaySound("Match1");
                 currentMatchSeeker.GetComponent<PersonScript>().FoundMatch(newMatch);
                 currentMatchSeeker = null;
                 GetComponent<ScoreKeeper>().AddPoints(2);

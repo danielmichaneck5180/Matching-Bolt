@@ -11,6 +11,9 @@ public class SpriteReferences : MonoBehaviour
     public Sprite interestFootball;
     public Sprite interestPuppy;
     public Sprite interestScience;
+    public Sprite interestMusic;
+    public Sprite interestGames;
+    public Sprite interestBaseball;
 
     // Hearts
     public Sprite HeartFull;
@@ -55,6 +58,15 @@ public class SpriteReferences : MonoBehaviour
             case 5:
                 return interestRocket;
 
+            case 6:
+                return interestMusic;
+
+            case 7:
+                return interestGames;
+
+            case 8:
+                return interestBaseball;
+
             default:
                 return interestRocket;
         }
@@ -62,7 +74,7 @@ public class SpriteReferences : MonoBehaviour
 
     public int GetMaxInterests()
     {
-        return 6;
+        return 8;
     }
 
     public Sprite GetPerson(int number)
@@ -85,7 +97,7 @@ public class SpriteReferences : MonoBehaviour
 
     public Sprite GetRandomPerson()
     {
-        return GetPerson(Mathf.FloorToInt(Random.Range(0, GetMaxPersons())));
+        return GetPerson(Mathf.FloorToInt(Random.Range(0, GetMaxPersons() + 0.999f)));
     }
 
     public int GetMaxPersons()

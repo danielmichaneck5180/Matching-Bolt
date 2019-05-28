@@ -6262,11 +6262,6 @@ PrefabInstance:
       objectReference: {fileID: 1302308800}
     - target: {fileID: 4345156090119470562, guid: ce3fce08f0698144da314db299d757d5,
         type: 3}
-      propertyPath: healthText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4345156090119470562, guid: ce3fce08f0698144da314db299d757d5,
-        type: 3}
       propertyPath: Heart1
       value: 
       objectReference: {fileID: 420178340}
@@ -6360,18 +6355,6 @@ PrefabInstance:
       propertyPath: rightNode7
       value: 
       objectReference: {fileID: 1240853663}
-    - target: {fileID: 5843515882028690917, guid: ce3fce08f0698144da314db299d757d5,
-        type: 3}
-      propertyPath: despairObject
-      value: 
-      objectReference: {fileID: 2783299036597672243, guid: e7b9e910473a4a34fab68a5ff6821234,
-        type: 3}
-    - target: {fileID: 5843515882028690917, guid: ce3fce08f0698144da314db299d757d5,
-        type: 3}
-      propertyPath: personObject
-      value: 
-      objectReference: {fileID: 4529028407753733726, guid: 666cf0067c953a14381b40bdbcd6c4ac,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce3fce08f0698144da314db299d757d5, type: 3}
 --- !u!1001 &1573566927

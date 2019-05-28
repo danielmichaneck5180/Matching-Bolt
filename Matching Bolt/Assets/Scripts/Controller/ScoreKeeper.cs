@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEditor;
+using UnityEditor;
 using System.IO;
 
 public class ScoreKeeper : MonoBehaviour
 {
-    public int maximumHighScoreRows;
+    private int maximumHighScoreRows;
 
     private int score;
     private HighScore highScore;
@@ -15,6 +15,7 @@ public class ScoreKeeper : MonoBehaviour
 
     private void Awake()
     {
+        maximumHighScoreRows = 10;
         score = 0;
         highScore = new HighScore();
         currentScore = new Score("Daniel", 0);
@@ -24,15 +25,31 @@ public class ScoreKeeper : MonoBehaviour
     
     void Update()
     {
-        GetComponent<TextHandler>().SetScoreText(score);
-        currentScore.SetPoints(score);
+        if (GetComponent<TextHandler>() != null)
+        {
+            GetComponent<TextHandler>().SetScoreText(score);
+            currentScore.SetPoints(score);
+        }
     }
 
     private void LoadHighScoreText()
     {
         StreamReader reader = new StreamReader(path);
+        List<string> highScoreString = new List<string>();
+        List<string> highScorePoints = new List<string>();
 
-        
+        while(reader.EndOfStream == false)
+        {
+            highScoreString.Add(reader.ReadLine());
+            highScorePoints.Add(reader.ReadLine());
+        }
+
+        reader.Close();
+
+        for (int i = 0; i < highScoreString.Count; i++)
+        {
+            highScore.AddScore(new Score(highScoreString[i], float.Parse(highScorePoints[i])));
+        }
     }
 
     public void SaveHighscoreText()
@@ -51,7 +68,7 @@ public class ScoreKeeper : MonoBehaviour
         }
 
         writer.Close();
-        //AssetDatabase.ImportAsset(path);
+        AssetDatabase.ImportAsset(path);
     }
 
     public int GetScore()
@@ -71,8 +88,11 @@ public class ScoreKeeper : MonoBehaviour
         dates = new List<System.DateTime>();
 
         // TEMPORARY
-        highScore.RemoveScore(currentScore);
-        highScore.AddScore(currentScore);
+        if (GetComponent<TextHandler>() != null)
+        {
+            highScore.RemoveScore(currentScore);
+            highScore.AddScore(currentScore);
+        }
 
         int index = highScore.GetScoreListSize();
 
