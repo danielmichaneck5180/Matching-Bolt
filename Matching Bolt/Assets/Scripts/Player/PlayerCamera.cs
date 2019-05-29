@@ -24,15 +24,17 @@ public class PlayerCamera : MonoBehaviour
     {
         if (wiimoteEnabled == true)
         {
-            camera.transform.position = startPosition;
+            //camera.transform.position = startPosition;
             float[] infra = new float[3];
             for (int i = 0; i < 3; i++)
             {
                 infra[i] = GetComponent<WiimoteScript>().GetCameraWiimotePosition()[i];
             }
             infra[0] -= 0.5f; infra[1] -= 0.5f;// infra[2] -= 0.5f;
-            Vector3 newVector = new Vector3(infra[0] * invertedHorizontal, infra[1] * invertedVertical * -1, 0);
-            camera.transform.Translate(newVector * cameraSensitivity, Space.Self);
+            Vector3 newVector = new Vector3(infra[0] * invertedHorizontal, 0, infra[1] * invertedVertical * -1);
+            //camera.transform.Translate(newVector * cameraSensitivity, Space.Self);
+            camera.transform.position = startPosition + (newVector * cameraSensitivity);
+            camera.transform.Find("Crossbow").transform.position = new Vector3(0, 0, -25);
         }
         else
         {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.IO;
 
 public class ScoreKeeper : MonoBehaviour
@@ -68,7 +68,7 @@ public class ScoreKeeper : MonoBehaviour
         }
 
         writer.Close();
-        AssetDatabase.ImportAsset(path);
+        //AssetDatabase.ImportAsset(path);
     }
 
     public int GetScore()

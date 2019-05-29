@@ -74,7 +74,7 @@ public class MatchHandler : MonoBehaviour
                 break;
 
             case 1:
-                setup = 1;
+                setup = 0;
                 break;
 
             case 2:
