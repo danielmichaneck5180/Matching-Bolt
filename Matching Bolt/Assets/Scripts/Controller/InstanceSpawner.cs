@@ -35,6 +35,8 @@ public class InstanceSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        spawnTimer = 2f;
+
         instancePlane = transform.parent.Find("Game Plane").Find("Instance Plane").gameObject;
         spawnPoints = new List<GameObject>();
         spawnPoints.Add(leftNode1);
@@ -71,17 +73,20 @@ public class InstanceSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (spawnTimer > 0)
+        if (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetGamePaused() == false)
         {
-            spawnTimer -= Time.deltaTime;
-        }
-        else
-        {
-            if (GetComponent<MatchHandler>().GetPersonCount() < maxInstances)
+            if (spawnTimer > 0)
             {
-                spawnTimer = 1f;
+                spawnTimer -= Time.deltaTime;
+            }
+            else
+            {
+                if (GetComponent<MatchHandler>().GetPersonCount() < maxInstances)
+                {
+                    spawnTimer = Random.Range(1f, 2f);
 
-                SpawnPersonRandom();
+                    SpawnPersonRandom();
+                }
             }
         }
     }

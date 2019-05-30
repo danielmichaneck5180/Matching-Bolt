@@ -7,6 +7,7 @@ public class GameHandler : MonoBehaviour
 {
     private float difficultyMultiplier;
     private bool gameRunning;
+    private bool gamePaused;
 
     void Awake()
     {
@@ -14,6 +15,11 @@ public class GameHandler : MonoBehaviour
         Time.timeScale = 1;
         difficultyMultiplier = 1;
         Cursor.visible = false;
+    }
+
+    private void Start()
+    {
+        GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().RefreshHighscore();
     }
 
     private void Update()
@@ -34,13 +40,13 @@ public class GameHandler : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            if (Time.timeScale == 0)
+            if (gamePaused == true)
             {
-                Time.timeScale = 1;
+                gamePaused = false;
             }
             else
             {
-                Time.timeScale = 0;
+                gamePaused = true;
             }
         }
     }
@@ -57,8 +63,7 @@ public class GameHandler : MonoBehaviour
 
     public void GameOver()
     {
-        GetComponent<ScoreKeeper>().SaveHighscoreText();
-        SceneManager.LoadScene("Main Scene");
+        SceneManager.LoadScene("Input Name Scene");
     }
 
     public void EndGame()
@@ -66,5 +71,15 @@ public class GameHandler : MonoBehaviour
         gameRunning = false;
         GetComponent<TextHandler>().DisplayHighScore();
         Application.Quit();
+    }
+
+    public bool GetGamePaused()
+    {
+        return gamePaused;
+    }
+
+    public void SetGamePaused(bool b)
+    {
+        gamePaused = b;
     }
 }

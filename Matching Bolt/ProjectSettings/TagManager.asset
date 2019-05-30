@@ -16,6 +16,8 @@ TagManager:
   - Start Button
   - How To Play Button
   - Options Button
+  - Score Keeper
+  - Popup
   layers:
   - Default
   - TransparentFX

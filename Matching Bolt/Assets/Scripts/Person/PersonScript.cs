@@ -73,84 +73,45 @@ public class PersonScript : MonoBehaviour
 
     void Update()
     {
-        switch(state)
+        if (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetGamePaused() == false)
         {
-            case PersonState.Normal:
-                if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
-                {
-                    if (i < vectorList.Count - 1)
+            switch (state)
+            {
+                case PersonState.Normal:
+                    if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
                     {
-                        i++;
-                        SetCurrentNode(i);
-                        x = currentNode.GetComponent<NodeScript>().GetXPosition();
-                        z = currentNode.GetComponent<NodeScript>().GetZPosition();
+                        if (i < vectorList.Count - 1)
+                        {
+                            i++;
+                            SetCurrentNode(i);
+                            x = currentNode.GetComponent<NodeScript>().GetXPosition();
+                            z = currentNode.GetComponent<NodeScript>().GetZPosition();
+                        }
+                        else
+                        {
+                            SetRandomPath();
+                            SetCurrentNode(i);
+                        }
                     }
                     else
                     {
-                        SetRandomPath();
-                        SetCurrentNode(i);
-                    }
-                }
-                else
-                {
-                    Vector3 newPos = currentNode.transform.position - transform.position;
-                    newPos.Normalize();
-                    transform.Translate((newPos / 16) * Time.deltaTime * 60, Space.World);
-                }
-                break;
-
-            case PersonState.StraightPath:
-                if (vectorList.Count > 0)
-                {
-                    if (vectorList[vectorList.Count - 1] != new Vector2(15, 3))
-                    {
-                        SetPath(15, 3);
-                    }
-                }
-                else
-                {
-                    SetPath(15, 3);
-                }
-
-                if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
-                {
-                    if (i < vectorList.Count - 1)
-                    {
-                        i++;
-                        SetCurrentNode(i);
-                        x = currentNode.GetComponent<NodeScript>().GetXPosition();
-                        z = currentNode.GetComponent<NodeScript>().GetZPosition();
-                    }
-                    else
-                    {
-                        state = PersonState.MatchEnd;
-                    }
-                }
-                else
-                {
-                    Vector3 newPos = currentNode.transform.position - transform.position;
-                    newPos.Normalize();
-                    if (isMatched == false)
-                    {
+                        Vector3 newPos = currentNode.transform.position - transform.position;
+                        newPos.Normalize();
                         transform.Translate((newPos / 16) * Time.deltaTime * 60, Space.World);
                     }
+                    break;
+
+                case PersonState.StraightPath:
+                    if (vectorList.Count > 0)
+                    {
+                        if (vectorList[vectorList.Count - 1] != new Vector2(15, 3))
+                        {
+                            SetPath(15, 3);
+                        }
+                    }
                     else
                     {
-                        transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
-                    }
-                }
-                break;
-
-            case PersonState.MatchMover:
-                if (matchObject != null)
-                {
-                    if (vectorList.Count <= 0)
-                    {
-                        SetPath(matchObject.GetComponent<PersonScript>().GetPosition()[0], matchObject.GetComponent<PersonScript>().GetPosition()[1]);
-                    }
-                    else if (vectorList[vectorList.Count - 1 ] != new Vector2(matchObject.GetComponent<PersonScript>().GetPosition()[0], matchObject.GetComponent<PersonScript>().GetPosition()[1]))
-                    {
-                        SetPath(matchObject.GetComponent<PersonScript>().GetPosition()[0], matchObject.GetComponent<PersonScript>().GetPosition()[1]);
+                        SetPath(15, 3);
                     }
 
                     if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
@@ -164,58 +125,100 @@ public class PersonScript : MonoBehaviour
                         }
                         else
                         {
-                            state = PersonState.StraightPath;
-                            matchObject.GetComponent<PersonScript>().SetState(1);
+                            state = PersonState.MatchEnd;
                         }
                     }
                     else
                     {
                         Vector3 newPos = currentNode.transform.position - transform.position;
                         newPos.Normalize();
+                        if (isMatched == false)
+                        {
+                            transform.Translate((newPos / 16) * Time.deltaTime * 60, Space.World);
+                        }
+                        else
+                        {
+                            transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
+                        }
+                    }
+                    break;
+
+                case PersonState.MatchMover:
+                    if (matchObject != null)
+                    {
+                        if (vectorList.Count <= 0)
+                        {
+                            SetPath(matchObject.GetComponent<PersonScript>().GetPosition()[0], matchObject.GetComponent<PersonScript>().GetPosition()[1]);
+                        }
+                        else if (vectorList[vectorList.Count - 1] != new Vector2(matchObject.GetComponent<PersonScript>().GetPosition()[0], matchObject.GetComponent<PersonScript>().GetPosition()[1]))
+                        {
+                            SetPath(matchObject.GetComponent<PersonScript>().GetPosition()[0], matchObject.GetComponent<PersonScript>().GetPosition()[1]);
+                        }
+
+                        if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
+                        {
+                            if (i < vectorList.Count - 1)
+                            {
+                                i++;
+                                SetCurrentNode(i);
+                                x = currentNode.GetComponent<NodeScript>().GetXPosition();
+                                z = currentNode.GetComponent<NodeScript>().GetZPosition();
+                            }
+                            else
+                            {
+                                state = PersonState.StraightPath;
+                                matchObject.GetComponent<PersonScript>().SetState(1);
+                            }
+                        }
+                        else
+                        {
+                            Vector3 newPos = currentNode.transform.position - transform.position;
+                            newPos.Normalize();
+                            transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
+                        }
+                    }
+                    break;
+
+                case PersonState.MatchWaiting:
+                    break;
+
+                case PersonState.MatchEnd:
+                    if (Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("MatchEndPoint").transform.position) < 1f)
+                    {
+                        if (GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().GetCurrentMatchSeeker() == gameObject)
+                        {
+                            GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().SetCurrentMatchSeekier(null);
+                        }
+                        GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        Vector3 newPos = GameObject.FindGameObjectWithTag("MatchEndPoint").transform.position - transform.position;
+                        newPos.Normalize();
                         transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
                     }
-                }
-                break;
+                    break;
+            }
 
-            case PersonState.MatchWaiting:
-                break;
-
-            case PersonState.MatchEnd:
-                if (Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("MatchEndPoint").transform.position) < 1f)
+            if (CanBeMatched() == true)
+            {
+                if (showTimer > 0)
                 {
-                    if (GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().GetCurrentMatchSeeker() == gameObject)
-                    {
-                        GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().SetCurrentMatchSeekier(null);
-                    }
-                    GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
-                    Destroy(gameObject);
+                    showTimer -= Time.deltaTime;
                 }
                 else
                 {
-                    Vector3 newPos = GameObject.FindGameObjectWithTag("MatchEndPoint").transform.position - transform.position;
-                    newPos.Normalize();
-                    transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
+                    SetIndicatorVisible(false);
                 }
-                break;
-        }
-
-        if (CanBeMatched() == true)
-        {
-            if (showTimer > 0)
-            {
-                showTimer -= Time.deltaTime;
             }
-            else
-            {
-                SetIndicatorVisible(false);
-            }
-        }
 
-        // Checks if the instance is outside of destroyBoundary and if true destroys it
-        if (originPosition.x + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.y + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.z + Mathf.Abs(transform.position.x) >= destroyBoundary)
-        {
-            GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
-            Destroy(gameObject);
+            // Checks if the instance is outside of destroyBoundary and if true destroys it
+            if (originPosition.x + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.y + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.z + Mathf.Abs(transform.position.x) >= destroyBoundary)
+            {
+                GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+                Destroy(gameObject);
+            }
         }
 
         RotateToCamera();
@@ -264,7 +267,10 @@ public class PersonScript : MonoBehaviour
     private void RotateToCamera()
     {
         sprite.transform.rotation = Quaternion.Euler(Vector3.RotateTowards(sprite.transform.rotation.eulerAngles, player.transform.Find("Main Camera").transform.rotation.eulerAngles, 10000f, 10000f));
-        sprite.transform.rotation = Quaternion.Euler(new Vector3(sprite.transform.rotation.eulerAngles.x + 180, 0, sprite.transform.rotation.eulerAngles.z + directionRotation));
+        sprite.transform.rotation = Quaternion.Euler(new Vector3(sprite.transform.rotation.eulerAngles.x + 180f, 0f, sprite.transform.rotation.eulerAngles.z + directionRotation));
+        Transform indicator = sprite.transform.Find("Sprite").transform.Find("Indicator").transform;
+        indicator.rotation = Quaternion.Euler(Vector3.RotateTowards(indicator.rotation.eulerAngles, indicator.transform.forward, 10000f, 10000f));
+        indicator.rotation = Quaternion.Euler(new Vector3(90f, indicator.rotation.eulerAngles.y, indicator.rotation.eulerAngles.z));
     }
 
     private void ShowInterest()
@@ -377,10 +383,13 @@ public class PersonScript : MonoBehaviour
 
     public void AimedAt()
     {
-        if (isMatchSeeker == false && isMatched == false)
+        if (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetGamePaused() == false)
         {
-            CheckDespair();
-            ShowInterest();
+            if (isMatchSeeker == false && isMatched == false)
+            {
+                CheckDespair();
+                ShowInterest();
+            }
         }
     }
 

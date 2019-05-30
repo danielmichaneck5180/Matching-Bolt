@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 6713786671510250194}
   - component: {fileID: 1107195334822923659}
   - component: {fileID: 4345156090119470562}
-  - component: {fileID: 2243935157838797890}
   - component: {fileID: 5843515882028690917}
   - component: {fileID: 2969412044029610566}
   - component: {fileID: 5594712910059110799}
+  - component: {fileID: 7590667488161254207}
   - component: {fileID: 1260880988}
   m_Layer: 0
   m_Name: Controller
@@ -94,19 +94,6 @@ MonoBehaviour:
   Heart1: {fileID: 0}
   Heart2: {fileID: 0}
   Heart3: {fileID: 0}
---- !u!114 &2243935157838797890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5843515882028690923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce9c7393998974d4fa16c9389fc65ec2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maximumHighScoreRows: 10
 --- !u!114 &5843515882028690917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +162,9 @@ MonoBehaviour:
   despairProjectile: {fileID: 21300000, guid: 7a619cb814528b642b369c71d828140d, type: 3}
   despairProjectileWarning: {fileID: 21300000, guid: 650919896d171734480e78f933b0932f,
     type: 3}
+  popupLover: {fileID: 0}
+  popupInterest: {fileID: 0}
+  popupDespair: {fileID: 0}
 --- !u!114 &5594712910059110799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +182,19 @@ MonoBehaviour:
   giggle: {fileID: 8300000, guid: 1c50f193914be744eab9b5d38de5f127, type: 3}
   shoot: {fileID: 8300000, guid: ea7266779c055344581face80c5f733e, type: 3}
   happy: {fileID: 8300000, guid: f7734956bb03dac499f07c48f38c6f2a, type: 3}
+--- !u!114 &7590667488161254207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5843515882028690923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2224c2eaacb65844b2333d687cbe429, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popup: {fileID: 5034562917731784335, guid: 1a4aae74adbaab94b932069747009d60, type: 3}
 --- !u!82 &1260880988
 AudioSource:
   m_ObjectHideFlags: 0

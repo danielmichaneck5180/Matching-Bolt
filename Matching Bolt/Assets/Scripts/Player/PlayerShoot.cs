@@ -20,11 +20,14 @@ public class PlayerShoot : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) == true || GetComponent<WiimoteScript>().GetBButtonDown() == true)
+        if (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetGamePaused() == false)
         {
-            GameObject.FindGameObjectWithTag("Controller").GetComponent<AudioManager>().PlaySound("Shoot");
-            GameObject projectile = GameObject.Instantiate(playerProjectile, playerCamera.gameObject.transform);
-            projectile.GetComponent<ProjectileScript>().SetVelocityVector(GetComponent<PlayerAim>().GetAimPoint(), projectileSpeed);
+            if (Input.GetMouseButtonDown(0) == true || GetComponent<WiimoteScript>().GetBButtonDown() == true)
+            {
+                GameObject.FindGameObjectWithTag("Controller").GetComponent<AudioManager>().PlaySound("Shoot");
+                GameObject projectile = GameObject.Instantiate(playerProjectile, playerCamera.gameObject.transform);
+                projectile.GetComponent<ProjectileScript>().SetVelocityVector(GetComponent<PlayerAim>().GetAimPoint(), projectileSpeed);
+            }
         }
     }
 }

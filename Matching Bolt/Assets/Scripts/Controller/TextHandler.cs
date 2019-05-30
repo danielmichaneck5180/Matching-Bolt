@@ -101,7 +101,7 @@ public class TextHandler : MonoBehaviour
         List<float> pointsList = new List<float>();
         List<System.DateTime> datesList = new List<System.DateTime>();
 
-        GetComponent<ScoreKeeper>().GetHighScore(out namesList, out pointsList, out datesList);
+        GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().GetHighScore(out namesList, out pointsList, out datesList);
 
         if (namesList.Count != pointsList.Count || namesList.Count != datesList.Count || pointsList.Count != datesList.Count)
         {

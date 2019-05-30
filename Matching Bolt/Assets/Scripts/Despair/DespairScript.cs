@@ -66,101 +66,104 @@ public class DespairScript : MonoBehaviour
 
     private void Update()
     {
-        switch (state)
+        if (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetGamePaused() == false)
         {
-            case DespairState.Start:
-                sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Idle", 0);
-                if (shownPoofAnim == false)
-                {
-                    Instantiate(poofAnimation, sprite.transform);
-                    shownPoofAnim = true;
-                }
-                if (transformTimer > 0)
-                {
-                    transformTimer -= Time.deltaTime;
-                }
-                else
-                {
-                    state = DespairState.Normal;
-                }
-                break;
-
-            case DespairState.Normal:
-                sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Walking", 0);
-                if (currentNode == null)
-                {
-                    Debug.Log("OI");
-                    // TEMPORARY FIX
-                    SetRandomPath();
-                    SetCurrentNode(i);
-                }
-
-                if (throwTimer > 0)
-                {
-                    throwTimer -= Time.deltaTime;
-                }
-                else
-                {
-                    throwTimer = 3f / (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier() - 0.99f);
-                    stopThrowTimer = 1;
-                    Shoot();
-                    state = DespairState.Throw;
-                }
-
-                if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
-                {
-                    if (i < vectorList.Count - 1)
+            switch (state)
+            {
+                case DespairState.Start:
+                    sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Idle", 0);
+                    if (shownPoofAnim == false)
                     {
-                        i++;
-                        SetCurrentNode(i);
-                        x = currentNode.GetComponent<NodeScript>().GetXPosition();
-                        z = currentNode.GetComponent<NodeScript>().GetZPosition();
+                        Instantiate(poofAnimation, sprite.transform);
+                        shownPoofAnim = true;
+                    }
+                    if (transformTimer > 0)
+                    {
+                        transformTimer -= Time.deltaTime;
                     }
                     else
                     {
+                        state = DespairState.Normal;
+                    }
+                    break;
+
+                case DespairState.Normal:
+                    sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Walking", 0);
+                    if (currentNode == null)
+                    {
+                        Debug.Log("OI");
+                        // TEMPORARY FIX
                         SetRandomPath();
                         SetCurrentNode(i);
                     }
-                }
-                else
-                {
-                    Vector3 newPos = currentNode.transform.position - transform.position;
-                    newPos.Normalize();
-                    transform.Translate((newPos / 8 ) * Time.deltaTime * 60, Space.World);
-                }
-                break;
 
-            case DespairState.Throw:
-                sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Throw", 0);
-                if (stopThrowTimer > 0)
-                {
-                    stopThrowTimer -= Time.deltaTime;
-                }
-                else
-                {
-                    state = DespairState.Normal;
-                }
-                break;
+                    if (throwTimer > 0)
+                    {
+                        throwTimer -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        throwTimer = 3f / (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier() - 0.99f);
+                        stopThrowTimer = 1;
+                        Shoot();
+                        state = DespairState.Throw;
+                    }
 
-            case DespairState.End:
-                sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Idle", 0);
-                if (shownTurnAnim == false)
-                {
-                    GameObject.FindGameObjectWithTag("Controller").GetComponent<AudioManager>().PlaySound("Match2");
-                    Instantiate(turnAnimation, transform);
-                    shownTurnAnim = true;
-                }
-                if (endTimer > 0)
-                {
-                    endTimer -= Time.deltaTime;
-                }
-                else
-                {
-                    GameObject.FindGameObjectWithTag("Controller").GetComponent<InstanceSpawner>().SpawnPersonFromDespair(transform.position, x, z, interest);
-                    GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
-                    Destroy(gameObject);
-                }
-                break;
+                    if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
+                    {
+                        if (i < vectorList.Count - 1)
+                        {
+                            i++;
+                            SetCurrentNode(i);
+                            x = currentNode.GetComponent<NodeScript>().GetXPosition();
+                            z = currentNode.GetComponent<NodeScript>().GetZPosition();
+                        }
+                        else
+                        {
+                            SetRandomPath();
+                            SetCurrentNode(i);
+                        }
+                    }
+                    else
+                    {
+                        Vector3 newPos = currentNode.transform.position - transform.position;
+                        newPos.Normalize();
+                        transform.Translate((newPos / 8) * Time.deltaTime * 60, Space.World);
+                    }
+                    break;
+
+                case DespairState.Throw:
+                    sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Throw", 0);
+                    if (stopThrowTimer > 0)
+                    {
+                        stopThrowTimer -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        state = DespairState.Normal;
+                    }
+                    break;
+
+                case DespairState.End:
+                    sprite.transform.Find("Sprite").GetComponent<Animator>().Play("Idle", 0);
+                    if (shownTurnAnim == false)
+                    {
+                        GameObject.FindGameObjectWithTag("Controller").GetComponent<AudioManager>().PlaySound("Match2");
+                        Instantiate(turnAnimation, transform);
+                        shownTurnAnim = true;
+                    }
+                    if (endTimer > 0)
+                    {
+                        endTimer -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        GameObject.FindGameObjectWithTag("Controller").GetComponent<InstanceSpawner>().SpawnPersonFromDespair(transform.position, x, z, interest);
+                        GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+                        Destroy(gameObject);
+                    }
+                    break;
+            }
         }
 
         RotateToCamera();
@@ -236,7 +239,7 @@ public class DespairScript : MonoBehaviour
 
     public void HitDespair()
     {
-        GameObject.FindGameObjectWithTag("Controller").GetComponent<ScoreKeeper>().AddPoints(1);
+        GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(1);
         state = DespairState.End;
     }
 

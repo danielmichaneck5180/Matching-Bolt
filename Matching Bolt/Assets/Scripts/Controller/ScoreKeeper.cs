@@ -15,20 +15,25 @@ public class ScoreKeeper : MonoBehaviour
 
     private void Awake()
     {
-        maximumHighScoreRows = 10;
-        score = 0;
-        highScore = new HighScore();
-        currentScore = new Score("Daniel", 0);
+        if (GameObject.FindGameObjectsWithTag("Score Keeper").Length > 1)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
         path = "Assets/Text/Highscore.txt";
-        LoadHighScoreText();
+        maximumHighScoreRows = 10;
+        RefreshHighscore();
     }
     
     void Update()
     {
-        if (GetComponent<TextHandler>() != null)
+        if (GameObject.FindGameObjectWithTag("Controller") != null)
         {
-            GetComponent<TextHandler>().SetScoreText(score);
-            currentScore.SetPoints(score);
+            if (GameObject.FindGameObjectWithTag("Controller").GetComponent<TextHandler>() != null)
+            {
+                GameObject.FindGameObjectWithTag("Controller").GetComponent<TextHandler>().SetScoreText(score);
+                currentScore.SetPoints(score);
+            }
         }
     }
 
@@ -45,15 +50,25 @@ public class ScoreKeeper : MonoBehaviour
         }
 
         reader.Close();
-
         for (int i = 0; i < highScoreString.Count; i++)
         {
             highScore.AddScore(new Score(highScoreString[i], float.Parse(highScorePoints[i])));
         }
     }
 
+    public void RefreshHighscore()
+    {
+        score = 0;
+        highScore = new HighScore();
+        currentScore = new Score("No name", 0);
+        LoadHighScoreText();
+    }
+
     public void SaveHighscoreText()
     {
+        highScore.RemoveScore(currentScore);
+        highScore.AddScore(currentScore);
+
         GetHighScore(out List<string> names, out List<float> points, out List<System.DateTime> dates);
 
         StreamWriter writer = new StreamWriter(path, false);
@@ -81,26 +96,25 @@ public class ScoreKeeper : MonoBehaviour
         score += points;
     }
 
+    public void SetPlayerName(string n)
+    {
+        currentScore.SetName(n);
+    }
+
+    public int GetMaximumHighscoreRows()
+    {
+        return maximumHighScoreRows;
+    }
+
     public bool GetHighScore(out List<string> names, out List<float> points, out List<System.DateTime> dates)
     {
         names = new List<string>();
         points = new List<float>();
         dates = new List<System.DateTime>();
 
-        // TEMPORARY
-        if (GetComponent<TextHandler>() != null)
-        {
-            highScore.RemoveScore(currentScore);
-            highScore.AddScore(currentScore);
-        }
-
         int index = highScore.GetScoreListSize();
 
-        if (index > maximumHighScoreRows)
-        {
-            index = maximumHighScoreRows;
-        }
-        else if (index == 0)
+        if (index < 1)
         {
             return false;
         }
@@ -115,6 +129,40 @@ public class ScoreKeeper : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void GetHighScoreToDisplay(out List<string> names, out List<float> points)
+    {
+        names = new List<string>();
+        points = new List<float>();
+
+        GetHighScore(out names, out points, out List<System.DateTime> dates);
+
+        if (names.Count > maximumHighScoreRows)
+        {
+            Debug.Log("Max: " + maximumHighScoreRows + " Count: " + names.Count);
+            while (names.Count > maximumHighScoreRows)
+            {
+                names.RemoveAt(maximumHighScoreRows);
+                points.RemoveAt(maximumHighScoreRows);
+            }
+        }
+    }
+
+    public void GetHighScoreToDisplayCurrent(out string name, out float points, out int place)
+    {
+        name = currentScore.GetName();
+        points = currentScore.GetPoints();
+        place = highScore.GetScoreListSize();
+
+        for (int i = 0; i < highScore.GetScoreListSize(); i++)
+        {
+            if (highScore.GetScoreList()[i] == currentScore)
+            {
+                place = i + 1;
+                i = highScore.GetScoreListSize();
+            }
+        }
     }
 
     private class HighScore
@@ -212,6 +260,11 @@ public class ScoreKeeper : MonoBehaviour
         public void SetPoints(float newPoints)
         {
             points = newPoints;
+        }
+
+        public void SetName(string newName)
+        {
+            name = newName;
         }
 
         public string GetName()

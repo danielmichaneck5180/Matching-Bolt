@@ -23,10 +23,6 @@ public class MatchHandler : MonoBehaviour
     {
         if (currentMatchSeeker == null)
         {
-            if (personList.Count < 1)
-            {
-                GetComponent<InstanceSpawner>().SpawnPersonRandom();
-            }
             currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnMatchSeeker();
             currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
             matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
@@ -74,7 +70,7 @@ public class MatchHandler : MonoBehaviour
                 break;
 
             case 1:
-                setup = 0;
+                setup = 3;
                 break;
 
             case 2:
@@ -155,12 +151,12 @@ public class MatchHandler : MonoBehaviour
                 GetComponent<AudioManager>().PlaySound("Match1");
                 currentMatchSeeker.GetComponent<PersonScript>().FoundMatch(newMatch);
                 currentMatchSeeker = null;
-                GetComponent<ScoreKeeper>().AddPoints(2);
+                GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(2);
             }
         }
-        else if (GetComponent<ScoreKeeper>().GetScore() > 0)
+        else if (GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().GetScore() > 0)
         {
-            GetComponent<ScoreKeeper>().AddPoints(-1);
+            GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(-1);
         }
     }
 
@@ -218,5 +214,10 @@ public class MatchHandler : MonoBehaviour
         }
         despairList.RemoveAt(0);
         return returnBool;
+    }
+
+    public GameObject GetFirstPerson()
+    {
+        return personList[0];
     }
 }

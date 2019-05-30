@@ -36,6 +36,11 @@ public class SpriteReferences : MonoBehaviour
     public Sprite despairProjectile;
     public Sprite despairProjectileWarning;
 
+    // Popup tutorial messages
+    public Sprite popupLover;
+    public Sprite popupInterest;
+    public Sprite popupDespair;
+
     public Sprite GetInterest(int number)
     {
         switch(number)
@@ -158,6 +163,24 @@ public class SpriteReferences : MonoBehaviour
 
             default:
                 return HeartFull;
+        }
+    }
+
+    public Sprite GetPopup(string message)
+    {
+        switch (message)
+        {
+            case "Lover":
+                return popupLover;
+
+            case "Interest":
+                return popupInterest;
+
+            case "Despair":
+                return popupDespair;
+
+            default:
+                return popupLover;
         }
     }
 }
