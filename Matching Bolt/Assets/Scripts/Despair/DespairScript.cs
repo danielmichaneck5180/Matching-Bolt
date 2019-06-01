@@ -128,7 +128,12 @@ public class DespairScript : MonoBehaviour
                     {
                         Vector3 newPos = currentNode.transform.position - transform.position;
                         newPos.Normalize();
-                        transform.Translate((newPos / 8) * Time.deltaTime * 60, Space.World);
+                        float difMulti = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier() / 3f;
+                        if (difMulti > 3f)
+                        {
+                            difMulti = 3f;
+                        }
+                        transform.Translate((newPos / 8) * Time.deltaTime * 60 * difMulti, Space.World);
                     }
                     break;
 

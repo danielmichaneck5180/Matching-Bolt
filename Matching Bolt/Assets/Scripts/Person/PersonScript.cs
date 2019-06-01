@@ -34,6 +34,9 @@ public class PersonScript : MonoBehaviour
     private float previousX;
     private float directionRotation;
 
+    private float minY;
+    private float maxY;
+
     private void Awake()
     {
         previousX = transform.position.x;
@@ -44,7 +47,15 @@ public class PersonScript : MonoBehaviour
         sprite = transform.Find("Rotation").gameObject;
         indicator = sprite.transform.Find("Sprite").transform.Find("Indicator").gameObject;
         SetIndicatorVisible(false);
-        SetInterest(Mathf.RoundToInt(Random.Range(0, conspr.GetMaxInterests() - 1)));
+        int i = GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().GetQueuedInterest();
+        if (i > -1)
+        {
+            SetInterest(i);
+        }
+        else
+        {
+            SetInterest(Mathf.RoundToInt(Random.Range(0, conspr.GetMaxInterests() - 1)));
+        }
         sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = conspr.GetRandomPerson();
 
         vectorList = new List<Vector2>();
@@ -232,25 +243,8 @@ public class PersonScript : MonoBehaviour
 
     private void SetRandomPath()
     {
-        if (isMatchSeeker == true)
-        {
-            Debug.Log("Wat");
-        }
         int goX = Mathf.RoundToInt(Random.Range(1f, 14f));
-        int goZ = Mathf.RoundToInt(Random.Range(0f, 7f));
-
-        for (int i = 0; i < 10; i++)
-        {
-            if (goZ == 3)
-            {
-                goZ = Mathf.RoundToInt(Random.Range(0f, 7f));
-            }
-        }
-
-        if (goZ == 3)
-        {
-            goZ = 4;
-        }
+        int goZ = Mathf.RoundToInt(Random.Range(minY, maxY));
 
         vectorList = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().Pathfind(x, z, goX, goZ);
         currentNode = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetNode(vectorList[0]);
@@ -407,6 +401,28 @@ public class PersonScript : MonoBehaviour
     public void SetDespairStatus()
     {
         knownDespairStatus = true;
+    }
+
+    public void SetRandomPosition(int setX, int setZ)
+    {
+        if (setZ == 3)
+        {
+            setZ = 2;
+        }
+
+        if (setZ > 3)
+        {
+            minY = 4;
+            maxY = GameObject.FindGameObjectWithTag("Node Spawner").GetComponent<NodeHandler>().GetGridHeight() - 1;
+        }
+        else
+        {
+            minY = 0;
+            maxY = 2;
+        }
+
+        x = setX;
+        z = setZ;
     }
 
     public void SetPosition(int setX, int setZ)

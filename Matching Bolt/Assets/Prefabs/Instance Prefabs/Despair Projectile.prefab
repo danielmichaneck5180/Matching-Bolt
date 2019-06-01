@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 2120252015136236959}
   - component: {fileID: 1118113463348689541}
   m_Layer: 0
-  m_Name: Despairweapon _Skull
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

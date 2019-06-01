@@ -143,6 +143,9 @@ public class SpriteReferences : MonoBehaviour
     {
         switch (type)
         {
+            case "Normal":
+                return despairProjectile;
+
             case "Warning":
                 return despairProjectileWarning;
 

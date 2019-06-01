@@ -60,7 +60,13 @@ public class DespairProjectileScript : MonoBehaviour
             targetPosition = new Vector3(0f, 1000f, 0f);
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime * (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier() - 0.99f));
+        float difMulti = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier() / 3f;
+        if (difMulti > 3f)
+        {
+            difMulti = 3f;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime * difMulti);
 
         // Checks if the projectile is outside of destroyBoundary and if true destroys it
         if (originPosition.x + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.y + Mathf.Abs(transform.position.x) >= destroyBoundary || originPosition.z + Mathf.Abs(transform.position.x) >= destroyBoundary)
@@ -87,12 +93,14 @@ public class DespairProjectileScript : MonoBehaviour
         ray = new Ray(transform.position, rayDirection);
         if (Vector3.Distance(ray.GetPoint(Vector3.Distance(transform.position, targetPosition)), targetPosition) < 2f)
         {
-            Debug.Log("OI");
+            //Debug.Log("OI");
         }
-        
+
         //Debug.Log(ray.GetPoint(Vector3.Distance(transform.position, targetPosition)).y);
         //Debug.Log(ray.GetPoint(10f).y);
-        if (Physics.Raycast(ray, out RaycastHit rayHit, Mathf.Infinity, LayerMask.GetMask("Player")) != gonnaHit)
+        bool tempHit = gonnaHit;
+        gonnaHit = Physics.Raycast(ray, out RaycastHit rayHit, Mathf.Infinity, LayerMask.GetMask("Player"));
+        if (gonnaHit != tempHit)
         {
             Debug.Log("DespairProjectileScirpt::CheckCollisionCourse HIT");
             SetSprite(gonnaHit);
@@ -110,16 +118,16 @@ public class DespairProjectileScript : MonoBehaviour
 
     private void SetSprite(bool hit)
     {
-        return;
         switch (hit)
         {
             case true:
-                Debug.Log("OINDF");
+                Debug.Log("HEY");
                 sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetDespairProjectile("Warning");
                 break;
 
             default:
-                sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetDespairProjectile("Warning");
+                Debug.Log("YO");
+                sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetDespairProjectile("Normal");
                 break;
         }
     }

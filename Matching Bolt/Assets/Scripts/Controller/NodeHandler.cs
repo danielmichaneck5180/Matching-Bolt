@@ -40,6 +40,11 @@ public class NodeHandler : MonoBehaviour
         }
     }
 
+    public int GetGridHeight()
+    {
+        return gridHeight;
+    }
+
     public void DisableNode(int x, int z)
     {
         nodeList[(gridHeight * x) + z].GetComponent<NodeScript>().SetEnabled(false);

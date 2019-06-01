@@ -83,7 +83,14 @@ public class InstanceSpawner : MonoBehaviour
             {
                 if (GetComponent<MatchHandler>().GetPersonCount() < maxInstances)
                 {
-                    spawnTimer = Random.Range(1f, 2f);
+                    if (GetComponent<MatchHandler>().GetPersonCount() < 6)
+                    {
+                        spawnTimer = Random.Range(0.75f, 1.5f);
+                    }
+                    else
+                    {
+                        spawnTimer = Random.Range(1f, 2f);
+                    }
 
                     SpawnPersonRandom();
                 }
@@ -109,59 +116,59 @@ public class InstanceSpawner : MonoBehaviour
         switch (pos)
         {
             case 0:
-                instance.GetComponent<PersonScript>().SetPosition(0, 0);
+                instance.GetComponent<PersonScript>().SetRandomPosition(0, 0);
                 break;
 
             case 1:
-                instance.GetComponent<PersonScript>().SetPosition(0, 1);
+                instance.GetComponent<PersonScript>().SetRandomPosition(0, 1);
                 break;
 
             case 2:
-                instance.GetComponent<PersonScript>().SetPosition(0, 2);
+                instance.GetComponent<PersonScript>().SetRandomPosition(0, 2);
                 break;
 
             case 3:
-                instance.GetComponent<PersonScript>().SetPosition(0, 5);
+                instance.GetComponent<PersonScript>().SetRandomPosition(0, 5);
                 break;
 
             case 4:
-                instance.GetComponent<PersonScript>().SetPosition(0, 6);
+                instance.GetComponent<PersonScript>().SetRandomPosition(0, 6);
                 break;
 
             case 5:
-                instance.GetComponent<PersonScript>().SetPosition(0, 7);
+                instance.GetComponent<PersonScript>().SetRandomPosition(0, 7);
                 break;
 
             case 6:
-                instance.GetComponent<PersonScript>().SetPosition(0, 8);
+                instance.GetComponent<PersonScript>().SetRandomPosition(0, 8);
                 break;
 
             case 7:
-                instance.GetComponent<PersonScript>().SetPosition(15, 0);
+                instance.GetComponent<PersonScript>().SetRandomPosition(15, 0);
                 break;
 
             case 8:
-                instance.GetComponent<PersonScript>().SetPosition(15, 1);
+                instance.GetComponent<PersonScript>().SetRandomPosition(15, 1);
                 break;
 
             case 9:
-                instance.GetComponent<PersonScript>().SetPosition(15, 2);
+                instance.GetComponent<PersonScript>().SetRandomPosition(15, 2);
                 break;
 
             case 10:
-                instance.GetComponent<PersonScript>().SetPosition(15, 5);
+                instance.GetComponent<PersonScript>().SetRandomPosition(15, 5);
                 break;
 
             case 11:
-                instance.GetComponent<PersonScript>().SetPosition(15, 6);
+                instance.GetComponent<PersonScript>().SetRandomPosition(15, 6);
                 break;
 
             case 12:
-                instance.GetComponent<PersonScript>().SetPosition(15, 7);
+                instance.GetComponent<PersonScript>().SetRandomPosition(15, 7);
                 break;
 
             case 13:
-                instance.GetComponent<PersonScript>().SetPosition(15, 8);
+                instance.GetComponent<PersonScript>().SetRandomPosition(15, 8);
                 break;
         }
 
@@ -174,7 +181,7 @@ public class InstanceSpawner : MonoBehaviour
     {
         GameObject instance = Instantiate(personObject, instancePlane.transform);
         instance.transform.position = spawnVector;
-        instance.GetComponent<PersonScript>().SetPosition(x, z);
+        instance.GetComponent<PersonScript>().SetRandomPosition(x, z);
         instance.GetComponent<PersonScript>().SetInterest(i);
         GetComponent<MatchHandler>().AddPerson(instance);
         return instance;

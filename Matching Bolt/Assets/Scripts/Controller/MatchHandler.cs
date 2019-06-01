@@ -9,58 +9,68 @@ public class MatchHandler : MonoBehaviour
 
     private GameObject currentMatchSeeker;
 
-    //TEMPORARY
     private int matchInterest;
+    private int queuedInterest;
+    private List<int> queuedInterestList;
 
     private void Awake()
     {
         personList = new List<GameObject>();
         ResetDespairList();
         matchInterest = 0;
+        queuedInterest = -1;
+        queuedInterestList = new List<int>();
     }
 
     private void Start()
     {
-        if (currentMatchSeeker == null)
-        {
-            currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnMatchSeeker();
-            currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
-            matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
-        }
+        UpdateMatchSeeker();
     }
 
     private void Update()
     {
+        UpdateMatchSeeker();
+    }
+
+    private void UpdateMatchSeeker()
+    {
         if (currentMatchSeeker == null)
         {
-            if (personList.Count < 1)
-            {
-                GetComponent<InstanceSpawner>().SpawnPersonRandom();
-            }
             Debug.Log("Spawned matchseeker");
             currentMatchSeeker = GetComponent<InstanceSpawner>().SpawnMatchSeeker();
             currentMatchSeeker.GetComponent<PersonScript>().BecomeMatchSeeker();
-            List<int> list = new List<int>();
-            for (int i = 0; i < personList.Count; i++)
+            if (personList.Count < 1)
             {
-                if (personList[i].GetComponent<PersonScript>() != null)
+
+                matchInterest = currentMatchSeeker.GetComponent<PersonScript>().GetInterest();
+                queuedInterest = matchInterest;
+                Debug.Log("Interest queued");
+            }
+            else
+            {
+                queuedInterest = -1;
+                List<int> list = new List<int>();
+                for (int i = 0; i < personList.Count; i++)
                 {
-                    if (list.Contains(personList[i].GetComponent<PersonScript>().GetInterest()) == false)
+                    if (personList[i].GetComponent<PersonScript>() != null)
                     {
-                        list.Add(personList[i].GetComponent<PersonScript>().GetInterest());
+                        if (list.Contains(personList[i].GetComponent<PersonScript>().GetInterest()) == false)
+                        {
+                            list.Add(personList[i].GetComponent<PersonScript>().GetInterest());
+                        }
                     }
                 }
+                int rMatch = Mathf.FloorToInt(Random.Range(0f, list.Count - 0.001f));
+                matchInterest = list[rMatch];
+                currentMatchSeeker.GetComponent<PersonScript>().SetInterest(matchInterest);
             }
-            int rMatch = Mathf.FloorToInt(Random.Range(0f, list.Count - 0.001f));
-            matchInterest = list[rMatch];
-            currentMatchSeeker.GetComponent<PersonScript>().SetInterest(matchInterest);
         }
     }
 
     private void ResetDespairList()
     {
         float dif = Mathf.FloorToInt(GetComponent<GameHandler>().GetDifficultyMultiplier());
-        int setup = 0;
+        int setup;
         despairList = new List<bool>();
 
         switch (dif)
@@ -70,7 +80,7 @@ public class MatchHandler : MonoBehaviour
                 break;
 
             case 1:
-                setup = 3;
+                setup = 0;
                 break;
 
             case 2:
@@ -81,8 +91,16 @@ public class MatchHandler : MonoBehaviour
                 setup = 2;
                 break;
 
-            default:
+            case 4:
                 setup = 3;
+                break;
+
+            case 5:
+                setup = 3;
+                break;
+
+            default:
+                setup = 4;
                 break;
         }
 
@@ -125,8 +143,22 @@ public class MatchHandler : MonoBehaviour
                 }
                 break;
 
-            default:
+            case 3:
                 despairList.Add(false);
+                if (Random.Range(0f, 2f) < 1f)
+                {
+
+                    despairList.Add(true);
+                    despairList.Add(false);
+                }
+                else
+                {
+                    despairList.Add(false);
+                    despairList.Add(true);
+                }
+                break;
+
+            default:
                 if (Random.Range(0f, 2f) < 1f)
                 {
 
@@ -157,6 +189,68 @@ public class MatchHandler : MonoBehaviour
         else if (GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().GetScore() > 0)
         {
             GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(-1);
+        }
+    }
+
+    private void SetQueuedInterest()
+    {
+        int rand = Mathf.FloorToInt(Random.Range(0f, 2.999f));
+        switch (rand)
+        {
+            case 0:
+                queuedInterestList.Add(matchInterest);
+                queuedInterestList.Add(-1);
+                queuedInterestList.Add(-1);
+                break;
+
+            case 1:
+                queuedInterestList.Add(-1);
+                queuedInterestList.Add(matchInterest);
+                queuedInterestList.Add(-1);
+                break;
+
+            case 2:
+                queuedInterestList.Add(-1);
+                queuedInterestList.Add(-1);
+                queuedInterestList.Add(matchInterest);
+                break;
+
+            default:
+                queuedInterestList.Add(matchInterest);
+                queuedInterestList.Add(-1);
+                queuedInterestList.Add(-1);
+                break;
+        }
+    }
+
+    public int GetQueuedInterest()
+    {
+        if (queuedInterest > -1)
+        {
+            if (queuedInterestList.Count < 1)
+            {
+                SetQueuedInterest();
+            }
+            else if (queuedInterestList.Contains(matchInterest) == false)
+            {
+                SetQueuedInterest();
+            }
+
+            int returnInterest = queuedInterestList[0];
+
+            if (returnInterest > -1)
+            {
+                queuedInterest = -1;
+            }
+            else
+            {
+                queuedInterestList.RemoveAt(0);
+            }
+            return returnInterest;
+        }
+        else
+        {
+            return -1;
         }
     }
 
