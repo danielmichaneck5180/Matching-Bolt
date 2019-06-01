@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Human 8 Override Controller 6
+  m_Controller: {fileID: 9100000, guid: 3453ab37b59a49446b6d74c99a319e0a, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 2f4470147f6a1374c843263eef976fa1, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ea0baee3c3cad444484ccc492d17ab46, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: aee1864ea991c7e4cb70206f77c00f3d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: aee1864ea991c7e4cb70206f77c00f3d, type: 2}

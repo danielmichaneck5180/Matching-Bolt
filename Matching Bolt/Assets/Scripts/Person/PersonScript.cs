@@ -7,6 +7,8 @@ public class PersonScript : MonoBehaviour
     public float destroyBoundary;
     public GameObject player;
     public GameObject heartAnimation;
+    private RuntimeAnimatorController animatorController;
+    private Animator animator;
 
     private bool isMatchSeeker;
     private bool isMatched;
@@ -56,7 +58,10 @@ public class PersonScript : MonoBehaviour
         {
             SetInterest(Mathf.RoundToInt(Random.Range(0, conspr.GetMaxInterests() - 1)));
         }
-        sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = conspr.GetRandomPerson();
+        animatorController = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetRandomPerson();
+        animator = sprite.transform.Find("Sprite").GetComponent<Animator>();
+        animator.runtimeAnimatorController = animatorController;
+        //sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = conspr.GetRandomPerson();
 
         vectorList = new List<Vector2>();
 
@@ -89,6 +94,7 @@ public class PersonScript : MonoBehaviour
             switch (state)
             {
                 case PersonState.Normal:
+                    animator.Play("Walking");
                     if (Vector3.Distance(transform.position, currentNode.transform.position) < 1f)
                     {
                         if (i < vectorList.Count - 1)
@@ -113,6 +119,7 @@ public class PersonScript : MonoBehaviour
                     break;
 
                 case PersonState.StraightPath:
+                    animator.Play("Walking");
                     if (vectorList.Count > 0)
                     {
                         if (vectorList[vectorList.Count - 1] != new Vector2(15, 3))
@@ -155,6 +162,7 @@ public class PersonScript : MonoBehaviour
                     break;
 
                 case PersonState.MatchMover:
+                    animator.Play("Walking");
                     if (matchObject != null)
                     {
                         if (vectorList.Count <= 0)
@@ -191,6 +199,7 @@ public class PersonScript : MonoBehaviour
                     break;
 
                 case PersonState.MatchWaiting:
+                    animator.Play("Idle");
                     break;
 
                 case PersonState.MatchEnd:

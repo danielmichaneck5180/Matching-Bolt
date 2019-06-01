@@ -21,10 +21,16 @@ public class SpriteReferences : MonoBehaviour
     public Sprite HeartHalf;
 
     // Persons
-    public Sprite Person1;
-    public Sprite Person2;
-    public Sprite Person3;
-    public Sprite Person4;
+    public RuntimeAnimatorController Person1;
+    public RuntimeAnimatorController Person2;
+    public RuntimeAnimatorController Person3;
+    public RuntimeAnimatorController Person4;
+    public RuntimeAnimatorController Person5;
+    public RuntimeAnimatorController Person6;
+    public RuntimeAnimatorController Person7;
+    public RuntimeAnimatorController Person8;
+    public RuntimeAnimatorController Person9;
+    public RuntimeAnimatorController Person10;
 
     // Despairs
     public RuntimeAnimatorController Despair1;
@@ -82,7 +88,7 @@ public class SpriteReferences : MonoBehaviour
         return 8;
     }
 
-    public Sprite GetPerson(int number)
+    public RuntimeAnimatorController GetPerson(int number)
     {
         switch(number)
         {
@@ -95,19 +101,37 @@ public class SpriteReferences : MonoBehaviour
             case 2:
                 return Person4;
 
+            case 3:
+                return Person5;
+
+            case 4:
+                return Person6;
+
+            case 5:
+                return Person7;
+
+            case 6:
+                return Person8;
+
+            case 7:
+                return Person9;
+
+            case 8:
+                return Person10;
+
             default:
                 return Person1;
         }
     }
 
-    public Sprite GetRandomPerson()
+    public RuntimeAnimatorController GetRandomPerson()
     {
         return GetPerson(Mathf.FloorToInt(Random.Range(0, GetMaxPersons() + 0.999f)));
     }
 
     public int GetMaxPersons()
     {
-        return 4;
+        return 9;
     }
 
     public RuntimeAnimatorController GetDespair(int number)

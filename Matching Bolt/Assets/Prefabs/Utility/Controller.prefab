@@ -151,10 +151,16 @@ MonoBehaviour:
   HeartFull: {fileID: 21300000, guid: 4fb41c1928d5c1147a65b6b2e99832cf, type: 3}
   HeartFractured: {fileID: 21300000, guid: 8b37a15aa13a51b46acd7967835b4c64, type: 3}
   HeartHalf: {fileID: 21300000, guid: df068172ae0ec1c4ea9b0552014a3765, type: 3}
-  Person1: {fileID: 21300000, guid: adb64fc19c16d6c4abf896010cd66a6f, type: 3}
-  Person2: {fileID: 21300000, guid: 9e4ca6460a1992e40b746d95df9cc16b, type: 3}
-  Person3: {fileID: 21300000, guid: fb033f6c52346d542870b6c6abe9194b, type: 3}
-  Person4: {fileID: 21300000, guid: 11208bcaa6355fe4ab16beb7b33ebc68, type: 3}
+  Person1: {fileID: 22100000, guid: 85aeb9b5edaaa6a47b96ab5087a2800a, type: 2}
+  Person2: {fileID: 22100000, guid: 1eb2579d7061582489171352a8fe7bed, type: 2}
+  Person3: {fileID: 22100000, guid: 9ef83d68666ee794b9ee5273f406cd57, type: 2}
+  Person4: {fileID: 22100000, guid: e29d4a2b1b28e1440a02d5cde3ab353f, type: 2}
+  Person5: {fileID: 22100000, guid: 5ab7c515c3153d24dbf3b690756c4db0, type: 2}
+  Person6: {fileID: 22100000, guid: 4de891244cea1ca4b8fca284df057bba, type: 2}
+  Person7: {fileID: 22100000, guid: 93d487a3a11260e4db1e2d07075ce9a8, type: 2}
+  Person8: {fileID: 22100000, guid: 49b8d6a32e54edc4984f3c9f08d4203b, type: 2}
+  Person9: {fileID: 22100000, guid: 305955943243af74d9177b370863728c, type: 2}
+  Person10: {fileID: 22100000, guid: f514af84e3c490346888cc9833bf7fdf, type: 2}
   Despair1: {fileID: 22100000, guid: d0a8b05698e79d240930b5c0267b9c86, type: 2}
   Despair2: {fileID: 22100000, guid: 382ded53be407ba4c8fa2c036b8d5318, type: 2}
   Despair3: {fileID: 22100000, guid: 2be1963169f394d4e81d84617f14de9f, type: 2}
