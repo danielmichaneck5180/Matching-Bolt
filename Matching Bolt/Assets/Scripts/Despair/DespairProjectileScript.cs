@@ -11,10 +11,10 @@ public class DespairProjectileScript : MonoBehaviour
     private Vector3 originPosition;
     private GameObject sprite;
     private GameObject player;
-
+    /*
     private GameObject line;
     private LineRenderer lineRenderer;
-    private Vector3[] linePositions;
+    private Vector3[] linePositions;*/
     private Ray ray;
 
     private bool gonnaHit;
@@ -31,10 +31,10 @@ public class DespairProjectileScript : MonoBehaviour
 
     private void Awake()
     {
-        previousPosition = transform.position;
+        previousPosition = transform.position;/*
         line = transform.Find("Line").gameObject;
         linePositions = new Vector3[2];
-        lineRenderer = line.GetComponent<LineRenderer>();
+        lineRenderer = line.GetComponent<LineRenderer>();*/
         gonnaHit = false;
         ray = new Ray
         {
@@ -69,8 +69,8 @@ public class DespairProjectileScript : MonoBehaviour
         }
 
         RotateToCamera();
-        line.SetActive(false);
-        //CheckCollisionCourse();
+        //line.SetActive(false);
+        CheckCollisionCourse();
     }
 
     private void RotateToCamera()
@@ -81,7 +81,7 @@ public class DespairProjectileScript : MonoBehaviour
 
     private void CheckCollisionCourse()
     {
-        Vector3 rayDirection = transform.position - targetPosition;
+        Vector3 rayDirection = targetPosition - transform.position;
         //Debug.Log(rayDirection.x + " " + rayDirection.y + " " + rayDirection.z);
         rayDirection.Normalize();
         ray = new Ray(transform.position, rayDirection);
@@ -89,14 +89,17 @@ public class DespairProjectileScript : MonoBehaviour
         {
             Debug.Log("OI");
         }
-        /*
+        
         //Debug.Log(ray.GetPoint(Vector3.Distance(transform.position, targetPosition)).y);
         //Debug.Log(ray.GetPoint(10f).y);
-        if (Physics.Raycast(ray, out RaycastHit rayHit, 100000f, LayerMask.GetMask("Player")) != gonnaHit)
+        if (Physics.Raycast(ray, out RaycastHit rayHit, Mathf.Infinity, LayerMask.GetMask("Player")) != gonnaHit)
         {
-            //SetSprite(gonnaHit);
-        }*/
+            Debug.Log("DespairProjectileScirpt::CheckCollisionCourse HIT");
+            SetSprite(gonnaHit);
+        }
         //if (gonnaHit == true)
+        /*
+
         {
             linePositions[0] = transform.position;
             linePositions[1] = ray.GetPoint(Vector3.Distance(transform.position, targetPosition));
@@ -107,6 +110,7 @@ public class DespairProjectileScript : MonoBehaviour
 
     private void SetSprite(bool hit)
     {
+        return;
         switch (hit)
         {
             case true:
@@ -118,5 +122,11 @@ public class DespairProjectileScript : MonoBehaviour
                 sprite.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetDespairProjectile("Warning");
                 break;
         }
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(ray);
     }
 }

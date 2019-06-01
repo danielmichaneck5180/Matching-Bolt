@@ -4181,12 +4181,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 482404022, guid: e295f82dd77d07d45a28e3204cd247b2, type: 3}
       propertyPath: wiimoteEnabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2838737437951764553, guid: e295f82dd77d07d45a28e3204cd247b2,
         type: 3}
       propertyPath: wiimoteEnabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e295f82dd77d07d45a28e3204cd247b2, type: 3}
