@@ -183,6 +183,7 @@ public class InstanceSpawner : MonoBehaviour
         instance.transform.position = spawnVector;
         instance.GetComponent<PersonScript>().SetRandomPosition(x, z);
         instance.GetComponent<PersonScript>().SetInterest(i);
+        instance.GetComponent<PersonScript>().SetKnownDespairStatus(true);
         GetComponent<MatchHandler>().AddPerson(instance);
         return instance;
     }

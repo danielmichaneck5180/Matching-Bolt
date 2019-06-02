@@ -407,9 +407,9 @@ public class PersonScript : MonoBehaviour
         indicator.GetComponent<SpriteRenderer>().sprite = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetInterest(interest);
     }
 
-    public void SetDespairStatus()
+    public void SetKnownDespairStatus(bool b)
     {
-        knownDespairStatus = true;
+        knownDespairStatus = b;
     }
 
     public void SetRandomPosition(int setX, int setZ)
