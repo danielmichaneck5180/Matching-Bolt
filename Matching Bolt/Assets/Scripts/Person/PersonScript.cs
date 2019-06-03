@@ -208,9 +208,13 @@ public class PersonScript : MonoBehaviour
                         if (GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().GetCurrentMatchSeeker() == gameObject)
                         {
                             GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().SetCurrentMatchSeekier(null);
+                            TurnToDespair();
                         }
-                        GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
-                        Destroy(gameObject);
+                        else
+                        {
+                            GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
+                            Destroy(gameObject);
+                        }
                     }
                     else
                     {
