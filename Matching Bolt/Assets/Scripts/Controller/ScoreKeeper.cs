@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEditor;
+using UnityEditor;
 using System.IO;
 
 public class ScoreKeeper : MonoBehaviour
@@ -11,7 +11,8 @@ public class ScoreKeeper : MonoBehaviour
     private int score;
     private HighScore highScore;
     private Score currentScore;
-    string path;
+    private string path;
+    private TextAsset scoreFile;
 
     private void Awake()
     {
@@ -20,7 +21,9 @@ public class ScoreKeeper : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-        path = "Assets/Text/Highscore.txt";
+        scoreFile = Resources.Load("Highscore") as TextAsset;
+        //path = AssetDatabase.GetAssetPath(scoreFile);
+        path = "Assets/Resources/Highscore.txt";
         maximumHighScoreRows = 10;
         RefreshHighscore();
     }
