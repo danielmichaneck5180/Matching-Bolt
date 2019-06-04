@@ -24,7 +24,10 @@ public class GameHandler : MonoBehaviour
 
     private void Update()
     {
-        UpdateDifficulty();
+        if (gamePaused == false)
+        {
+            UpdateDifficulty();
+        }
 
         if (Input.GetKeyDown(KeyCode.F) == true)
         {
