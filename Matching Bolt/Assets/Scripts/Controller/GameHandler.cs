@@ -49,6 +49,16 @@ public class GameHandler : MonoBehaviour
                 gamePaused = true;
             }
         }
+        if (gamePaused == true)
+        {
+            if (GameObject.FindGameObjectWithTag("Wiimote Controller").GetComponent<WiimoteScript>().WiimotesEnabled() == true)
+            {
+                if (GameObject.FindGameObjectWithTag("Wiimote Controller").GetComponent<WiimoteScript>().GetBButtonDown() == true)
+                {
+                    gamePaused = false;
+                }
+            }
+        }
     }
 
     private void UpdateDifficulty()

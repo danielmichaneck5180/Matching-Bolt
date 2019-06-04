@@ -284,7 +284,6 @@ GameObject:
   - component: {fileID: 7552033902975037749}
   - component: {fileID: 1618148663872627142}
   - component: {fileID: 482404022}
-  - component: {fileID: 4560704598569558044}
   - component: {fileID: 2838737437951764553}
   m_Layer: 0
   m_Name: Player
@@ -339,20 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wiimoteEnabled: 1
---- !u!114 &4560704598569558044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7552033902975037746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b1ccb5cceaa26245bfd9568627a1783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Camera: 0
-  Crossbow: 1
+  cursor: {fileID: 0}
 --- !u!114 &2838737437951764553
 MonoBehaviour:
   m_ObjectHideFlags: 0

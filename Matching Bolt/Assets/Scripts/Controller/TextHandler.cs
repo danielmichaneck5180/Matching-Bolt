@@ -14,6 +14,8 @@ public class TextHandler : MonoBehaviour
     public GameObject Heart2;
     public GameObject Heart3;
 
+    public GameObject ret;
+
     void Start()
     {
         ResetText();
@@ -138,6 +140,11 @@ public class TextHandler : MonoBehaviour
         highScoreTextDates.gameObject.SetActive(false);
         //Sets health
 
+    }
+
+    public void SetRetPosition(Vector3 pos)
+    {
+        ret.transform.position = pos;
     }
 
     private void ResetHealth()

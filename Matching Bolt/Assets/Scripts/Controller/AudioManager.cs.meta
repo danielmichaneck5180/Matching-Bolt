@@ -9,6 +9,7 @@ MonoImporter:
   - giggle: {fileID: 8300000, guid: 1c50f193914be744eab9b5d38de5f127, type: 3}
   - shoot: {fileID: 8300000, guid: ea7266779c055344581face80c5f733e, type: 3}
   - happy: {fileID: 8300000, guid: f7734956bb03dac499f07c48f38c6f2a, type: 3}
+  - evil: {fileID: 8300000, guid: 64210df6989eb7d4cb7740d74a48ff30, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

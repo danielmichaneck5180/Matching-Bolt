@@ -11,11 +11,13 @@ public class PlayerCamera : MonoBehaviour
 
     private Vector3 startPosition;
     private GameObject camera;
+    private GameObject wiimote;
     private float sideDistance;
 
     void Awake()
     {
         camera = transform.Find("Main Camera").gameObject;
+        wiimote = GameObject.FindGameObjectWithTag("Wiimote Controller");
         startPosition = camera.transform.position;
         sideDistance = 10f;
     }
@@ -28,7 +30,7 @@ public class PlayerCamera : MonoBehaviour
             float[] infra = new float[3];
             for (int i = 0; i < 3; i++)
             {
-                infra[i] = GetComponent<WiimoteScript>().GetCameraWiimotePosition()[i];
+                infra[i] = wiimote.GetComponent<WiimoteScript>().GetCameraWiimotePosition()[i];
             }
             infra[0] -= 0.5f; infra[1] -= 0.5f;// infra[2] -= 0.5f;
             Vector3 newVector = new Vector3(infra[0] * invertedHorizontal, 0, infra[1] * invertedVertical * -1);

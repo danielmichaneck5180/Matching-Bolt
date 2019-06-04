@@ -195,6 +195,7 @@ public class InstanceSpawner : MonoBehaviour
         instance.GetComponent<DespairScript>().SetPosition(x, z);
         instance.GetComponent<DespairScript>().SetInterest(i);
         GetComponent<MatchHandler>().AddPerson(instance);
+        GameObject.FindGameObjectWithTag("Controller").GetComponent<AudioManager>().PlaySound("Evil");
         return instance;
     }
 

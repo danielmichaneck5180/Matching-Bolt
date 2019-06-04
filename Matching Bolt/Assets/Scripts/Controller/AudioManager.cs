@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip giggle;
     public AudioClip shoot;
     public AudioClip happy;
+    public AudioClip evil;
 
     private AudioSource source;
 
@@ -19,7 +20,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(string sound)
     {
-        AudioClip clip = match1;
+        AudioClip clip;
 
         switch (sound)
         {
@@ -41,6 +42,10 @@ public class AudioManager : MonoBehaviour
 
             case "Happy":
                 clip = happy;
+                break;
+
+            case "Evil":
+                clip = evil;
                 break;
 
             default:

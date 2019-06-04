@@ -56,7 +56,7 @@ public class PersonScript : MonoBehaviour
         }
         else
         {
-            SetInterest(Mathf.RoundToInt(Random.Range(0, conspr.GetMaxInterests() - 1)));
+            SetInterest(Mathf.FloorToInt(Random.Range(0f, conspr.GetMaxInterests() - 0.001f)));
         }
         animatorController = GameObject.FindGameObjectWithTag("Controller").GetComponent<SpriteReferences>().GetRandomPerson();
         animator = sprite.transform.Find("Sprite").GetComponent<Animator>();

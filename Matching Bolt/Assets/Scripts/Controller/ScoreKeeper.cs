@@ -23,7 +23,8 @@ public class ScoreKeeper : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         scoreFile = Resources.Load("Highscore") as TextAsset;
         //path = AssetDatabase.GetAssetPath(scoreFile);
-        path = "Assets/Resources/Highscore.txt";
+        Debug.Log(Application.persistentDataPath);
+        path = Application.persistentDataPath + "/Highscore.txt";
         maximumHighScoreRows = 10;
         RefreshHighscore();
     }

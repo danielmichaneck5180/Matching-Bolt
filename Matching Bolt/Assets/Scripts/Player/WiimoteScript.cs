@@ -23,6 +23,13 @@ public class WiimoteScript : MonoBehaviour
 
     private void Awake()
     {
+        if (GameObject.FindGameObjectsWithTag("Wiimote Controller").Length > 1)
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
+
         WiimoteManager.FindWiimotes();
 
         if (WiimoteManager.Wiimotes[0] != null)
@@ -223,5 +230,10 @@ public class WiimoteScript : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public bool WiimotesEnabled()
+    {
+        return wiimotesFound;
     }
 }

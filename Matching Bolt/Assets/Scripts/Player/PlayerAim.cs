@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAim : MonoBehaviour
 {
     public bool wiimoteEnabled;
+    public GameObject cursor;
 
     private Ray aimRay;
     private RaycastHit aimRayHit;
@@ -15,6 +16,7 @@ public class PlayerAim : MonoBehaviour
 
     private GameObject crossbow;
     private GameObject aim;
+    private GameObject wiimote;
 
     private Camera playerCamera;
     private Vector3 mousePosition;
@@ -55,6 +57,7 @@ public class PlayerAim : MonoBehaviour
         playerCamera = transform.Find("Main Camera").GetComponent<Camera>();
         crossbow = playerCamera.transform.Find("Crossbow").gameObject;
         aim = transform.Find("Aim").gameObject;
+        wiimote = GameObject.FindGameObjectWithTag("Wiimote Controller");
 
         UpdateDistanceToPlane();
     }
@@ -63,7 +66,7 @@ public class PlayerAim : MonoBehaviour
     {
         if (wiimoteEnabled == true)
         {
-            float[] ir = GetComponent<WiimoteScript>().GetCrossWiimotePosition();
+            float[] ir = wiimote.GetComponent<WiimoteScript>().GetCrossWiimotePosition();
             ir[0] -= 0.5f;
             ir[1] -= 0.5f;
 
@@ -114,6 +117,11 @@ public class PlayerAim : MonoBehaviour
                 aimRayHit.collider.gameObject.GetComponent<PersonScript>().AimedAt();
             }
             //Debug.Log((linePositions[0] - linePositions[1]).x);
+        }
+
+        if (GameObject.FindGameObjectsWithTag("Controller").Length > 0)
+        {
+            GameObject.FindGameObjectWithTag("Controller").GetComponent<TextHandler>().SetRetPosition(playerCamera.WorldToScreenPoint(aimRayHit.point));
         }
     }
 

@@ -14,6 +14,7 @@ public class SpriteReferences : MonoBehaviour
     public Sprite interestMusic;
     public Sprite interestGames;
     public Sprite interestBaseball;
+    public Sprite interestBowling;
 
     // Hearts
     public Sprite HeartFull;
@@ -78,6 +79,9 @@ public class SpriteReferences : MonoBehaviour
             case 8:
                 return interestBaseball;
 
+            case 9:
+                return interestBowling;
+
             default:
                 return interestRocket;
         }
@@ -85,7 +89,7 @@ public class SpriteReferences : MonoBehaviour
 
     public int GetMaxInterests()
     {
-        return 8;
+        return 10;
     }
 
     public RuntimeAnimatorController GetPerson(int number)

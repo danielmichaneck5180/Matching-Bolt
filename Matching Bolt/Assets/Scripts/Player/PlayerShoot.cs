@@ -9,6 +9,7 @@ public class PlayerShoot : MonoBehaviour
     private Vector3 centerPoint;
     private Vector3 aimPoint;
     private Vector3 distanceToPlane;
+    private GameObject wiimote;
 
     public GameObject playerProjectile;
     public float projectileSpeed;
@@ -16,13 +17,14 @@ public class PlayerShoot : MonoBehaviour
     private void Awake()
     {
         playerCamera = transform.Find("Main Camera").GetComponent<Camera>();
+        wiimote = GameObject.FindGameObjectWithTag("Wiimote Controller");
     }
 
     void Update()
     {
         if (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetGamePaused() == false)
         {
-            if (Input.GetMouseButtonDown(0) == true || GetComponent<WiimoteScript>().GetBButtonDown() == true)
+            if (Input.GetMouseButtonDown(0) == true || wiimote.GetComponent<WiimoteScript>().GetBButtonDown() == true)
             {
                 GameObject.FindGameObjectWithTag("Controller").GetComponent<AudioManager>().PlaySound("Shoot");
                 GameObject projectile = GameObject.Instantiate(playerProjectile, playerCamera.gameObject.transform);

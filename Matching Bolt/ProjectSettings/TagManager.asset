@@ -18,6 +18,7 @@ TagManager:
   - Options Button
   - Score Keeper
   - Popup
+  - Wiimote Controller
   layers:
   - Default
   - TransparentFX
