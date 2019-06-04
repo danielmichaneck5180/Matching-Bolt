@@ -29,8 +29,8 @@ public class MainMenuController : MonoBehaviour
     private void Start()
     {
         startButton = GameObject.FindGameObjectWithTag("Start Button").transform.Find("Start Indicator").gameObject;
-        optionsButton = GameObject.FindGameObjectWithTag("Options Button").transform.Find("Options Indicator").gameObject;
-        howtoplayButton = GameObject.FindGameObjectWithTag("How To Play Button").transform.Find("How To Play Indicator").gameObject;
+        //optionsButton = GameObject.FindGameObjectWithTag("Options Button").transform.Find("Options Indicator").gameObject;
+        //howtoplayButton = GameObject.FindGameObjectWithTag("How To Play Button").transform.Find("How To Play Indicator").gameObject;
 
         wiimote = GameObject.FindGameObjectWithTag("Wiimote Controller");
     }
@@ -43,8 +43,8 @@ public class MainMenuController : MonoBehaviour
     private void UpdateCursor()
     {
         startButton.SetActive(false);
-        optionsButton.SetActive(false);
-        howtoplayButton.SetActive(false);
+        //optionsButton.SetActive(false);
+        //howtoplayButton.SetActive(false);
 
         if (wiimoteEnabled == true)
         {
@@ -91,15 +91,15 @@ public class MainMenuController : MonoBehaviour
                     StartClicked();
                     break;
 
-                case "Options Button":
-                    optionsButton.SetActive(true);
-                    OptionsClicked();
-                    break;
+                //case "Options Button":
+                //    optionsButton.SetActive(true);
+                //    OptionsClicked();
+                //    break;
 
-                case "How To Play Button":
-                    howtoplayButton.SetActive(true);
-                    HowToPlayClicked();
-                    break;
+                //case "How To Play Button":
+                //    howtoplayButton.SetActive(true);
+                //    HowToPlayClicked();
+                //    break;
             }
         }
     }
