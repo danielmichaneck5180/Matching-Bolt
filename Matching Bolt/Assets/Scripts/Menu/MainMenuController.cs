@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     public bool wiimoteEnabled;
+    private bool playedHover;
     public GameObject cursor;
     public Camera camera;
 
@@ -24,6 +25,7 @@ public class MainMenuController : MonoBehaviour
     {
         Cursor.visible = false;
         startPosition = transform.position;
+        playedHover = false;
     }
 
     private void Start()
@@ -88,6 +90,11 @@ public class MainMenuController : MonoBehaviour
             {
                 case "Start Button":
                     startButton.SetActive(true);
+                    if (playedHover == false)
+                    {
+                        GetComponent<AudioManager>().PlaySound("Hover");
+                        playedHover = true;
+                    }
                     StartClicked();
                     break;
 
@@ -102,12 +109,17 @@ public class MainMenuController : MonoBehaviour
                 //    break;
             }
         }
+        else
+        {
+            playedHover = false;
+        }
     }
 
     private void StartClicked()
     {
         if (Input.GetMouseButtonDown(0) == true || wiimote.GetComponent<WiimoteScript>().GetBButtonDown() == true)
         {
+            GetComponent<AudioManager>().PlaySound("Click");
             SceneManager.LoadScene("Main Scene");
         }
     }

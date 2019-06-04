@@ -191,6 +191,7 @@ MonoBehaviour:
   shoot: {fileID: 8300000, guid: ea7266779c055344581face80c5f733e, type: 3}
   happy: {fileID: 8300000, guid: f7734956bb03dac499f07c48f38c6f2a, type: 3}
   evil: {fileID: 8300000, guid: 64210df6989eb7d4cb7740d74a48ff30, type: 3}
+  playerHit: {fileID: 8300000, guid: 15087aff481d2e8459ad0c15cfa8d813, type: 3}
 --- !u!114 &7590667488161254207
 MonoBehaviour:
   m_ObjectHideFlags: 0

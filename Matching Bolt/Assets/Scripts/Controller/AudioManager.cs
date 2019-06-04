@@ -10,6 +10,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip shoot;
     public AudioClip happy;
     public AudioClip evil;
+    public AudioClip playerHit;
+    public AudioClip hover;
+    public AudioClip click;
+    
 
     private AudioSource source;
 
@@ -46,6 +50,17 @@ public class AudioManager : MonoBehaviour
 
             case "Evil":
                 clip = evil;
+                break;
+            case "PlayerHit":
+                clip = playerHit;
+                break;
+
+            case "Hover":
+                clip = hover;
+                break;
+
+            case "Click":
+                clip = click;
                 break;
 
             default:

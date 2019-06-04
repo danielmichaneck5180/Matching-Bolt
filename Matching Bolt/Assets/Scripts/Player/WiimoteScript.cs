@@ -29,11 +29,13 @@ public class WiimoteScript : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+        Debug.Log("WIIMOTES LOAD");
 
         WiimoteManager.FindWiimotes();
 
-        if (WiimoteManager.Wiimotes[0] != null)
+        if (WiimoteManager.Wiimotes[0] != null && WiimoteManager.Wiimotes[1] != null)
         {
+            Debug.Log("WIIMOTES FOUND");
             wiimotesFound = true;
             wiimote1 = WiimoteManager.Wiimotes[Camera];
             wiimote2 = WiimoteManager.Wiimotes[Crossbow];
@@ -49,6 +51,7 @@ public class WiimoteScript : MonoBehaviour
         else
         {
             wiimotesFound = false;
+            Debug.Log("WIIMOTES NOT FOUND");
         }
         
     }

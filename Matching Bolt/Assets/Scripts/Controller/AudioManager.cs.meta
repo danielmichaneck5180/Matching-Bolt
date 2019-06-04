@@ -10,6 +10,9 @@ MonoImporter:
   - shoot: {fileID: 8300000, guid: ea7266779c055344581face80c5f733e, type: 3}
   - happy: {fileID: 8300000, guid: f7734956bb03dac499f07c48f38c6f2a, type: 3}
   - evil: {fileID: 8300000, guid: 64210df6989eb7d4cb7740d74a48ff30, type: 3}
+  - playerHit: {fileID: 8300000, guid: 15087aff481d2e8459ad0c15cfa8d813, type: 3}
+  - hover: {fileID: 8300000, guid: 5877f1fd499bcac49b087838c7120833, type: 3}
+  - click: {fileID: 8300000, guid: 485e5b173f075cf4f915be7cd298fc1e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

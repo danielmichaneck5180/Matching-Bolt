@@ -25,6 +25,7 @@ public class DespairProjectileScript : MonoBehaviour
         if (other.tag == "PlayerCollision")
         {
             GameObject.FindGameObjectWithTag("Controller").GetComponent<HealthScript>().ReduceHealth(1);
+            GameObject.FindGameObjectWithTag("Controller").GetComponent<AudioManager>().PlaySound("PlayerHit");
             Destroy(gameObject);
         }
     }
