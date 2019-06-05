@@ -71,7 +71,7 @@ public class GameHandler : MonoBehaviour
 
     private void UpdateDifficulty()
     {
-        difficultyMultiplier += Time.deltaTime / 20;
+        difficultyMultiplier += Time.deltaTime / 35;
     }
 
     public float GetDifficultyMultiplier()

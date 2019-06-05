@@ -192,7 +192,7 @@ public class MatchHandler : MonoBehaviour
             GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(-1);
         }
         */
-        else
+        else if (newMatch != currentMatchSeeker)
         {
             newMatch.GetComponent<PersonScript>().TurnToDespair();
             GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(-10);
@@ -305,6 +305,7 @@ public class MatchHandler : MonoBehaviour
 
     public bool GetDespairStatus()
     {
+        return false;
         bool returnBool = false;
         if (despairList.Count < 1)
         {
