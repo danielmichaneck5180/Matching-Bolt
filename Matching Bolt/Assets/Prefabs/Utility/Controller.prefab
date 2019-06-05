@@ -171,7 +171,7 @@ MonoBehaviour:
   despairProjectileWarning: {fileID: 21300000, guid: 650919896d171734480e78f933b0932f,
     type: 3}
   popupLover: {fileID: 21300000, guid: 9212c1e19671a4342b7eb7f510a59fb8, type: 3}
-  popupInterest: {fileID: 21300000, guid: 4d396c89ff1f6d8429c9419dad83ef98, type: 3}
+  popupInterest: {fileID: 21300000, guid: c4f6ffc9114adb947bcddcc317d397b3, type: 3}
   popupDespair: {fileID: 21300000, guid: eaf8f70eca63ca1419bdd763eb8b2a4e, type: 3}
 --- !u!114 &5594712910059110799
 MonoBehaviour:
@@ -192,6 +192,8 @@ MonoBehaviour:
   happy: {fileID: 8300000, guid: f7734956bb03dac499f07c48f38c6f2a, type: 3}
   evil: {fileID: 8300000, guid: 64210df6989eb7d4cb7740d74a48ff30, type: 3}
   playerHit: {fileID: 8300000, guid: 15087aff481d2e8459ad0c15cfa8d813, type: 3}
+  hover: {fileID: 0}
+  click: {fileID: 0}
 --- !u!114 &7590667488161254207
 MonoBehaviour:
   m_ObjectHideFlags: 0

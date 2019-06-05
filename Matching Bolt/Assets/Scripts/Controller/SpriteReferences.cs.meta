@@ -36,7 +36,7 @@ MonoImporter:
   - despairProjectileWarning: {fileID: 21300000, guid: 650919896d171734480e78f933b0932f,
       type: 3}
   - popupLover: {fileID: 21300000, guid: 9212c1e19671a4342b7eb7f510a59fb8, type: 3}
-  - popupInterest: {fileID: 21300000, guid: 4d396c89ff1f6d8429c9419dad83ef98, type: 3}
+  - popupInterest: {fileID: 21300000, guid: c4f6ffc9114adb947bcddcc317d397b3, type: 3}
   - popupDespair: {fileID: 21300000, guid: eaf8f70eca63ca1419bdd763eb8b2a4e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}

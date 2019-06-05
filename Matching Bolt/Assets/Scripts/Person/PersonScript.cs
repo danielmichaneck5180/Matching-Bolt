@@ -152,7 +152,7 @@ public class PersonScript : MonoBehaviour
                         newPos.Normalize();
                         if (isMatched == false)
                         {
-                            transform.Translate((newPos / 16) * Time.deltaTime * 60, Space.World);
+                            transform.Translate((newPos / 24) * Time.deltaTime * 60, Space.World);
                         }
                         else
                         {
@@ -193,7 +193,7 @@ public class PersonScript : MonoBehaviour
                         {
                             Vector3 newPos = currentNode.transform.position - transform.position;
                             newPos.Normalize();
-                            transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
+                            transform.Translate((newPos / 16) * Time.deltaTime * 60, Space.World);
                         }
                     }
                     break;
