@@ -422,7 +422,7 @@ public class PersonScript : MonoBehaviour
         {
             if (isMatchSeeker == false && isMatched == false)
             {
-                CheckDespair();
+                //CheckDespair();
                 ShowInterest();
             }
         }
