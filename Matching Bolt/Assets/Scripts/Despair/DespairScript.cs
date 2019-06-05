@@ -244,7 +244,7 @@ public class DespairScript : MonoBehaviour
 
     public void HitDespair()
     {
-        GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(1);
+        GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(10);
         state = DespairState.End;
     }
 

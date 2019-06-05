@@ -183,12 +183,20 @@ public class MatchHandler : MonoBehaviour
                 GetComponent<AudioManager>().PlaySound("Match1");
                 currentMatchSeeker.GetComponent<PersonScript>().FoundMatch(newMatch);
                 currentMatchSeeker = null;
-                GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(2);
+                GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(20);
             }
         }
+        /*
         else if (GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().GetScore() > 0)
         {
             GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(-1);
+        }
+        */
+        else
+        {
+            newMatch.GetComponent<PersonScript>().TurnToDespair();
+            GameObject.FindGameObjectWithTag("Score Keeper").GetComponent<ScoreKeeper>().AddPoints(-10);
+            //GetComponent<InstanceSpawner>().SpawnDespair(newMatch.transform.position, newMatch.GetComponent<PersonScript>().GetPosition()[0], newMatch.GetComponent<PersonScript>().GetPosition()[1], newMatch.GetComponent<PersonScript>().GetInterest());
         }
     }
 

@@ -8,11 +8,11 @@ public class PopupScript : MonoBehaviour
     {
         if (transform.position.x > 0)
         {
-            transform.Translate(new Vector3(-15, 5, -2));
+            transform.Translate(new Vector3(-15, 8, -3));
         }
         else
         {
-            transform.Translate(new Vector3(15, 5, -2));
+            transform.Translate(new Vector3(15, 8, -3));
         }
     }
 

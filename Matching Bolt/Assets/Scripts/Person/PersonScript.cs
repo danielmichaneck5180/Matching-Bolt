@@ -150,13 +150,14 @@ public class PersonScript : MonoBehaviour
                     {
                         Vector3 newPos = currentNode.transform.position - transform.position;
                         newPos.Normalize();
+                        int multiplier = Mathf.FloorToInt(GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier());
                         if (isMatched == false)
                         {
-                            transform.Translate((newPos / 24) * Time.deltaTime * 60, Space.World);
+                            transform.Translate(((newPos / 12) + ((newPos / 240) * (multiplier - 1))) * Time.deltaTime * 60, Space.World);
                         }
                         else
                         {
-                            transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
+                            transform.Translate((newPos / 24) * Time.deltaTime * 60, Space.World);
                         }
                     }
                     break;
@@ -220,7 +221,15 @@ public class PersonScript : MonoBehaviour
                     {
                         Vector3 newPos = GameObject.FindGameObjectWithTag("MatchEndPoint").transform.position - transform.position;
                         newPos.Normalize();
-                        transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
+                        if (isMatched == false)
+                        {
+                            int multiplier = Mathf.FloorToInt(GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier());
+                            transform.Translate(((newPos / 12) + ((newPos / 240) * (multiplier - 1))) * Time.deltaTime * 60, Space.World);
+                        }
+                        else
+                        {
+                            transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
+                        }
                     }
                     break;
             }
@@ -298,7 +307,7 @@ public class PersonScript : MonoBehaviour
         }
     }
 
-    private void TurnToDespair()
+    public void TurnToDespair()
     {
         GameObject.FindGameObjectWithTag("Controller").GetComponent<InstanceSpawner>().SpawnDespair(transform.position, x, z, interest);
         GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().RemovePerson(gameObject);
