@@ -58,6 +58,11 @@ public class GameHandler : MonoBehaviour
                     gamePaused = false;
                 }
             }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                gamePaused = false;
+            }
         }
     }
 
