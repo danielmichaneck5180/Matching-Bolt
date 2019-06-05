@@ -98,6 +98,11 @@ public class ScoreKeeper : MonoBehaviour
     public void AddPoints(int points)
     {
         score += points;
+
+        if (score < 0)
+        {
+            score = 0;
+        }
     }
 
     public void SetPlayerName(string n)

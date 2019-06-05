@@ -69,7 +69,7 @@ public class MatchHandler : MonoBehaviour
 
     private void ResetDespairList()
     {
-        float dif = Mathf.FloorToInt(GetComponent<GameHandler>().GetDifficultyMultiplier());
+        int dif = Mathf.FloorToInt(GetComponent<GameHandler>().GetDifficultyMultiplier());
         int setup;
         despairList = new List<bool>();
 
@@ -305,7 +305,6 @@ public class MatchHandler : MonoBehaviour
 
     public bool GetDespairStatus()
     {
-        return false;
         bool returnBool = false;
         if (despairList.Count < 1)
         {

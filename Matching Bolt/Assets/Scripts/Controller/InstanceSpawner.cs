@@ -173,6 +173,7 @@ public class InstanceSpawner : MonoBehaviour
         }
 
         GetComponent<MatchHandler>().AddPerson(instance);
+        instance.GetComponent<PersonScript>().CheckDespair();
 
         return instance;
     }

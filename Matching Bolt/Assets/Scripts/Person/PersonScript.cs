@@ -165,7 +165,7 @@ public class PersonScript : MonoBehaviour
                         }
                         else
                         {
-                            transform.Translate((newPos / 24) * Time.deltaTime * 60, Space.World);
+                            transform.Translate((newPos / 6) * Time.deltaTime * 60, Space.World);
                         }
                     }
                     break;
@@ -202,7 +202,7 @@ public class PersonScript : MonoBehaviour
                         {
                             Vector3 newPos = currentNode.transform.position - transform.position;
                             newPos.Normalize();
-                            transform.Translate((newPos / 16) * Time.deltaTime * 60, Space.World);
+                            transform.Translate((newPos / 6) * Time.deltaTime * 60, Space.World);
                         }
                     }
                     break;
@@ -244,7 +244,7 @@ public class PersonScript : MonoBehaviour
                         }
                         else
                         {
-                            transform.Translate((newPos / 12) * Time.deltaTime * 60, Space.World);
+                            transform.Translate((newPos / 6) * Time.deltaTime * 60, Space.World);
                         }
                     }
                     break;
@@ -311,11 +311,11 @@ public class PersonScript : MonoBehaviour
         showTimer = 0.05f;
     }
 
-    private void CheckDespair()
+    public void CheckDespair()
     {
         if (knownDespairStatus == false)
         {
-            knownDespairStatus = true;
+            //knownDespairStatus = true;
             if (GameObject.FindGameObjectWithTag("Controller").GetComponent<MatchHandler>().GetDespairStatus() == true)
             {
                 TurnToDespair();
