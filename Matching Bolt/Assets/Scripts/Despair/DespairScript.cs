@@ -47,7 +47,7 @@ public class DespairScript : MonoBehaviour
         x = 0;
         z = 0;
         transformTimer = 0.5f;
-        throwTimer = 3f;
+        throwTimer = 3f / (GameObject.FindGameObjectWithTag("Controller").GetComponent<GameHandler>().GetDifficultyMultiplier() - 0.99f);
         stopThrowTimer = 1f;
         endTimer = 1f;
         shownPoofAnim = false;
